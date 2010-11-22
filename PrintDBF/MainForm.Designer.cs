@@ -43,15 +43,13 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ShowReportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PrintMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.DataGridView = new System.Windows.Forms.DataGridView();
             this.Print = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Sum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.DataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Table)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FastReport)).BeginInit();
@@ -116,8 +114,7 @@
             // MainMenu
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.EditMenu});
+            this.fileToolStripMenuItem});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(634, 24);
@@ -129,7 +126,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenMenuItem,
             this.openListToolStripMenuItem,
-            this.printToolStripMenuItem,
+            this.PrintMenuItem,
             this.ExitMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
@@ -150,13 +147,13 @@
             this.openListToolStripMenuItem.Text = "Open TXT";
             this.openListToolStripMenuItem.Click += new System.EventHandler(this.openListToolStripMenuItem_Click);
             // 
-            // ShowReportMenuItem
+            // PrintMenuItem
             // 
-            this.ShowReportMenuItem.CheckOnClick = true;
-            this.ShowReportMenuItem.Name = "ShowReportMenuItem";
-            this.ShowReportMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.ShowReportMenuItem.Size = new System.Drawing.Size(182, 22);
-            this.ShowReportMenuItem.Text = "Show report";
+            this.PrintMenuItem.Name = "PrintMenuItem";
+            this.PrintMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.PrintMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.PrintMenuItem.Text = "Print...";
+            this.PrintMenuItem.Click += new System.EventHandler(this.PrintMenuItemClick);
             // 
             // ExitMenuItem
             // 
@@ -165,14 +162,6 @@
             this.ExitMenuItem.Size = new System.Drawing.Size(163, 22);
             this.ExitMenuItem.Text = "Exit";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick);
-            // 
-            // EditMenu
-            // 
-            this.EditMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ShowReportMenuItem});
-            this.EditMenu.Name = "EditMenu";
-            this.EditMenu.Size = new System.Drawing.Size(37, 20);
-            this.EditMenu.Text = "Edit";
             // 
             // textBox1
             // 
@@ -200,7 +189,6 @@
             this.DataGridView.Location = new System.Drawing.Point(0, 24);
             this.DataGridView.MultiSelect = false;
             this.DataGridView.Name = "DataGridView";
-            this.DataGridView.ReadOnly = true;
             this.DataGridView.RowHeadersVisible = false;
             this.DataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridView.Size = new System.Drawing.Size(634, 431);
@@ -212,30 +200,19 @@
             // 
             this.Print.HeaderText = "Print";
             this.Print.Name = "Print";
-            this.Print.ReadOnly = true;
-            this.Print.Width = 34;
+            this.Print.Width = 35;
             // 
             // FileName
             // 
             this.FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.FileName.HeaderText = "FileName";
             this.FileName.Name = "FileName";
-            this.FileName.ReadOnly = true;
             // 
             // Sum
             // 
             this.Sum.HeaderText = "Sum";
             this.Sum.Name = "Sum";
-            this.Sum.ReadOnly = true;
-            this.Sum.Width = 53;
-            // 
-            // printToolStripMenuItem
-            // 
-            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.printToolStripMenuItem.Text = "Print";
-            this.printToolStripMenuItem.Click += new System.EventHandler(this.PrintMenuItemClick);
+            this.Sum.Width = 54;
             // 
             // MainForm
             // 
@@ -270,7 +247,7 @@
         private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ShowReportMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PrintMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
         private System.Windows.Forms.TextBox textBox1;
         private System.Data.DataColumn dataColumn1;
@@ -284,8 +261,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Print;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Sum;
-        private System.Windows.Forms.ToolStripMenuItem EditMenu;
-        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
     }
 }
 

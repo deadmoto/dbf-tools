@@ -16,6 +16,79 @@ namespace PrintDBF
         public MainForm()
         {
             InitializeComponent();
+            if (Environment.GetCommandLineArgs().Length > 1)
+            {
+                PrintDbfFile(Environment.GetCommandLineArgs()[1]);
+            }
+        }
+
+        private void PrintDbfFile(string FileName)
+        {
+            OdbcCommand Command = OdbcDriver.VFPCommand(string.Format("SELECT * FROM '{0}'", FileName), "");
+            OdbcDataReader Reader = Command.ExecuteReader();
+
+            int FieldCount = Reader.FieldCount;
+
+            Reader.Close();
+            Reader.Dispose();
+
+            if (FieldCount == 8)
+            {
+                //return;
+                Command.CommandText = string.Format("SELECT SUM(VAL(TRIM(F))) AS MONEY FROM '{0}' WHERE VAL(A) > 0", FileName);
+            }
+            else
+            //if (FieldCount == 27 || FieldCount == 12)
+            {
+                Command.CommandText = string.Format("SELECT SUM(VAL(TRIM(ALLAMOUNT))) AS MONEY FROM '{0}'", FileName);
+            }
+
+            Reader = Command.ExecuteReader();
+
+            double Sum = 0;
+
+            if (Reader.Read())
+            {
+                Sum = Math.Round(Reader.GetDouble(Reader.GetOrdinal("MONEY")), 2);
+            }
+            Reader.Close();
+
+            if (FieldCount == 8)
+            {
+                Command.CommandText = string.Format("SELECT CPCONVERT(866, 1251, TRIM(C) + ' ' + TRIM(D) + ' ' + TRIM(E)) AS FULLNAME, TRIM(B) AS ACCOUNT, TRIM(F) AS MONEY FROM '{0}' WHERE VAL(A) > 0", FileName);
+            }
+            else
+            //if (FieldCount == 27 || FieldCount == 12)
+            {
+                Command.CommandText = string.Format("SELECT CPCONVERT(866, 1251, TRIM(FIO)) AS FULLNAME, TRIM(ORGNAME) AS ACCOUNT, TRIM(ALLAMOUNT) AS MONEY FROM '{0}'", FileName);
+            }
+
+            Reader = Command.ExecuteReader();
+
+            DataSet.Tables["Table"].Rows.Clear();
+            while (Reader.Read())
+            {
+                string FULLNAME1 = Reader.GetString(Reader.GetOrdinal("FULLNAME"));
+                string ACCOUNT1 = Reader.GetString(Reader.GetOrdinal("ACCOUNT"));
+                string MONEY1 = Reader.GetString(Reader.GetOrdinal("MONEY"));
+                string FULLNAME2 = "";
+                string ACCOUNT2 = "";
+                string MONEY2 = "";
+                if (Reader.Read())
+                {
+                    FULLNAME2 = Reader.GetString(Reader.GetOrdinal("FULLNAME"));
+                    ACCOUNT2 = Reader.GetString(Reader.GetOrdinal("ACCOUNT"));
+                    MONEY2 = Reader.GetString(Reader.GetOrdinal("MONEY"));
+                }
+                DataSet.Tables["Table"].Rows.Add(FULLNAME1, ACCOUNT1, MONEY1, FULLNAME2, ACCOUNT2, MONEY2);
+            }
+
+            FastReport.SetParameterValue("FileName", FileName);
+            FastReport.SetParameterValue("Sum", Sum);
+            //FastReport.Show();
+            FastReport.PrintSettings.ShowDialog = false;
+            FastReport.FileName = FileName;
+            FastReport.Print();
         }
 
         private void OpenMenuItemClick(object sender, EventArgs e)
@@ -34,79 +107,11 @@ namespace PrintDBF
         {
             for (int i = 0; i < DataGridView.Rows.Count; i++)
             {
-                string FileName = DataGridView[1, i].Value.ToString();
-                OdbcCommand Command = OdbcDriver.VFPCommand(string.Format("SELECT * FROM '{0}'", FileName), "");
-                OdbcDataReader Reader = Command.ExecuteReader();
-
-                int FieldCount = Reader.FieldCount;
-
-                Reader.Close();
-                Reader.Dispose();
-
-                if (FieldCount == 8)
-                {
-                    Command.CommandText = string.Format("SELECT SUM(VAL(TRIM(F))) AS MONEY FROM '{0}' WHERE VAL(A) > 0", FileName);
-                }
-                else
-                //if (FieldCount == 27 || FieldCount == 12)
-                {
+                if ((bool)DataGridView[0, i].Value != true)
                     continue;
-                    Command.CommandText = string.Format("SELECT SUM(VAL(TRIM(ALLAMOUNT))) AS MONEY FROM '{0}'", FileName);
-                }
 
-                Reader = Command.ExecuteReader();
-
-                double Sum = 0;
-
-                if (Reader.Read())
-                {
-                    Sum = Math.Round(Reader.GetDouble(Reader.GetOrdinal("MONEY")), 2);
-                }
-                Reader.Close();
-
-                if (FieldCount == 8)
-                {
-                    Command.CommandText = string.Format("SELECT CPCONVERT(866, 1251, TRIM(C) + ' ' + TRIM(D) + ' ' + TRIM(E)) AS FULLNAME, TRIM(B) AS ACCOUNT, TRIM(F) AS MONEY FROM '{0}' WHERE VAL(A) > 0", FileName);
-                }
-                else
-                //if (FieldCount == 27 || FieldCount == 12)
-                {
-                    Command.CommandText = string.Format("SELECT CPCONVERT(866, 1251, TRIM(FIO)) AS FULLNAME, TRIM(ORGNAME) AS ACCOUNT, TRIM(ALLAMOUNT) AS MONEY FROM '{0}'", FileName);
-                }
-
-                Reader = Command.ExecuteReader();
-
-                DataSet.Tables["Table"].Rows.Clear();
-                while (Reader.Read())
-                {
-                    string FULLNAME1 = Reader.GetString(Reader.GetOrdinal("FULLNAME"));
-                    string ACCOUNT1 = Reader.GetString(Reader.GetOrdinal("ACCOUNT"));
-                    string MONEY1 = Reader.GetString(Reader.GetOrdinal("MONEY"));
-                    string FULLNAME2 = "";
-                    string ACCOUNT2 = "";
-                    string MONEY2 = "";
-                    if (Reader.Read())
-                    {
-                        FULLNAME2 = Reader.GetString(Reader.GetOrdinal("FULLNAME"));
-                        ACCOUNT2 = Reader.GetString(Reader.GetOrdinal("ACCOUNT"));
-                        MONEY2 = Reader.GetString(Reader.GetOrdinal("MONEY"));
-                    }
-                    DataSet.Tables["Table"].Rows.Add(FULLNAME1, ACCOUNT1, MONEY1, FULLNAME2, ACCOUNT2, MONEY2);
-                }
-
-                FastReport.SetParameterValue("FileName", FileName);
-                FastReport.SetParameterValue("Sum", Sum);
-
-                if (ShowReportMenuItem.Checked)
-                {
-                    FastReport.Show();
-                }
-                else
-                {
-                    FastReport.PrintSettings.ShowDialog = false;
-                    FastReport.FileName = FileName;
-                    FastReport.Print();
-                }
+                string FileName = DataGridView[1, i].Value.ToString();
+                PrintDbfFile(FileName);
             }
         }
 
