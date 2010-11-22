@@ -104,14 +104,12 @@ namespace CheckDBF
         private void NotifyIconAnimate()
         {
             List<System.Drawing.Icon> IconList = new List<System.Drawing.Icon>();
-            IconList.Add(Properties.Icons.Rotate1);
-            IconList.Add(Properties.Icons.Rotate2);
-            IconList.Add(Properties.Icons.Rotate3);
-            IconList.Add(Properties.Icons.Rotate4);
-            IconList.Add(Properties.Icons.Rotate5);
-            IconList.Add(Properties.Icons.Rotate6);
-            IconList.Add(Properties.Icons.Rotate7);
-            IconList.Add(Properties.Icons.Rotate8);
+
+            for (int i = 1; i < 9; i++)
+            {
+                string FileName = string.Format("{0}\\Icons\\Rotate{1}.ico", Application.StartupPath, i);
+                IconList.Add(new System.Drawing.Icon(FileName));
+            }
 
             int IconIndex = 0;
 
@@ -122,7 +120,7 @@ namespace CheckDBF
                 NotifyIcon.Icon = IconList[IconIndex];
                 IconIndex++;
                 if (IconIndex == IconList.Count) { IconIndex = 0; }
-                Thread.Sleep(100);
+                Thread.Sleep(250);
             }
 
             NotifyIcon.Visible = false;

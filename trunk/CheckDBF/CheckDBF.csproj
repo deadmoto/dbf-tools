@@ -64,11 +64,6 @@
     <Compile Include="Core\Person.cs" />
     <Compile Include="Core\Service.cs" />
     <Compile Include="Core\FileInfo.cs" />
-    <Compile Include="Properties\Icons.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Icons.resx</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,15 +75,13 @@
     <Compile Include="Data\Replace.cs" />
     <Compile Include="Data\Supplier.cs" />
     <Compile Include="Template.cs" />
-    <EmbeddedResource Include="Properties\Icons.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
@@ -161,14 +154,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CheckDBF.ico" />
-    <None Include="Resources\Rotate8.ico" />
-    <None Include="Resources\Rotate7.ico" />
-    <None Include="Resources\Rotate6.ico" />
-    <None Include="Resources\Rotate5.ico" />
-    <None Include="Resources\Rotate4.ico" />
-    <None Include="Resources\Rotate3.ico" />
-    <None Include="Resources\Rotate2.ico" />
-    <None Include="Resources\Rotate1.ico" />
+    <Content Include="Icons\Rotate1.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Rotate2.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Rotate3.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Rotate4.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Rotate5.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Rotate6.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Rotate7.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Rotate8.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
