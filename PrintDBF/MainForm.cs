@@ -98,7 +98,6 @@ namespace PrintDBF
             OpenFile.Multiselect = true;
             if (OpenFile.ShowDialog() == DialogResult.OK)
             {
-                textBox1.Lines = OpenFile.FileNames;
                 OpenFiles(new List<string>(OpenFile.FileNames));
             }
         }
@@ -107,11 +106,10 @@ namespace PrintDBF
         {
             for (int i = 0; i < DataGridView.Rows.Count; i++)
             {
-                if ((bool)DataGridView[0, i].Value != true)
-                    continue;
-
-                string FileName = DataGridView[1, i].Value.ToString();
-                PrintDbfFile(FileName);
+                if ((bool)DataSet.Tables["Files"].Rows[i]["Print"] == true)
+                {
+                    PrintDbfFile((string)DataSet.Tables["Files"].Rows[i]["FileName"]);
+                }
             }
         }
 
@@ -119,25 +117,7 @@ namespace PrintDBF
         {
             foreach (string FileName in FileNames)
             {
-                DataGridView.Invoke(new MethodInvoker(delegate { DataGridView.Rows.Add(false, FileName, "0.00"); }));
-            }
-        }
-
-        private void openListToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog OpenFile = new OpenFileDialog();
-            OpenFile.Filter = "Text files (*.txt) | *.txt";
-            OpenFile.Multiselect = false;
-            if (OpenFile.ShowDialog() == DialogResult.OK)
-            {
-                List<string> FileNames = new List<string>();
-                StreamReader r = new StreamReader(OpenFile.FileName);
-                while (!r.EndOfStream)
-                {
-                    FileNames.Add(r.ReadLine());
-                }
-                textBox1.Lines = FileNames.ToArray();
-                OpenFiles(FileNames);
+                DataSet.Tables["Files"].Rows.Add(true, FileName, 0);
             }
         }
 
