@@ -37,21 +37,24 @@
             this.dataColumn4 = new System.Data.DataColumn();
             this.dataColumn5 = new System.Data.DataColumn();
             this.dataColumn6 = new System.Data.DataColumn();
+            this.dataset1 = new System.Data.DataTable();
+            this.dataColumn7 = new System.Data.DataColumn();
+            this.dataColumn8 = new System.Data.DataColumn();
+            this.dataColumn9 = new System.Data.DataColumn();
             this.FastReport = new FastReport.Report();
             this.reportViewer1 = new Microsoft.Reporting.WinForms.ReportViewer();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.PrintMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.DataGridView = new System.Windows.Forms.DataGridView();
-            this.Print = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.printDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.fileNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Table)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataset1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FastReport)).BeginInit();
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
@@ -61,7 +64,8 @@
             // 
             this.DataSet.DataSetName = "DataSet";
             this.DataSet.Tables.AddRange(new System.Data.DataTable[] {
-            this.Table});
+            this.Table,
+            this.dataset1});
             // 
             // Table
             // 
@@ -98,6 +102,28 @@
             // 
             this.dataColumn6.ColumnName = "MONEY2";
             // 
+            // dataset1
+            // 
+            this.dataset1.Columns.AddRange(new System.Data.DataColumn[] {
+            this.dataColumn7,
+            this.dataColumn8,
+            this.dataColumn9});
+            this.dataset1.TableName = "Files";
+            // 
+            // dataColumn7
+            // 
+            this.dataColumn7.ColumnName = "Print";
+            this.dataColumn7.DataType = typeof(bool);
+            // 
+            // dataColumn8
+            // 
+            this.dataColumn8.ColumnName = "FileName";
+            // 
+            // dataColumn9
+            // 
+            this.dataColumn9.ColumnName = "Sum";
+            this.dataColumn9.DataType = typeof(double);
+            // 
             // FastReport
             // 
             this.FastReport.ReportResourceString = resources.GetString("FastReport.ReportResourceString");
@@ -125,7 +151,6 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenMenuItem,
-            this.openListToolStripMenuItem,
             this.PrintMenuItem,
             this.ExitMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -139,13 +164,6 @@
             this.OpenMenuItem.Size = new System.Drawing.Size(163, 22);
             this.OpenMenuItem.Text = "Open...";
             this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItemClick);
-            // 
-            // openListToolStripMenuItem
-            // 
-            this.openListToolStripMenuItem.Name = "openListToolStripMenuItem";
-            this.openListToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.openListToolStripMenuItem.Text = "Open TXT";
-            this.openListToolStripMenuItem.Click += new System.EventHandler(this.openListToolStripMenuItem_Click);
             // 
             // PrintMenuItem
             // 
@@ -163,14 +181,6 @@
             this.ExitMenuItem.Text = "Exit";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick);
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(0, 240);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(113, 55);
-            this.textBox1.TabIndex = 3;
-            // 
             // DataGridView
             // 
             this.DataGridView.AllowDrop = true;
@@ -178,13 +188,16 @@
             this.DataGridView.AllowUserToDeleteRows = false;
             this.DataGridView.AllowUserToResizeColumns = false;
             this.DataGridView.AllowUserToResizeRows = false;
+            this.DataGridView.AutoGenerateColumns = false;
             this.DataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.DataGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Print,
-            this.FileName,
-            this.Sum});
+            this.printDataGridViewCheckBoxColumn,
+            this.fileNameDataGridViewTextBoxColumn,
+            this.sumDataGridViewTextBoxColumn});
+            this.DataGridView.DataMember = "Files";
+            this.DataGridView.DataSource = this.DataSet;
             this.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataGridView.Location = new System.Drawing.Point(0, 24);
             this.DataGridView.MultiSelect = false;
@@ -196,23 +209,28 @@
             this.DataGridView.DragDrop += new System.Windows.Forms.DragEventHandler(this.DataGridViewDragDrop);
             this.DataGridView.DragEnter += new System.Windows.Forms.DragEventHandler(this.DataGridViewDragEnter);
             // 
-            // Print
+            // printDataGridViewCheckBoxColumn
             // 
-            this.Print.HeaderText = "Print";
-            this.Print.Name = "Print";
-            this.Print.Width = 35;
+            this.printDataGridViewCheckBoxColumn.DataPropertyName = "Print";
+            this.printDataGridViewCheckBoxColumn.FalseValue = "false";
+            this.printDataGridViewCheckBoxColumn.HeaderText = "Print";
+            this.printDataGridViewCheckBoxColumn.Name = "printDataGridViewCheckBoxColumn";
+            this.printDataGridViewCheckBoxColumn.TrueValue = "true";
+            this.printDataGridViewCheckBoxColumn.Width = 34;
             // 
-            // FileName
+            // fileNameDataGridViewTextBoxColumn
             // 
-            this.FileName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.FileName.HeaderText = "FileName";
-            this.FileName.Name = "FileName";
+            this.fileNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.fileNameDataGridViewTextBoxColumn.DataPropertyName = "FileName";
+            this.fileNameDataGridViewTextBoxColumn.HeaderText = "FileName";
+            this.fileNameDataGridViewTextBoxColumn.Name = "fileNameDataGridViewTextBoxColumn";
             // 
-            // Sum
+            // sumDataGridViewTextBoxColumn
             // 
-            this.Sum.HeaderText = "Sum";
-            this.Sum.Name = "Sum";
-            this.Sum.Width = 54;
+            this.sumDataGridViewTextBoxColumn.DataPropertyName = "Sum";
+            this.sumDataGridViewTextBoxColumn.HeaderText = "Sum";
+            this.sumDataGridViewTextBoxColumn.Name = "sumDataGridViewTextBoxColumn";
+            this.sumDataGridViewTextBoxColumn.Width = 53;
             // 
             // MainForm
             // 
@@ -220,7 +238,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(634, 455);
             this.Controls.Add(this.DataGridView);
-            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.MainMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.MainMenu;
@@ -229,6 +246,7 @@
             this.Text = "PrintDBF";
             ((System.ComponentModel.ISupportInitialize)(this.DataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Table)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataset1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FastReport)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
@@ -249,18 +267,20 @@
         private System.Windows.Forms.ToolStripMenuItem OpenMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PrintMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Data.DataColumn dataColumn1;
         private System.Data.DataColumn dataColumn2;
         private System.Data.DataColumn dataColumn3;
         private System.Data.DataColumn dataColumn4;
         private System.Data.DataColumn dataColumn5;
         private System.Data.DataColumn dataColumn6;
-        private System.Windows.Forms.ToolStripMenuItem openListToolStripMenuItem;
         private System.Windows.Forms.DataGridView DataGridView;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Print;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Sum;
+        private System.Data.DataTable dataset1;
+        private System.Data.DataColumn dataColumn7;
+        private System.Data.DataColumn dataColumn8;
+        private System.Data.DataColumn dataColumn9;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn printDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sumDataGridViewTextBoxColumn;
     }
 }
 

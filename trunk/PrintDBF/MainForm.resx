@@ -125,7 +125,7 @@
   </metadata>
   <data name="FastReport.ReportResourceString" xml:space="preserve">
     <value>﻿&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;Report ScriptLanguage="CSharp" ReportInfo.Created="" ReportInfo.Modified="11/22/2010 16:55:35" ReportInfo.CreatorVersion="1.5.11.0" PrintSettings.CopyNames="ЫЫЫЫЫЫЫЫЫЫЫ"&gt;
+&lt;Report ScriptLanguage="CSharp" ReportInfo.Created="" ReportInfo.Modified="11/23/2010 13:04:14" ReportInfo.CreatorVersion="1.5.14.0" PrintSettings.CopyNames="ЫЫЫЫЫЫЫЫЫЫЫ"&gt;
   &lt;Dictionary&gt;
     &lt;TableDataSource Name="Table" ReferenceName="DataSet.Table" DataType="System.Int32" Enabled="true"&gt;
       &lt;Column Name="FULLNAME" DataType="System.String"/&gt;
@@ -164,14 +164,5 @@
   </data>
   <metadata name="MainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </metadata>
-  <metadata name="Print.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="FileName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Sum.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
   </metadata>
 </root>
