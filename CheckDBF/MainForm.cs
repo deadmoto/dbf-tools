@@ -132,27 +132,15 @@ namespace CheckDBF
             string PaymentFileName = PaymentFileTextBox.Text;
 
             Dictionary<string, int> Changes = new Dictionary<string, int>();
-            int ChangesTotal = 0;
 
             Changes.Add("RECORDS", Core.FileInfo.GetRecordCount(SupplierFileName));
 
-            foreach (string Key in Template.Items.Keys)
-            {
-                try
-                {
-                    OdbcCommand Command = OdbcDriver.VFPCommand(string.Format(Template.Items[Key], SupplierFileName, PaymentFileName), "");
-                    Changes.Add(Key, int.Parse(Command.ExecuteScalar().ToString()));
-                    ChangesTotal += Changes[Key];
-                }
-                catch (Exception E)
-                {
-                    Changes.Add(Key, 0);
-                    Log.Errors.Add(E.Message);
-                }
-            }
-
+            Changes.Add("FAMIL", Check.CheckFAMIL(SupplierFileName, PaymentFileName, ProcessBarEventHandler));
+            Changes.Add("IMJA", Check.CheckIMJA(SupplierFileName, PaymentFileName, ProcessBarEventHandler));
+            Changes.Add("OTCH", Check.CheckOTCH(SupplierFileName, PaymentFileName, ProcessBarEventHandler));
+            Changes.Add("DROG", Check.CheckDROG(SupplierFileName, PaymentFileName, ProcessBarEventHandler));
             Changes.Add("NPSS", Check.CheckNPSS(SupplierFileName, PaymentFileName, ProcessBarEventHandler));
-            Changes.Add("CHANGES", ChangesTotal + Changes["NPSS"]);
+            Changes.Add("CHANGES", Changes["FAMIL"] + Changes["IMJA"] + Changes["OTCH"] + Changes["DROG"] + Changes["NPSS"]);
 
             Check.GetPersonList(SupplierFileName, ProcessBarEventHandler);
             Changes.Add("LSH", Check.CheckLS(SupplierFileName, ProcessBarEventHandler));
