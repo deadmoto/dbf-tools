@@ -87,21 +87,112 @@ namespace CheckDBF.Core
             }
         }
 
+        public static int CheckFAMIL(string SupplierFileName, string PaymentFileName, EventHandler Handler)
+        {
+            int Result = 0;
+            try
+            {
+                string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (фамилия {4})";
+                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.FAMIL FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.FAMIL) <> UPPER(b.FAMIL)", SupplierFileName, PaymentFileName);
+                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
+                OdbcDataReader Reader = Command.ExecuteReader();
+                while (Reader.Read())
+                {
+                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
+                    Result++;
+                    Handler("FAMIL", null);
+                }
+            }
+            catch (Exception E)
+            {
+                Log.Errors.Add(E.Message);
+            }
+            return Result;
+        }
+
+        public static int CheckIMJA(string SupplierFileName, string PaymentFileName, EventHandler Handler)
+        {
+            int Result = 0;
+            try
+            {
+                string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (имя {4})";
+                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.IMJA FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.IMJA) <> UPPER(b.IMJA)", SupplierFileName, PaymentFileName);
+                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
+                OdbcDataReader Reader = Command.ExecuteReader();
+                while (Reader.Read())
+                {
+                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
+                    Result++;
+                    Handler("IMJA", null);
+                }
+            }
+            catch (Exception E)
+            {
+                Log.Errors.Add(E.Message);
+            }
+            return Result;
+        }
+
+        public static int CheckOTCH(string SupplierFileName, string PaymentFileName, EventHandler Handler)
+        {
+            int Result = 0;
+            try
+            {
+                string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (отчество {4})";
+                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.IMJA FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.OTCH) <> UPPER(b.OTCH)", SupplierFileName, PaymentFileName);
+                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
+                OdbcDataReader Reader = Command.ExecuteReader();
+                while (Reader.Read())
+                {
+                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
+                    Result++;
+                    Handler("OTCH", null);
+                }
+            }
+            catch (Exception E)
+            {
+                Log.Errors.Add(E.Message);
+            }
+            return Result;
+        }
+
+        public static int CheckDROG(string SupplierFileName, string PaymentFileName, EventHandler Handler)
+        {
+            int Result = 0;
+            try
+            {
+                string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (дата рождения {4})";
+                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.DROG FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND a.DROG <> b.DROG", SupplierFileName, PaymentFileName);
+                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
+                OdbcDataReader Reader = Command.ExecuteReader();
+                while (Reader.Read())
+                {
+                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
+                    Result++;
+                    Handler("DROG", null);
+                }
+            }
+            catch (Exception E)
+            {
+                Log.Errors.Add(E.Message);
+            }
+            return Result;
+        }
+
         public static int CheckNPSS(string SupplierFileName, string PaymentFileName, EventHandler Handler)
         {
             int Result = 0;
             try
             {
-                string CommandText = string.Format("SELECT ALLTRIM(a.NPSS), ALLTRIM(a.FAMIL), ALLTRIM(a.IMJA), ALLTRIM(a.OTCH) FROM '{0}' as a WHERE a.NPSS NOT IN (SELECT NPSS FROM '{1}')", SupplierFileName, PaymentFileName);
+                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH FROM '{0}' as a WHERE a.NPSS NOT IN (SELECT NPSS FROM '{1}')", SupplierFileName, PaymentFileName);
                 OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
                 OdbcDataReader Reader = Command.ExecuteReader();
                 while (Reader.Read())
                 {
-                    string S = "СНИЛС не найден в исходном файле;";
-                    for (int i = 0; i < Reader.FieldCount; i++) { S += Reader[i].ToString().Trim() + ";"; }
-                    Log.Messages.Add(string.Format("{0}; {1} {2} {3}; СНИЛС не найден в исходном файле", Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim()));
+                    string ErrorString = "{0}; {1} {2} {3}; Запись не найдена в исходном файле";
+                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim()));
                     Result++;
-                    Handler("2/12", null);
+                    Handler("NPSS", null);
                 }
             }
             catch (Exception E)
