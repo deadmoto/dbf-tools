@@ -49,7 +49,7 @@ namespace CheckDBF
             }
             //if (Result.PRED == 1621 && Result.VID == "0300")
             //{
-            //    Result.TARIF = Result.TARIF * Result.VOL;
+            //    Result.TARIF = (float)System.Math.Round(Result.TARIF * Result.VOL, 2);
             //    Result.VOL = 1;
             //}
             return Result;
