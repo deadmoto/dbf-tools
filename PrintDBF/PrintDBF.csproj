@@ -99,15 +99,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\OdbcDriver.cs" />
     <Compile Include="Program.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Data\DataSet.xsc">
@@ -121,6 +121,7 @@
     <None Include="Data\DataSet.xss">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </None>
+    <None Include="Data\Report.frx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
