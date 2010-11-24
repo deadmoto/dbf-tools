@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="" ReportInfo.Modified="11/09/2010 10:19:53" ReportInfo.CreatorVersion="1.4.46.0" PrintSettings.CopyNames="ЫЫЫЫЫЫЫЫЫЫЫ">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="" ReportInfo.Modified="10/13/2010 14:30:38" ReportInfo.CreatorVersion="1.4.46.0" PrintSettings.CopyNames="ЫЫЫЫЫЫЫЫЫЫЫ">
   <Dictionary>
     <TableDataSource Name="Table" ReferenceName="DataSet.Table" DataType="System.Int32" Enabled="true">
       <Column Name="FULLNAME" DataType="System.String"/>
@@ -13,10 +13,11 @@
     <Parameter Name="Sum" DataType="System.Double"/>
   </Dictionary>
   <ReportPage Name="Page1">
-    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="26.46" CanGrow="true" CanShrink="true">
-      <TextObject Name="Text7" Width="718.2" Height="26.46" Dock="Fill" CanGrow="true" CanShrink="true" Text="Отчет по файлу: [FileName]&#13;&#10;На сумму [Sum]" HorzAlign="Center" Font="Arial, 8pt, style=Bold"/>
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="31.02">
+      <TextObject Name="Text7" Width="718.2" Height="15.12" Text="Отчет по файлу: [FileName]" HorzAlign="Center" Font="Arial, 8pt, style=Bold"/>
+      <TextObject Name="Text14" Top="15.9" Width="718.2" Height="15.12" Text="На сумму [Sum]" HorzAlign="Center" Font="Arial, 8pt, style=Bold"/>
     </ReportTitleBand>
-    <PageHeaderBand Name="PageHeader1" Top="30.46" Width="718.2" Height="15.12">
+    <PageHeaderBand Name="PageHeader1" Top="35.02" Width="718.2" Height="15.12">
       <TextObject Name="Text2" Width="151.2" Height="15.12" Border.Lines="All" Text="Фамилия, Имя, Отчество" Font="Arial, 8pt, style=Bold"/>
       <TextObject Name="Text4" Left="283.5" Width="75.6" Height="15.12" Border.Lines="All" Text="Сумма" Font="Arial, 8pt, style=Bold"/>
       <TextObject Name="Text5" Left="151.2" Width="132.3" Height="15.12" Border.Lines="All" Text="Номер счета" Font="Arial, 8pt, style=Bold"/>
@@ -24,7 +25,7 @@
       <TextObject Name="Text12" Left="642.6" Width="75.6" Height="15.12" Border.Lines="All" Text="Сумма" Font="Arial, 8pt, style=Bold"/>
       <TextObject Name="Text13" Left="510.3" Width="132.3" Height="15.12" Border.Lines="All" Text="Номер счета" Font="Arial, 8pt, style=Bold"/>
     </PageHeaderBand>
-    <DataBand Name="Data1" Top="49.58" Width="718.2" Height="11.34" DataSource="Table">
+    <DataBand Name="Data1" Top="54.14" Width="718.2" Height="11.34" DataSource="Table">
       <TextObject Name="Text3" Left="283.5" Width="75.6" Height="11.34" Border.Lines="All" Text="[Table.MONEY]" HorzAlign="Right" Font="Arial, 6pt"/>
       <TextObject Name="Text6" Left="151.2" Width="132.3" Height="11.34" Border.Lines="All" Text="[Table.ACCOUNT]" Font="Arial, 6pt"/>
       <TextObject Name="Text1" Width="151.2" Height="11.34" Border.Lines="All" Text="[Table.FULLNAME]" Font="Arial, 6pt"/>
