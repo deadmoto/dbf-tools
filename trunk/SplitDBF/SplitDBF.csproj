@@ -55,19 +55,24 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\FoxPro.cs" />
+    <Compile Include="Data\OutputFile.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Core\OdbcDriver.cs" />
-    <Compile Include="Core\Program.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Data\Region.cs" />
     <Compile Include="Data\Supplier.cs" />
+    <Compile Include="RECP.cs" />
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Data\Payment.dbf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Data\Supplier.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

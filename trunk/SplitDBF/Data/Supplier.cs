@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.Odbc;
+using System.Data.OleDb;
 using System.Windows.Forms;
 
 
@@ -21,12 +21,12 @@ namespace SplitDBF
         private static Dictionary<string, string> GetSupplierDictionary()
         {
             Dictionary<string, string> SupplierName = new Dictionary<string, string>();
-            OdbcCommand Command = OdbcDriver.VFPCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Supplier.dbf"), "");
-            OdbcDataReader Reader = Command.ExecuteReader();
+            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Supplier.dbf"), "");
+            OleDbDataReader Reader = Command.ExecuteReader();
             while (Reader.Read())
             {
-                string Code = Reader.GetInt32(Reader.GetOrdinal("Code")).ToString();
-                string Name = Reader.GetString(Reader.GetOrdinal("ShortName")).Trim();
+                string Code = Reader["Code"].ToString().Trim();
+                string Name = Reader["ShortName"].ToString().Trim();
                 Name = Name.Replace('\\', ' ');
                 Name = Name.Replace('/', ' ');
                 Name = Name.Replace(':', ' ');
