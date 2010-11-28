@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Odbc;
+using System.Data.OleDb;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using SplitDBF.Data;
 
 namespace SplitDBF
 {
@@ -14,9 +15,6 @@ namespace SplitDBF
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Opens OpenFileDialog with *.dbf filter
-        /// </summary>
         private void OpenMenuItemClick(object sender, EventArgs e)
         {
             OpenFileDialog OpenFile = new OpenFileDialog();
@@ -48,80 +46,134 @@ namespace SplitDBF
             new Thread(new ThreadStart(delegate { ProcessFiles(FileNames); })).Start();
         }
 
-        private void ProcessFiles(List<string> FileNames)
+        private List<OutputFile> GetOutputFileList(string FileName)
         {
-            foreach (string InputFileName in FileNames)
+            List<OutputFile> OutputFileList = new List<OutputFile>();
+            OleDbCommand Command = FoxPro.OleDbCommand();
+
+            for (int i = 1; i < 10; i++)
             {
-                int RowIndex = FileNames.FindIndex(delegate(string Item) { return Item == InputFileName; });
+                Command.CommandText = string.Format("SELECT DISTINCT PRED{0} FROM {1} WHERE NOT EMPTY(PRED{0})", i, FileName);
 
-                List<string> ListPred = new List<string>();
-
-                OdbcCommand Command = OdbcDriver.VFPCommand();
-                OdbcDataReader Reader;
-
-                string RegionCode = GetRegionCode(InputFileName);
-                string ReportDate = GetReportDate(InputFileName);
-
-                for (int i = 1; i < 10; i++)
+                try
                 {
-                    Command.CommandText = string.Format("SELECT DISTINCT PRED{0} FROM '{1}' WHERE PRED{0} > 0", i, InputFileName);
-                    Reader = Command.ExecuteReader();
-
+                    OleDbDataReader Reader = Command.ExecuteReader();
                     while (Reader.Read())
                     {
-                        string Post = Reader["PRED" + i].ToString();
-                        if (!ListPred.Contains(Post))
+                        string PRED = Reader[0].ToString();
+                        if (OutputFileList.Contains(PRED) == false)
                         {
-                            ListPred.Add(Post);
+                            OutputFile OutputFile = PRED;
+                            OutputFileList.Add(PRED);
                         }
                     }
                     Reader.Close();
                 }
-
-                foreach (string Code in ListPred)
+                catch (Exception E)
                 {
-                    int CodeIndex = ListPred.FindIndex(delegate(string Item) { return Item == Code; });
-                    MainGrid.Invoke(new MethodInvoker(delegate { MainGrid.Rows[RowIndex].Cells[4].Value = string.Format("Processing {0} of {1}", CodeIndex.ToString(), ListPred.Count.ToString()); Refresh(); }));
-                    string subFolder = string.Empty;
-                    if (InputFileName.Contains("payment"))
-                        subFolder = "payment";
-                    else
-                        subFolder = "des";
-
-                    string OutputDirectory = string.Format("{0}\\{1}", Path.GetDirectoryName(InputFileName), Supplier.GetSupplierName(Code));//, SplitDBF.Region.GetRegionName(RegionCode));
-                    string OutputFileName = string.Format("{0}\\{2}{1}.dbf", OutputDirectory, ReportDate + "_" + RegionCode, subFolder);
-                    Directory.CreateDirectory(OutputDirectory);
-                    Command = OdbcDriver.VFPCommand(OutputDirectory, "");
-
-                    File.Copy(InputFileName, OutputFileName, true);
-
-                    for (int i = 1; i < 10; i++)
-                    {
-                        Command.CommandText = string.Format("UPDATE '{0}' SET PRED{1} = 0, VID{1} = '', LSH{1} = '' WHERE PRED{1} <> {2}", OutputFileName, i.ToString(), Code);
-                        Command.ExecuteNonQuery();
-                    }
-                    Command.CommandText = string.Format("DELETE FROM '{0}' WHERE PRED1 <> {1} AND PRED2 <> {1} AND PRED3 <> {1} AND PRED4 <> {1} AND PRED5 <> {1} AND PRED6 <> {1} AND PRED7 <> {1} AND PRED8 <> {1} AND PRED9 <> {1}", OutputFileName, Code);
-                    Command.ExecuteNonQuery();
-                    Command.Connection.Close();
-                    Command.Connection.Open();
-                    Command.CommandText = string.Format("PACK '{0}'", OutputFileName);
-                    Command.ExecuteNonQuery();
+                    MessageBox.Show(E.Message);
                 }
-
-                MainGrid.Invoke(new MethodInvoker(delegate { MainGrid.Rows[RowIndex].Cells[4].Value = "Ready"; Refresh(); }));
             }
 
-            MessageBox.Show(string.Format("{0} files processed!", FileNames.Count), Text);
+            Command.Connection.Close();
+            return OutputFileList;
         }
 
-        /// <summary>
-        /// Returns region code from file
-        /// </summary>
+        private void ProcessFile(string FileName)
+        {
+            string ReportDate = GetReportDate(FileName);
+            List<RECP> RECPList = new List<RECP>();
+
+            string CommandText = string.Format("SELECT * FROM {0}", FileName);
+            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+            OleDbDataReader Reader = Command.ExecuteReader();
+
+            int Cursor = 0;
+
+            while (Reader.Read())
+            {
+                Cursor++;
+                RECP Item = new RECP();
+                Item.FAMIL = Reader["FAMIL"].ToString().Trim();
+                Item.IMJA = Reader["IMJA"].ToString().Trim();
+                Item.OTCH = Reader["OTCH"].ToString().Trim();
+                Item.DROG = Reader.GetDateTime(Reader.GetOrdinal("DROG"));
+                Item.NPSS = Reader["NPSS"].ToString().Trim();
+                Item.PY = Reader["PY"].ToString().Trim();
+                Item.NNASP = Reader["NNASP"].ToString().Trim();
+                Item.NYLIC = Reader["NYLIC"].ToString().Trim();
+                Item.NDOM = int.Parse(Reader["NDOM"].ToString());
+                Item.LDOM = Reader["LDOM"].ToString().Trim();
+                Item.KORP = int.Parse(Reader["KORP"].ToString());
+                Item.NKW = int.Parse(Reader["NKW"].ToString());
+                Item.LKW = Reader["LKW"].ToString().Trim();
+                Item.PVID = int.Parse(Reader["PVID"].ToString());
+                Item.PSR = Reader["PSR"].ToString().Trim();
+                Item.PNM = Reader["PNM"].ToString().Trim();
+                Item.KSS = int.Parse(Reader["KSS"].ToString());
+                Item.KOD = Reader["KOD"].ToString().Trim();
+                Item.SROKS = Reader.GetDateTime(Reader.GetOrdinal("SROKS"));
+                Item.SROKPO = Reader.GetDateTime(Reader.GetOrdinal("SROKPO"));
+                Item.KDOMVL = int.Parse(Reader["KDOMVL"].ToString());
+                Item.ROPL = double.Parse(Reader["ROPL"].ToString());
+                Item.KCHLS = int.Parse(Reader["KCHLS"].ToString());
+                Item.K_POL = int.Parse(Reader["K_POL"].ToString());
+                Item.KKOM = int.Parse(Reader["KKOM"].ToString());
+                Item.DATE_VIGR = Reader.GetDateTime(Reader.GetOrdinal("DATE_VIGR"));
+                Item.PRIM = Reader["PRIM"].ToString().Trim();
+
+                for (int i = 1; i < 10; i++)
+                {
+                    RECPPREDDATA PREDDATA = new RECPPREDDATA();
+                    PREDDATA.PRED = int.Parse(Reader[string.Format("PRED{0}", i)].ToString());
+                    PREDDATA.VID = Reader[string.Format("VID{0}", i)].ToString().Trim();
+                    PREDDATA.LSH = Reader[string.Format("LSH{0}", i)].ToString().Trim();
+                    PREDDATA.VOL = double.Parse(Reader[string.Format("VOL{0}", i)].ToString());
+                    PREDDATA.TARIF = double.Parse(Reader[string.Format("TARIF{0}", i)].ToString());
+                    PREDDATA.SUMLN = double.Parse(Reader[string.Format("SUMLN{0}", i)].ToString());
+                    PREDDATA.SUMLD = double.Parse(Reader[string.Format("SUMLD{0}", i)].ToString());
+                    PREDDATA.SUMLF = double.Parse(Reader[string.Format("SUMLF{0}", i)].ToString());
+                    PREDDATA.KOD_T = int.Parse(Reader[string.Format("KOD_T{0}", i)].ToString());
+                    PREDDATA.KOD_N = int.Parse(Reader[string.Format("KOD_N{0}", i)].ToString());
+                    PREDDATA.S_ = int.Parse(Reader[string.Format("S_{0}", i)].ToString());
+                    Item.PREDDATA[i - 1] = PREDDATA;
+                }
+
+                foreach (int PRED in Item.PREDList())
+                {
+                    Item.ExecuteCommand(Path.GetDirectoryName(FileName), PRED);
+                    MainGrid.Invoke(new MethodInvoker(delegate { MainGrid.Rows[0].Cells[4].Value = string.Format("Processing {0}", Cursor); }));
+                }
+            }
+
+            MainGrid.Invoke(new MethodInvoker(delegate { MainGrid.Rows[0].Cells[4].Value = "Finished!"; }));
+            Reader.Close();
+            Command.Connection.Close();
+        }
+
+        private void ProcessFiles(List<string> FileNames)
+        {
+            foreach (string FileName in FileNames)
+            {
+                List<OutputFile> OutputFileList = GetOutputFileList(FileName);
+                string Directory = Path.GetDirectoryName(FileName);
+                string RegionCode = GetRegionCode(FileName);
+                string ReportDate = GetReportDate(FileName);
+
+                foreach (OutputFile OutputFile in OutputFileList)
+                {
+                    OutputFile.Prepare(Directory, ReportDate, RegionCode);
+                }
+
+                ProcessFile(FileName);
+            }
+        }
+
         private string GetRegionCode(string FileName)
         {
             string RegionCode = string.Empty;
-            OdbcCommand Command = OdbcDriver.VFPCommand(CommandText: string.Format("SELECT PY FROM '{0}'", FileName));
-            OdbcDataReader Reader = Command.ExecuteReader();
+            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT PY FROM '{0}'", FileName));
+            OleDbDataReader Reader = Command.ExecuteReader();
             while (Reader.Read())
             {
                 RegionCode = Reader["PY"].ToString().Trim();
@@ -130,19 +182,16 @@ namespace SplitDBF
             return RegionCode;
         }
 
-        /// <summary>
-        /// Returns report date from file
-        /// </summary>
         string GetReportDate(string InputFileName)
         {
             DateTime ReportDate = new DateTime();
             try
             {
-                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText: string.Format("SELECT DATE_VIGR FROM '{0}'", InputFileName));
-                OdbcDataReader Reader = Command.ExecuteReader();
+                OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT DATE_VIGR FROM '{0}'", InputFileName));
+                OleDbDataReader Reader = Command.ExecuteReader();
                 while (Reader.Read())
                 {
-                    ReportDate = Reader.GetDate(Reader.GetOrdinal("DATE_VIGR"));
+                    ReportDate = Reader.GetDateTime(Reader.GetOrdinal("DATE_VIGR"));
                     break;
                 }
             }
