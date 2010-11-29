@@ -5,11 +5,14 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using SplitDBF.Data;
+using System.Data;
 
 namespace SplitDBF
 {
     public partial class MainForm : Form
     {
+        delegate void UpdateMainGridDelegate(string Status);
+
         public MainForm()
         {
             InitializeComponent();
@@ -30,7 +33,7 @@ namespace SplitDBF
         {
             foreach (string FileName in FileNames)
             {
-                MainGrid.Rows.Add(true, FileName, SplitDBF.Region.GetRegionName(GetRegionCode(FileName)), GetReportDate(FileName), "Waiting");
+                DataSet.Tables["FileNames"].Rows.Add(FileName, GetRegionCode(FileName), SplitDBF.Region.GetRegionName(GetRegionCode(FileName)), GetReportDate(FileName), "Waiting");
             }
         }
 
@@ -38,9 +41,9 @@ namespace SplitDBF
         {
             List<string> FileNames = new List<string>();
 
-            foreach (DataGridViewRow Row in MainGrid.Rows)
+            foreach (DataRow Row in DataSet.Tables["FileNames"].Rows)
             {
-                FileNames.Add((string)Row.Cells[1].Value);
+                FileNames.Add(Row["FileName"].ToString());
             }
 
             new Thread(new ThreadStart(delegate { ProcessFiles(FileNames); })).Start();
@@ -79,20 +82,17 @@ namespace SplitDBF
             return OutputFileList;
         }
 
-        private void ProcessFile(string FileName)
+        private void ProcessFile(string FileName, UpdateMainGridDelegate UpdateMainGrid)
         {
-            string ReportDate = GetReportDate(FileName);
-            List<RECP> RECPList = new List<RECP>();
-
-            string CommandText = string.Format("SELECT * FROM {0}", FileName);
+            string CommandText = string.Format("SELECT * FROM '{0}'", FileName);
             OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
             OleDbDataReader Reader = Command.ExecuteReader();
 
-            int Cursor = 0;
+            int ProcessProgress = 0;
 
             while (Reader.Read())
             {
-                Cursor++;
+                ProcessProgress++;
                 RECP Item = new RECP();
                 Item.FAMIL = Reader["FAMIL"].ToString().Trim();
                 Item.IMJA = Reader["IMJA"].ToString().Trim();
@@ -142,30 +142,32 @@ namespace SplitDBF
                 foreach (int PRED in Item.PREDList())
                 {
                     Item.ExecuteCommand(Path.GetDirectoryName(FileName), PRED);
-                    MainGrid.Invoke(new MethodInvoker(delegate { MainGrid.Rows[0].Cells[4].Value = string.Format("Processing {0}", Cursor); }));
                 }
+
+                MainGrid.Invoke(new MethodInvoker(delegate { UpdateMainGrid("Processing " + ProcessProgress); }));
             }
 
-            MainGrid.Invoke(new MethodInvoker(delegate { MainGrid.Rows[0].Cells[4].Value = "Finished!"; }));
             Reader.Close();
             Command.Connection.Close();
+            MainGrid.Invoke(new MethodInvoker(delegate { UpdateMainGrid("Finished!"); }));
         }
 
         private void ProcessFiles(List<string> FileNames)
         {
-            foreach (string FileName in FileNames)
+            for (int i = 0; i < FileNames.Count; i++)
             {
-                List<OutputFile> OutputFileList = GetOutputFileList(FileName);
-                string Directory = Path.GetDirectoryName(FileName);
-                string RegionCode = GetRegionCode(FileName);
-                string ReportDate = GetReportDate(FileName);
+                UpdateMainGridDelegate UpdateMainGrid = delegate(string Status) { DataSet.Tables["FileNames"].Rows[i]["Status"] = Status; };
+                List<OutputFile> OutputFileList = GetOutputFileList(FileNames[i]);
+                string Directory = Path.GetDirectoryName(FileNames[i]);
+                string RegionCode = GetRegionCode(FileNames[i]);
+                string ReportDate = GetReportDate(FileNames[i]);
 
                 foreach (OutputFile OutputFile in OutputFileList)
                 {
                     OutputFile.Prepare(Directory, ReportDate, RegionCode);
                 }
 
-                ProcessFile(FileName);
+                ProcessFile(FileNames[i], UpdateMainGrid);
             }
         }
 
