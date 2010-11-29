@@ -56,6 +56,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Des.cs" />
     <Compile Include="Data\FoxPro.cs" />
     <Compile Include="Data\OutputFile.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -71,6 +72,9 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Data\Des.dbf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Data\Payment.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

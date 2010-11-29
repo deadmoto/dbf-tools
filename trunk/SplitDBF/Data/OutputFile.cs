@@ -46,5 +46,29 @@ namespace SplitDBF.Data
                 File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", OutputFileName, true);
             }
         }
+
+        public void Prepare2(string InputDirectory, string ReportDate, string RegionCode)
+        {
+            string OutputDirectory = InputDirectory + '\\' + NAME;
+            string OutputFileName = OutputDirectory + "\\des-" + ReportDate + ".dbf";
+            Directory.CreateDirectory(OutputDirectory);
+
+            if (File.Exists(OutputFileName))
+            {
+                string CommandText = string.Format("DELETE FROM '{0}' WHERE PY = '{1}'", OutputFileName, RegionCode);
+                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                Command.ExecuteNonQuery();
+                Command.Connection.Close();
+
+                CommandText = string.Format("PACK '{0}'", OutputFileName);
+                Command = FoxPro.OleDbCommand(CommandText);
+                Command.ExecuteNonQuery();
+                Command.Connection.Close();
+            }
+            else
+            {
+                File.Copy(Application.StartupPath + "\\Data\\Des.dbf", OutputFileName, true);
+            }
+        }
     }
 }

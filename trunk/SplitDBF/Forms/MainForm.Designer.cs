@@ -34,6 +34,7 @@
             System.Data.DataColumn Region;
             System.Data.DataColumn Date;
             System.Data.DataColumn Status;
+            System.Data.DataColumn FieldCount;
             this.DataSet = new System.Data.DataSet();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,17 +55,12 @@
             Region = new System.Data.DataColumn();
             Date = new System.Data.DataColumn();
             Status = new System.Data.DataColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.DataSet)).BeginInit();
+            FieldCount = new System.Data.DataColumn();
             ((System.ComponentModel.ISupportInitialize)(FileNames)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataSet)).BeginInit();
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).BeginInit();
             this.SuspendLayout();
-            // 
-            // DataSet
-            // 
-            this.DataSet.DataSetName = "DataSet";
-            this.DataSet.Tables.AddRange(new System.Data.DataTable[] {
-            FileNames});
             // 
             // FileNames
             // 
@@ -73,7 +69,8 @@
             RegionId,
             Region,
             Date,
-            Status});
+            Status,
+            FieldCount});
             FileNames.TableName = "FileNames";
             // 
             // FileName
@@ -92,12 +89,17 @@
             // Date
             // 
             Date.ColumnName = "Date";
-            Date.DataType = typeof(System.DateTime);
             // 
             // Status
             // 
             Status.Caption = "Status";
             Status.ColumnName = "Status";
+            // 
+            // DataSet
+            // 
+            this.DataSet.DataSetName = "DataSet";
+            this.DataSet.Tables.AddRange(new System.Data.DataTable[] {
+            FileNames});
             // 
             // MainMenu
             // 
@@ -225,6 +227,11 @@
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
             this.dataGridViewTextBoxColumn4.Width = 62;
             // 
+            // FieldCount
+            // 
+            FieldCount.ColumnName = "FieldCount";
+            FieldCount.DataType = typeof(int);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,8 +245,8 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SplitDBF";
-            ((System.ComponentModel.ISupportInitialize)(this.DataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(FileNames)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataSet)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).EndInit();
