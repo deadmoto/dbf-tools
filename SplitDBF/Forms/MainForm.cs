@@ -18,35 +18,57 @@ namespace SplitDBF
             InitializeComponent();
         }
 
-        private void OpenMenuItemClick(object sender, EventArgs e)
+        private int GetFieldCount(string FileName)
         {
-            OpenFileDialog OpenFile = new OpenFileDialog();
-            OpenFile.Filter = "DBF Files (*.dbf) | *.dbf";
-            OpenFile.Multiselect = true;
-            if (OpenFile.ShowDialog() == DialogResult.OK)
+            int FieldCount = 0;
+            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT FCOUNT() FROM '{0}'", FileName));
+            FieldCount = int.Parse(Command.ExecuteScalar().ToString());
+            return FieldCount;
+        }
+
+        private string GetRegionCode(string FileName)
+        {
+            string RegionCode = string.Empty;
+            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT PY FROM '{0}'", FileName));
+            OleDbDataReader Reader = Command.ExecuteReader();
+            while (Reader.Read())
             {
-                GetFileInfo(OpenFile.FileNames);
+                RegionCode = Reader["PY"].ToString().Trim();
+                break;
             }
+            return RegionCode;
+        }
+
+        private string GetReportDate(string InputFileName)
+        {
+            DateTime ReportDate = new DateTime();
+            try
+            {
+                OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT DATE_VIGR FROM '{0}'", InputFileName));
+                OleDbDataReader Reader = Command.ExecuteReader();
+                while (Reader.Read())
+                {
+                    ReportDate = Reader.GetDateTime(Reader.GetOrdinal("DATE_VIGR"));
+                    break;
+                }
+            }
+            catch
+            {
+                ReportDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
+            }
+            return ReportDate.ToString("yyyy-MM-dd");
         }
 
         private void GetFileInfo(string[] FileNames)
         {
             foreach (string FileName in FileNames)
             {
-                DataSet.Tables["FileNames"].Rows.Add(FileName, GetRegionCode(FileName), SplitDBF.Region.GetRegionName(GetRegionCode(FileName)), GetReportDate(FileName), "Waiting");
+                int FieldCount = GetFieldCount(FileName);
+                string RegionCode = GetRegionCode(FileName);
+                string RegionName = SplitDBF.Region.GetRegionName(RegionCode);
+                string ReportDate = GetReportDate(FileName);
+                DataSet.Tables["FileNames"].Rows.Add(FileName, RegionCode, RegionName, ReportDate, "Waiting", FieldCount);
             }
-        }
-
-        private void ProcessMenuItemClick(object sender, EventArgs e)
-        {
-            List<string> FileNames = new List<string>();
-
-            foreach (DataRow Row in DataSet.Tables["FileNames"].Rows)
-            {
-                FileNames.Add(Row["FileName"].ToString());
-            }
-
-            new Thread(new ThreadStart(delegate { ProcessFiles(FileNames); })).Start();
         }
 
         private List<OutputFile> GetOutputFileList(string FileName)
@@ -56,7 +78,7 @@ namespace SplitDBF
 
             for (int i = 1; i < 10; i++)
             {
-                Command.CommandText = string.Format("SELECT DISTINCT PRED{0} FROM {1} WHERE NOT EMPTY(PRED{0})", i, FileName);
+                Command.CommandText = string.Format("SELECT DISTINCT PRED{1} FROM '{0}' WHERE NOT EMPTY(PRED{1})", FileName, i);
 
                 try
                 {
@@ -152,6 +174,57 @@ namespace SplitDBF
             MainGrid.Invoke(new MethodInvoker(delegate { UpdateMainGrid("Finished!"); }));
         }
 
+        private void ProcessFileDes(string FileName, string ReportDate, UpdateMainGridDelegate UpdateMainGrid)
+        {
+            string CommandText = string.Format("SELECT * FROM '{0}'", FileName);
+            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+            OleDbDataReader Reader = Command.ExecuteReader();
+
+            int ProcessProgress = 0;
+
+            while (Reader.Read())
+            {
+                ProcessProgress++;
+                DES Item = new DES();
+                Item.PCOUID = Reader["PCOUID"].ToString().Trim();
+                Item.FAMIL = Reader["FAMIL"].ToString().Trim();
+                Item.IMJA = Reader["IMJA"].ToString().Trim();
+                Item.OTCH = Reader["OTCH"].ToString().Trim();
+                Item.DROG = Reader.GetDateTime(Reader.GetOrdinal("DROG"));
+                Item.NPSS = Reader["NPSS"].ToString().Trim();
+                Item.PY = Reader["PY"].ToString().Trim();
+                Item.NNASP = Reader["NNASP"].ToString().Trim();
+                Item.NYLIC = Reader["NYLIC"].ToString().Trim();
+                Item.NDOM = int.Parse(Reader["NDOM"].ToString());
+                Item.LDOM = Reader["LDOM"].ToString().Trim();
+                Item.KORP = int.Parse(Reader["KORP"].ToString());
+                Item.NKW = int.Parse(Reader["NKW"].ToString());
+                Item.LKW = Reader["LKW"].ToString().Trim();
+
+                for (int i = 1; i < 10; i++)
+                {
+                    DESPREDDATA PREDDATA = new DESPREDDATA();
+                    PREDDATA.PRED = int.Parse(Reader[string.Format("PRED{0}", i)].ToString());
+                    PREDDATA.VID = Reader[string.Format("VID{0}", i)].ToString().Trim();
+                    PREDDATA.LSH = Reader[string.Format("LSH{0}", i)].ToString().Trim();
+                    PREDDATA.SUMM_DES = double.Parse(Reader[string.Format("SUMM_DES{0}", i)].ToString());
+                    PREDDATA.SUMM_PER = double.Parse(Reader[string.Format("SUMM_PER{0}", i)].ToString());
+                    Item.PREDDATA[i - 1] = PREDDATA;
+                }
+
+                foreach (int PRED in Item.PREDList())
+                {
+                    Item.ExecuteCommand(Path.GetDirectoryName(FileName), ReportDate, PRED);
+                }
+
+                MainGrid.Invoke(new MethodInvoker(delegate { UpdateMainGrid("Processing " + ProcessProgress); }));
+            }
+
+            Reader.Close();
+            Command.Connection.Close();
+            MainGrid.Invoke(new MethodInvoker(delegate { UpdateMainGrid("Finished!"); }));
+        }
+
         private void ProcessFiles(List<string> FileNames)
         {
             for (int i = 0; i < FileNames.Count; i++)
@@ -171,37 +244,76 @@ namespace SplitDBF
             }
         }
 
-        private string GetRegionCode(string FileName)
+        private void ProcessFiles2(List<string> FileNames)
         {
-            string RegionCode = string.Empty;
-            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT PY FROM '{0}'", FileName));
-            OleDbDataReader Reader = Command.ExecuteReader();
-            while (Reader.Read())
+            for (int i = 0; i < FileNames.Count; i++)
             {
-                RegionCode = Reader["PY"].ToString().Trim();
-                break;
-            }
-            return RegionCode;
-        }
+                UpdateMainGridDelegate UpdateMainGrid = delegate(string Status) { DataSet.Tables["FileNames"].Rows[i]["Status"] = Status; };
+                List<OutputFile> OutputFileList = GetOutputFileList(FileNames[i]);
+                int FieldCount = (int)DataSet.Tables["FileNames"].Rows[i]["FieldCount"];
+                string Directory = Path.GetDirectoryName(FileNames[i]);
+                string RegionCode = DataSet.Tables["FileNames"].Rows[i]["RegionId"].ToString();
+                string ReportDate = DataSet.Tables["FileNames"].Rows[i]["Date"].ToString();
 
-        string GetReportDate(string InputFileName)
-        {
-            DateTime ReportDate = new DateTime();
-            try
-            {
-                OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT DATE_VIGR FROM '{0}'", InputFileName));
-                OleDbDataReader Reader = Command.ExecuteReader();
-                while (Reader.Read())
+                if (FieldCount == 59)
                 {
-                    ReportDate = Reader.GetDateTime(Reader.GetOrdinal("DATE_VIGR"));
-                    break;
+                    foreach (OutputFile OutputFile in OutputFileList)
+                    {
+                        OutputFile.Prepare2(Directory, ReportDate, RegionCode);
+                    }
+
+                    ProcessFileDes(FileNames[i], ReportDate, UpdateMainGrid);
+                }
+                if (FieldCount == 126)
+                {
+                    foreach (OutputFile OutputFile in OutputFileList)
+                    {
+                        OutputFile.Prepare(Directory, ReportDate, RegionCode);
+                    }
+
+                    ProcessFile(FileNames[i], UpdateMainGrid);
                 }
             }
-            catch
+        }
+
+        private void OpenMenuItemClick(object sender, EventArgs e)
+        {
+            OpenFileDialog OpenFile = new OpenFileDialog();
+            OpenFile.Filter = "DBF Files (*.dbf) | *.dbf";
+            OpenFile.Multiselect = true;
+            if (OpenFile.ShowDialog() == DialogResult.OK)
             {
-                ReportDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 01);
+                GetFileInfo(OpenFile.FileNames);
             }
-            return ReportDate.ToString("yyyy-MM-dd");
+        }
+
+        private void ProcessMenuItemClick(object sender, EventArgs e)
+        {
+            List<string> FileNames = new List<string>();
+
+            foreach (DataRow Row in DataSet.Tables["FileNames"].Rows)
+            {
+                FileNames.Add(Row["FileName"].ToString());
+            }
+
+            new Thread(new ThreadStart(delegate { ProcessFiles2(FileNames); })).Start();
+        }
+
+        private void ExitMenuItemClick(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void MainGridDragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
         }
 
         private void MainGridDragDrop(object sender, DragEventArgs e)
@@ -222,23 +334,6 @@ namespace SplitDBF
             }
 
             GetFileInfo(FileNames.ToArray());
-        }
-
-        private void MainGridDragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
-        }
-
-        private void ExitMenuItemClick(object sender, EventArgs e)
-        {
-            Close();
         }
     }
 }

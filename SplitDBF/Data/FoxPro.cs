@@ -13,7 +13,7 @@ namespace System.Data.OleDb
 
             OleDbConnectionStringBuilder ConnectionStringBuilder = new OleDbConnectionStringBuilder();
             ConnectionStringBuilder.Provider = "vfpoledb";
-            ConnectionStringBuilder.Add("Collating Sequence", "Machine");
+            ConnectionStringBuilder.Add("Collating Sequence", "Russian");
             ConnectionStringBuilder.Add("Data Source", DataSource);
             OleDbConnection Connection = new OleDbConnection(ConnectionStringBuilder.ConnectionString);
             Connection.Open();
