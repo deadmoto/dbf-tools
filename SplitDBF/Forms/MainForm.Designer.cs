@@ -28,6 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Data.DataTable FileNames;
+            System.Data.DataColumn FileName;
+            System.Data.DataColumn RegionId;
+            System.Data.DataColumn Region;
+            System.Data.DataColumn Date;
+            System.Data.DataColumn Status;
+            this.DataSet = new System.Data.DataSet();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,14 +43,61 @@
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.MainGrid = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            FileNames = new System.Data.DataTable();
+            FileName = new System.Data.DataColumn();
+            RegionId = new System.Data.DataColumn();
+            Region = new System.Data.DataColumn();
+            Date = new System.Data.DataColumn();
+            Status = new System.Data.DataColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.DataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(FileNames)).BeginInit();
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).BeginInit();
             this.SuspendLayout();
+            // 
+            // DataSet
+            // 
+            this.DataSet.DataSetName = "DataSet";
+            this.DataSet.Tables.AddRange(new System.Data.DataTable[] {
+            FileNames});
+            // 
+            // FileNames
+            // 
+            FileNames.Columns.AddRange(new System.Data.DataColumn[] {
+            FileName,
+            RegionId,
+            Region,
+            Date,
+            Status});
+            FileNames.TableName = "FileNames";
+            // 
+            // FileName
+            // 
+            FileName.ColumnName = "FileName";
+            // 
+            // RegionId
+            // 
+            RegionId.ColumnName = "RegionId";
+            RegionId.DataType = typeof(int);
+            // 
+            // Region
+            // 
+            Region.ColumnName = "Region";
+            // 
+            // Date
+            // 
+            Date.ColumnName = "Date";
+            Date.DataType = typeof(System.DateTime);
+            // 
+            // Status
+            // 
+            Status.Caption = "Status";
+            Status.ColumnName = "Status";
             // 
             // MainMenu
             // 
@@ -107,18 +161,22 @@
             this.MainGrid.AllowUserToDeleteRows = false;
             this.MainGrid.AllowUserToResizeColumns = false;
             this.MainGrid.AllowUserToResizeRows = false;
+            this.MainGrid.AutoGenerateColumns = false;
             this.MainGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.MainGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MainGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4,
-            this.Column5});
+            this.fileNameDataGridViewTextBoxColumn,
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4});
+            this.MainGrid.DataMember = "FileNames";
+            this.MainGrid.DataSource = this.DataSet;
             this.MainGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainGrid.Location = new System.Drawing.Point(0, 24);
             this.MainGrid.MultiSelect = false;
             this.MainGrid.Name = "MainGrid";
+            this.MainGrid.ReadOnly = true;
             this.MainGrid.RowHeadersVisible = false;
             this.MainGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.MainGrid.Size = new System.Drawing.Size(634, 431);
@@ -126,47 +184,46 @@
             this.MainGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainGridDragDrop);
             this.MainGrid.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainGridDragEnter);
             // 
-            // Column1
+            // fileNameDataGridViewTextBoxColumn
             // 
-            this.Column1.FalseValue = "";
-            this.Column1.HeaderText = "Split";
-            this.Column1.Name = "Column1";
-            this.Column1.TrueValue = "";
-            this.Column1.Visible = false;
-            this.Column1.Width = 33;
+            this.fileNameDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.fileNameDataGridViewTextBoxColumn.DataPropertyName = "FileName";
+            this.fileNameDataGridViewTextBoxColumn.HeaderText = "FileName";
+            this.fileNameDataGridViewTextBoxColumn.Name = "fileNameDataGridViewTextBoxColumn";
+            this.fileNameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // Column2
+            // dataGridViewTextBoxColumn1
             // 
-            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.HeaderText = "File";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn1.DataPropertyName = "RegionId";
+            this.dataGridViewTextBoxColumn1.HeaderText = "RegionId";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Visible = false;
+            this.dataGridViewTextBoxColumn1.Width = 75;
             // 
-            // Column3
+            // dataGridViewTextBoxColumn2
             // 
-            this.Column3.HeaderText = "Region";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column3.Width = 47;
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Region";
+            this.dataGridViewTextBoxColumn2.HeaderText = "Region";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.ReadOnly = true;
+            this.dataGridViewTextBoxColumn2.Width = 66;
             // 
-            // Column4
+            // dataGridViewTextBoxColumn3
             // 
-            this.Column4.HeaderText = "Date";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column4.Width = 36;
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Date";
+            this.dataGridViewTextBoxColumn3.HeaderText = "Date";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.ReadOnly = true;
+            this.dataGridViewTextBoxColumn3.Width = 55;
             // 
-            // Column5
+            // dataGridViewTextBoxColumn4
             // 
-            this.Column5.HeaderText = "Status";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column5.Width = 43;
+            this.dataGridViewTextBoxColumn4.DataPropertyName = "Status";
+            this.dataGridViewTextBoxColumn4.HeaderText = "Status";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.ReadOnly = true;
+            this.dataGridViewTextBoxColumn4.Width = 62;
             // 
             // MainForm
             // 
@@ -181,6 +238,8 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SplitDBF";
+            ((System.ComponentModel.ISupportInitialize)(this.DataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(FileNames)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainGrid)).EndInit();
@@ -199,11 +258,12 @@
         private System.Windows.Forms.DataGridView MainGrid;
         private System.Windows.Forms.ToolStripMenuItem ProcessMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Data.DataSet DataSet;
     }
 }
 
