@@ -78,7 +78,7 @@ namespace CheckDBF.Core
 
         public bool GetErrorTARIF()
         {
-            return TARIF != 0 && TARIF_E != -1 && TARIF != TARIF_E && FILLED();
+            return VID != "0100" && TARIF != 0 && TARIF_E != -1 && TARIF != TARIF_E && FILLED();
         }
 
         public bool GetErrorK_POL(int KCHLS)
