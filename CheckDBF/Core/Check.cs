@@ -13,7 +13,7 @@ namespace CheckDBF.Core
         public static bool CheckKDOMVLEnabled = true;
         public static bool CheckROPLEnabled = true;
 
-        private static bool FieldExist(string FieldName)
+        private static bool Exist(string FieldName)
         {
             return FieldList.FindAll(delegate(string Item) { return Item.ToUpper() == FieldName.ToUpper(); }).Count > 0;
         }
@@ -35,6 +35,7 @@ namespace CheckDBF.Core
             while (Reader.Read())
             {
                 Person Person = new Person();
+
                 Person.FAMIL = Reader["FAMIL"].ToString().Trim();
                 Person.IMJA = Reader["IMJA"].ToString().Trim();
                 Person.OTCH = Reader["OTCH"].ToString().Trim();
@@ -43,7 +44,7 @@ namespace CheckDBF.Core
                 int.TryParse(Reader["KDOMVL"].ToString(), out Person.KDOMVL);
                 float.TryParse(Reader["ROPL"].ToString(), out Person.ROPL);
                 int.TryParse(Reader["KCHLS"].ToString(), out Person.KCHLS);
-                int.TryParse(Reader["K_POL"].ToString(), out Person.K_POL);
+                if (Exist("K_POL")) { int.TryParse(Reader["K_POL"].ToString(), out Person.K_POL); }
 
                 for (int i = 1; i < 10; i++)
                 {
@@ -57,7 +58,7 @@ namespace CheckDBF.Core
 
                         if (Service.FILLED())
                         {
-                            if (FieldExist(string.Format("LSH{0}", i))) { Service.LSH = Reader[string.Format("LSH{0}", i)].ToString().Trim(); }
+                            if (Exist(string.Format("LSH{0}", i))) { Service.LSH = Reader[string.Format("LSH{0}", i)].ToString().Trim(); }
                             try { Service.K_POL = int.Parse(Reader[string.Format("K_POL{0}", i)].ToString()); }
                             catch { Service.K_POL = Person.K_POL; }
                             float.TryParse(Reader[string.Format("TARIF{0}", i)].ToString(), out Service.TARIF);

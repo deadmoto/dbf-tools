@@ -24,8 +24,6 @@ namespace CheckDBF
                 OpenSupplierFile(Environment.GetCommandLineArgs()[1]);
                 OpenPaymentFile(Environment.GetCommandLineArgs()[1]);
             }
-            OpenSupplierFile(@"d:\.temp\Otd1975.dbf");
-            OpenPaymentFile(@"d:\.temp\Otd1975.dbf");
         }
 
         private void OpenSupplierFileClick(object sender, EventArgs e)
