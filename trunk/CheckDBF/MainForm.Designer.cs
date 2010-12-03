@@ -350,7 +350,7 @@
             this.MinimumSize = new System.Drawing.Size(480, 25);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CheckDBF";
+            this.Text = "CheckDBF" + " v" + Version.Value;
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             this.OpenFileGroupBox.ResumeLayout(false);
