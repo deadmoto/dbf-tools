@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Odbc;
+using System.Data.OleDb;
 
 namespace CheckDBF.Core
 {
@@ -24,8 +24,8 @@ namespace CheckDBF.Core
             FieldList.Clear();
 
             string CommandText = string.Format("SELECT * FROM '{0}'", SupplierFileName);
-            OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
-            OdbcDataReader Reader = Command.ExecuteReader();
+            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+            OleDbDataReader Reader = Command.ExecuteReader();
 
             for (int i = 0; i < Reader.FieldCount; i++)
             {
@@ -40,33 +40,32 @@ namespace CheckDBF.Core
                 Person.OTCH = Reader["OTCH"].ToString().Trim();
                 Person.NPSS = Reader["NPSS"].ToString().Trim();
 
-                Person.KDOMVL = int.Parse(Reader["KDOMVL"].ToString());
-                Person.ROPL = float.Parse(Reader["ROPL"].ToString());
-                Person.KCHLS = int.Parse(Reader["KCHLS"].ToString());
-                try { Person.K_POL = int.Parse(Reader["K_POL"].ToString()); }
-                catch { }
+                int.TryParse(Reader["KDOMVL"].ToString(), out Person.KDOMVL);
+                float.TryParse(Reader["ROPL"].ToString(), out Person.ROPL);
+                int.TryParse(Reader["KCHLS"].ToString(), out Person.KCHLS);
+                int.TryParse(Reader["K_POL"].ToString(), out Person.K_POL);
 
                 for (int i = 1; i < 10; i++)
                 {
                     Service Service = new Service();
                     try
                     {
-                        Service.PRED = int.Parse(Reader[string.Format("PRED{0}", i)].ToString());
+                        int.TryParse(Reader[string.Format("PRED{0}", i)].ToString(), out Service.PRED);
                         Service.VID = Reader[string.Format("VID{0}", i)].ToString().Trim();
-                        Service.VOL = float.Parse(Reader[string.Format("VOL{0}", i)].ToString());
-                        Service.SUMLN = float.Parse(Reader[string.Format("SUMLN{0}", i)].ToString());
+                        float.TryParse(Reader[string.Format("VOL{0}", i)].ToString(), out Service.VOL);
+                        float.TryParse(Reader[string.Format("SUMLN{0}", i)].ToString(), out Service.SUMLN);
 
                         if (Service.FILLED())
                         {
                             if (FieldExist(string.Format("LSH{0}", i))) { Service.LSH = Reader[string.Format("LSH{0}", i)].ToString().Trim(); }
                             try { Service.K_POL = int.Parse(Reader[string.Format("K_POL{0}", i)].ToString()); }
                             catch { Service.K_POL = Person.K_POL; }
-                            Service.TARIF = float.Parse(Reader[string.Format("TARIF{0}", i)].ToString());
-                            Service.SUMLD = float.Parse(Reader[string.Format("SUMLD{0}", i)].ToString());
-                            Service.SUMLF = float.Parse(Reader[string.Format("SUMLF{0}", i)].ToString());
-                            Service.KOD_T = int.Parse(Reader[string.Format("KOD_T{0}", i)].ToString());
-                            Service.KOD_N = int.Parse(Reader[string.Format("KOD_N{0}", i)].ToString());
-                            Service.S_ = int.Parse(Reader[string.Format("S_{0}", i)].ToString());
+                            float.TryParse(Reader[string.Format("TARIF{0}", i)].ToString(), out Service.TARIF);
+                            float.TryParse(Reader[string.Format("SUMLD{0}", i)].ToString(), out Service.SUMLD);
+                            float.TryParse(Reader[string.Format("SUMLF{0}", i)].ToString(), out Service.SUMLF);
+                            int.TryParse(Reader[string.Format("KOD_T{0}", i)].ToString(), out Service.KOD_T);
+                            int.TryParse(Reader[string.Format("KOD_N{0}", i)].ToString(), out Service.KOD_N);
+                            int.TryParse(Reader[string.Format("S_{0}", i)].ToString(), out Service.S_);
                         }
                         Service.GetConformData();
                         Person.Services[i - 1] = Service;
@@ -94,8 +93,8 @@ namespace CheckDBF.Core
             {
                 string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (фамилия {4})";
                 string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.FAMIL FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.FAMIL) <> UPPER(b.FAMIL)", SupplierFileName, PaymentFileName);
-                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
-                OdbcDataReader Reader = Command.ExecuteReader();
+                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                OleDbDataReader Reader = Command.ExecuteReader();
                 while (Reader.Read())
                 {
                     Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
@@ -117,8 +116,8 @@ namespace CheckDBF.Core
             {
                 string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (имя {4})";
                 string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.IMJA FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.IMJA) <> UPPER(b.IMJA)", SupplierFileName, PaymentFileName);
-                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
-                OdbcDataReader Reader = Command.ExecuteReader();
+                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                OleDbDataReader Reader = Command.ExecuteReader();
                 while (Reader.Read())
                 {
                     Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
@@ -140,8 +139,8 @@ namespace CheckDBF.Core
             {
                 string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (отчество {4})";
                 string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.IMJA FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.OTCH) <> UPPER(b.OTCH)", SupplierFileName, PaymentFileName);
-                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
-                OdbcDataReader Reader = Command.ExecuteReader();
+                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                OleDbDataReader Reader = Command.ExecuteReader();
                 while (Reader.Read())
                 {
                     Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
@@ -163,8 +162,8 @@ namespace CheckDBF.Core
             {
                 string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (дата рождения {4})";
                 string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.DROG FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND a.DROG <> b.DROG", SupplierFileName, PaymentFileName);
-                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
-                OdbcDataReader Reader = Command.ExecuteReader();
+                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                OleDbDataReader Reader = Command.ExecuteReader();
                 while (Reader.Read())
                 {
                     Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
@@ -185,8 +184,8 @@ namespace CheckDBF.Core
             try
             {
                 string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH FROM '{0}' as a WHERE a.NPSS NOT IN (SELECT NPSS FROM '{1}')", SupplierFileName, PaymentFileName);
-                OdbcCommand Command = OdbcDriver.VFPCommand(CommandText, "");
-                OdbcDataReader Reader = Command.ExecuteReader();
+                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                OleDbDataReader Reader = Command.ExecuteReader();
                 while (Reader.Read())
                 {
                     string ErrorString = "{0}; {1} {2} {3}; Запись не найдена в исходном файле";
