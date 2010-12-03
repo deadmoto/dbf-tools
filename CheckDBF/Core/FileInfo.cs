@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Odbc;
+using System.Data.OleDb;
 
 namespace CheckDBF.Core
 {
@@ -47,8 +48,8 @@ namespace CheckDBF.Core
             {
                 try
                 {
-                    OdbcCommand Command = OdbcDriver.VFPCommand(string.Format("SELECT PRED{1} FROM '{0}' WHERE NOT EMPTY(PRED{1}) GROUP BY PRED{1}", FileName, i), "");
-                    OdbcDataReader Reader = Command.ExecuteReader();
+                    OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT PRED{1} FROM '{0}' WHERE PRED{1} > 0 GROUP BY PRED{1}", FileName, i));
+                    OleDbDataReader Reader = Command.ExecuteReader();
                     if (Reader.Read())
                     {
                         Result = int.Parse(Reader[string.Format("PRED{0}", i)].ToString().Trim());
