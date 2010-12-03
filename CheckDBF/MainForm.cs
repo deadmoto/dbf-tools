@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Odbc;
+using System.Data.OleDb;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -24,8 +24,8 @@ namespace CheckDBF
                 OpenSupplierFile(Environment.GetCommandLineArgs()[1]);
                 OpenPaymentFile(Environment.GetCommandLineArgs()[1]);
             }
-            OpenSupplierFile(@"d:\.temp\максим_318235161\1191.dbf");
-            OpenPaymentFile(@"d:\.temp\максим_318235161\1191.dbf");
+            OpenSupplierFile(@"d:\.temp\Otd1975.dbf");
+            OpenPaymentFile(@"d:\.temp\Otd1975.dbf");
         }
 
         private void OpenSupplierFileClick(object sender, EventArgs e)

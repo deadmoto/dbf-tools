@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.Odbc;
+using System.Data.OleDb;
 using System.Windows.Forms;
 
 namespace CheckDBF
@@ -19,8 +19,8 @@ namespace CheckDBF
         {
             List<ReplaceData> Items = new List<ReplaceData>();
 
-            OdbcCommand Command = OdbcDriver.VFPCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Replace.dbf"));
-            OdbcDataReader Reader = Command.ExecuteReader();
+            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Replace.dbf"));
+            OleDbDataReader Reader = Command.ExecuteReader();
             while (Reader.Read())
             {
                 ReplaceData Item = new ReplaceData();

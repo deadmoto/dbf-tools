@@ -71,7 +71,6 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OdbcDriver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Data\Replace.cs" />
     <Compile Include="Data\Supplier.cs" />
