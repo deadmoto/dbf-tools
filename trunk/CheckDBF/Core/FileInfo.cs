@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Odbc;
 using System.Data.OleDb;
 
 namespace CheckDBF.Core
@@ -11,7 +10,7 @@ namespace CheckDBF.Core
             int Result = 0;
             try
             {
-                OdbcCommand Command = OdbcDriver.VFPCommand(string.Format("SELECT RECCOUNT() FROM '{0}'", FileName), "");
+                OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT RECCOUNT() FROM '{0}'", FileName));
                 return int.Parse(Command.ExecuteScalar().ToString());
             }
             catch (Exception E)
@@ -26,11 +25,11 @@ namespace CheckDBF.Core
             DateTime Month = DateTime.Now;
             try
             {
-                OdbcCommand Command = OdbcDriver.VFPCommand(string.Format("SELECT DATE_VIGR FROM '{0}'", FileName), "");
-                OdbcDataReader Reader = Command.ExecuteReader();
+                OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT DATE_VIGR FROM '{0}'", FileName));
+                OleDbDataReader Reader = Command.ExecuteReader();
                 if (Reader.Read())
                 {
-                    Month = Reader.GetDate(Reader.GetOrdinal("DATE_VIGR"));
+                    Month = Reader.GetDateTime(Reader.GetOrdinal("DATE_VIGR"));
                 }
                 return Month.ToString("MMMM");
             }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.Odbc;
+using System.Data.OleDb;
 using System.Windows.Forms;
 
 namespace CheckDBF
@@ -22,8 +22,8 @@ namespace CheckDBF
         {
             List<ConformData> List = new List<ConformData>();
 
-            OdbcCommand Command = OdbcDriver.VFPCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Conform.dbf"));
-            OdbcDataReader Reader = Command.ExecuteReader();
+            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Conform.dbf"));
+            OleDbDataReader Reader = Command.ExecuteReader();
             while (Reader.Read())
             {
                 ConformData ConformData = new ConformData();
