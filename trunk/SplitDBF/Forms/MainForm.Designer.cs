@@ -95,6 +95,11 @@
             Status.Caption = "Status";
             Status.ColumnName = "Status";
             // 
+            // FieldCount
+            // 
+            FieldCount.ColumnName = "FieldCount";
+            FieldCount.DataType = typeof(int);
+            // 
             // DataSet
             // 
             this.DataSet.DataSetName = "DataSet";
@@ -193,6 +198,7 @@
             this.fileNameDataGridViewTextBoxColumn.HeaderText = "FileName";
             this.fileNameDataGridViewTextBoxColumn.Name = "fileNameDataGridViewTextBoxColumn";
             this.fileNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.fileNameDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -200,8 +206,9 @@
             this.dataGridViewTextBoxColumn1.HeaderText = "RegionId";
             this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
             this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.dataGridViewTextBoxColumn1.Visible = false;
-            this.dataGridViewTextBoxColumn1.Width = 75;
+            this.dataGridViewTextBoxColumn1.Width = 56;
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -209,7 +216,8 @@
             this.dataGridViewTextBoxColumn2.HeaderText = "Region";
             this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            this.dataGridViewTextBoxColumn2.Width = 66;
+            this.dataGridViewTextBoxColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn2.Width = 47;
             // 
             // dataGridViewTextBoxColumn3
             // 
@@ -217,7 +225,8 @@
             this.dataGridViewTextBoxColumn3.HeaderText = "Date";
             this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             this.dataGridViewTextBoxColumn3.ReadOnly = true;
-            this.dataGridViewTextBoxColumn3.Width = 55;
+            this.dataGridViewTextBoxColumn3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn3.Width = 36;
             // 
             // dataGridViewTextBoxColumn4
             // 
@@ -225,12 +234,8 @@
             this.dataGridViewTextBoxColumn4.HeaderText = "Status";
             this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
             this.dataGridViewTextBoxColumn4.ReadOnly = true;
-            this.dataGridViewTextBoxColumn4.Width = 62;
-            // 
-            // FieldCount
-            // 
-            FieldCount.ColumnName = "FieldCount";
-            FieldCount.DataType = typeof(int);
+            this.dataGridViewTextBoxColumn4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dataGridViewTextBoxColumn4.Width = 43;
             // 
             // MainForm
             // 
@@ -265,12 +270,12 @@
         private System.Windows.Forms.DataGridView MainGrid;
         private System.Windows.Forms.ToolStripMenuItem ProcessMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Data.DataSet DataSet;
         private System.Windows.Forms.DataGridViewTextBoxColumn fileNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
-        private System.Data.DataSet DataSet;
     }
 }
 

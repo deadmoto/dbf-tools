@@ -225,25 +225,6 @@ namespace SplitDBF
             MainGrid.Invoke(new MethodInvoker(delegate { UpdateMainGrid("Finished!"); }));
         }
 
-        private void ProcessFiles(List<string> FileNames)
-        {
-            for (int i = 0; i < FileNames.Count; i++)
-            {
-                UpdateMainGridDelegate UpdateMainGrid = delegate(string Status) { DataSet.Tables["FileNames"].Rows[i]["Status"] = Status; };
-                List<OutputFile> OutputFileList = GetOutputFileList(FileNames[i]);
-                string Directory = Path.GetDirectoryName(FileNames[i]);
-                string RegionCode = GetRegionCode(FileNames[i]);
-                string ReportDate = GetReportDate(FileNames[i]);
-
-                foreach (OutputFile OutputFile in OutputFileList)
-                {
-                    OutputFile.Prepare(Directory, ReportDate, RegionCode);
-                }
-
-                ProcessFile(FileNames[i], UpdateMainGrid);
-            }
-        }
-
         private void ProcessFiles2(List<string> FileNames)
         {
             for (int i = 0; i < FileNames.Count; i++)
@@ -263,6 +244,7 @@ namespace SplitDBF
                     }
 
                     ProcessFileDes(FileNames[i], ReportDate, UpdateMainGrid);
+                    File.Delete(FileNames[i]);
                 }
                 if (FieldCount == 126)
                 {

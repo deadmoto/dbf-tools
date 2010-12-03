@@ -21,7 +21,7 @@ namespace SplitDBF
         private static Dictionary<string, string> GetSupplierDictionary()
         {
             Dictionary<string, string> SupplierName = new Dictionary<string, string>();
-            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Supplier.dbf"), "");
+            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Supplier.dbf"));
             OleDbDataReader Reader = Command.ExecuteReader();
             while (Reader.Read())
             {
