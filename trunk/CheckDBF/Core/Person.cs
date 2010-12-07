@@ -47,7 +47,7 @@
             int Result = 0;
             for (int i = 0; i < 9; i++)
             {
-                if (KDOMVL > 0 && Services[i].VID == "0100")
+                if (KDOMVL > 0 && Services[i].VID == "0100" && Services[i].FILLED())
                 {
                     string ErrorString = "{0}; {1} {2} {3}; Не проставлен вид жилого фонда";
                     Log.Messages.Add(string.Format(ErrorString, NPSS, FAMIL, IMJA, OTCH));
@@ -62,7 +62,7 @@
             int Result = 0;
             for (int i = 0; i < 9; i++)
             {
-                if (ROPL <= 0 && Services[i].VID == "0100")
+                if (ROPL <= 0 && Services[i].VID == "0100" && Services[i].FILLED())
                 {
                     string ErrorString = "{0}; {1} {2} {3}; Не проставлена фактически занимаемая площадь";
                     Log.Messages.Add(string.Format(ErrorString, NPSS, FAMIL, IMJA, OTCH));
