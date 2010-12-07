@@ -24,9 +24,9 @@ namespace CheckDBF
             while (Reader.Read())
             {
                 ReplaceData Item = new ReplaceData();
-                Item.PREDK = Reader.GetInt32(Reader.GetOrdinal("PREDK"));
-                Item.PREDU = Reader.GetInt32(Reader.GetOrdinal("PREDU"));
-                Item.VID = Reader.GetString(Reader.GetOrdinal("VID"));
+                Item.PREDK = int.Parse(Reader["PREDK"].ToString());
+                Item.PREDU = int.Parse(Reader["PREDU"].ToString());
+                Item.VID = Reader["VID"].ToString();
                 Items.Add(Item);
             }
             Reader.Close();
