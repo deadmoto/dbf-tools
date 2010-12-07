@@ -167,7 +167,7 @@ namespace CheckDBF.Core
                 OleDbDataReader Reader = Command.ExecuteReader();
                 while (Reader.Read())
                 {
-                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
+                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader.GetDateTime(Reader.GetOrdinal("DROG")).ToString("yyyy-MM-dd")));
                     Result++;
                     Handler("DROG", null);
                 }
