@@ -112,9 +112,7 @@ namespace SplitDBF
 
             CommandText += "," + DATE_VIGR.ToString("{^yyyy/MM/dd}");
             CommandText += ",'" + PRIM + "')";
-            CommandText = CommandText.Replace(",0,", ",NULL,");
-            CommandText = CommandText.Replace(",0,", ",NULL,");
-            CommandText = CommandText.Replace(",{^1899.12.30},", ",NULL,");
+            CommandText = CommandText.Replace(",{^1899.12.30},", ",CTOT(''),");
             return CommandText;
         }
 

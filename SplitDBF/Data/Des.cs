@@ -21,7 +21,7 @@ namespace SplitDBF
             }
             else
             {
-                return "NULL,NULL,NULL,NULL,NULL";
+                return "0,'','',0,0";
             }
         }
     }
@@ -81,9 +81,7 @@ namespace SplitDBF
             }
 
             CommandText += ")";
-            CommandText = CommandText.Replace(",0,", ",NULL,");
-            CommandText = CommandText.Replace(",0,", ",NULL,");
-            CommandText = CommandText.Replace(",{^1899.12.30},", ",NULL,");
+            CommandText = CommandText.Replace(",{^1899.12.30},", ",CTOT(''),");
             return CommandText;
         }
 
