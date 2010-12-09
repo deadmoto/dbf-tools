@@ -254,6 +254,7 @@ namespace SplitDBF
                     }
 
                     ProcessFile(FileNames[i], UpdateMainGrid);
+                    File.Delete(FileNames[i]);
                 }
             }
         }
