@@ -41,7 +41,7 @@ namespace CheckDBF.Core
                 Person.OTCH = Reader["OTCH"].ToString().Trim();
                 Person.NPSS = Reader["NPSS"].ToString().Trim();
 
-                int.TryParse(Reader["KDOMVL"].ToString(), out Person.KDOMVL);
+                if (Exist("KDOMVL")) { int.TryParse(Reader["KDOMVL"].ToString(), out Person.KDOMVL); }
                 float.TryParse(Reader["ROPL"].ToString(), out Person.ROPL);
                 int.TryParse(Reader["KCHLS"].ToString(), out Person.KCHLS);
                 if (Exist("K_POL")) { int.TryParse(Reader["K_POL"].ToString(), out Person.K_POL); }
