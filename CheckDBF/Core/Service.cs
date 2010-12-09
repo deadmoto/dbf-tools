@@ -70,7 +70,7 @@ namespace CheckDBF.Core
                 {
                     return ROPL != VOL && PRED > 0;
                 }
-                float VOL_K = (float)Math.Round(VOL_E * KCHLS, 2);
+                float VOL_K = (float)Math.Round(VOL_E * KCHLS, 4);
                 return VOL_K != VOL && VOL_E != -1;
             }
             return false;
