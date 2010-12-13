@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.IO;
+using System.Windows.Forms;
 
 namespace CheckDBF.Core
 {
@@ -20,6 +22,9 @@ namespace CheckDBF.Core
 
         public static void GetPersonList(string SupplierFileName, EventHandler Handler)
         {
+            string Output = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-valid.dbf";
+            File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", Output, true);
+
             PersonList.Clear();
             FieldList.Clear();
 
@@ -39,10 +44,34 @@ namespace CheckDBF.Core
                 Person.FAMIL = Reader["FAMIL"].ToString().Trim();
                 Person.IMJA = Reader["IMJA"].ToString().Trim();
                 Person.OTCH = Reader["OTCH"].ToString().Trim();
+                Person.DROG = DateTime.Parse(Reader["DROG"].ToString());
                 Person.NPSS = Reader["NPSS"].ToString().Trim();
+                Person.PY = Reader["PY"].ToString().Trim();
+                Person.NNASP = Reader["NNASP"].ToString().Trim();
+                Person.NYLIC = Reader["NYLIC"].ToString().Trim();
+                Person.NDOM = int.Parse(Reader["NDOM"].ToString());
+                Person.LDOM = Reader["LDOM"].ToString().Trim();
+                Person.KORP = int.Parse(Reader["KORP"].ToString());
+                Person.NKW = int.Parse(Reader["NKW"].ToString());
+                Person.LKW = Reader["LKW"].ToString().Trim();
+                Person.PVID = int.Parse(Reader["PVID"].ToString());
+                Person.PSR = Reader["PSR"].ToString().Trim();
+                Person.PNM = Reader["PNM"].ToString().Trim();
+                Person.KSS = int.Parse(Reader["KSS"].ToString());
+                Person.KOD = Reader["KOD"].ToString().Trim();
+                Person.SROKS = Reader.GetDateTime(Reader.GetOrdinal("SROKS"));
+                Person.SROKPO = Reader.GetDateTime(Reader.GetOrdinal("SROKPO"));
+                Person.KDOMVL = int.Parse(Reader["KDOMVL"].ToString());
+                Person.ROPL = float.Parse(Reader["ROPL"].ToString());
+                Person.KCHLS = int.Parse(Reader["KCHLS"].ToString());
+                if (Exist("K_POL")) { Person.K_POL = int.Parse(Reader["K_POL"].ToString()); }
+                Person.KKOM = int.Parse(Reader["KKOM"].ToString());
+                try { DateTime.TryParse(Reader["DATE_VIGR"].ToString(), out Person.DATE_VIGR); }
+                catch { }
+                Person.PRIM = Reader["PRIM"].ToString().Trim();
 
                 if (Exist("KDOMVL")) { int.TryParse(Reader["KDOMVL"].ToString(), out Person.KDOMVL); }
-                float.TryParse(Reader["ROPL"].ToString(), out Person.ROPL);
+                double.TryParse(Reader["ROPL"].ToString(), out Person.ROPL);
                 int.TryParse(Reader["KCHLS"].ToString(), out Person.KCHLS);
                 if (Exist("K_POL")) { int.TryParse(Reader["K_POL"].ToString(), out Person.K_POL); }
 
@@ -53,17 +82,17 @@ namespace CheckDBF.Core
                     {
                         int.TryParse(Reader[string.Format("PRED{0}", i)].ToString(), out Service.PRED);
                         Service.VID = Reader[string.Format("VID{0}", i)].ToString().Trim();
-                        float.TryParse(Reader[string.Format("VOL{0}", i)].ToString(), out Service.VOL);
-                        float.TryParse(Reader[string.Format("SUMLN{0}", i)].ToString(), out Service.SUMLN);
+                        double.TryParse(Reader[string.Format("VOL{0}", i)].ToString(), out Service.VOL);
+                        double.TryParse(Reader[string.Format("SUMLN{0}", i)].ToString(), out Service.SUMLN);
 
                         if (Service.FILLED())
                         {
                             if (Exist(string.Format("LSH{0}", i))) { Service.LSH = Reader[string.Format("LSH{0}", i)].ToString().Trim(); }
                             try { Service.K_POL = int.Parse(Reader[string.Format("K_POL{0}", i)].ToString()); }
                             catch { Service.K_POL = Person.K_POL; }
-                            float.TryParse(Reader[string.Format("TARIF{0}", i)].ToString(), out Service.TARIF);
-                            float.TryParse(Reader[string.Format("SUMLD{0}", i)].ToString(), out Service.SUMLD);
-                            float.TryParse(Reader[string.Format("SUMLF{0}", i)].ToString(), out Service.SUMLF);
+                            double.TryParse(Reader[string.Format("TARIF{0}", i)].ToString(), out Service.TARIF);
+                            double.TryParse(Reader[string.Format("SUMLD{0}", i)].ToString(), out Service.SUMLD);
+                            double.TryParse(Reader[string.Format("SUMLF{0}", i)].ToString(), out Service.SUMLF);
                             int.TryParse(Reader[string.Format("KOD_T{0}", i)].ToString(), out Service.KOD_T);
                             int.TryParse(Reader[string.Format("KOD_N{0}", i)].ToString(), out Service.KOD_N);
                             int.TryParse(Reader[string.Format("S_{0}", i)].ToString(), out Service.S_);
@@ -80,11 +109,40 @@ namespace CheckDBF.Core
 
                 if (Person.GetErrorEMPTY() == false)
                 {
+                    ProcessPreload(Person.GetCommandText(Output));
                     PersonList.Add(Person);
                 }
-
-                Handler("1/12", null);
             }
+            Reader.Close();
+            Command.Connection.Close();
+
+            Delete(Output);
+            Pack(Output);
+        }
+
+        private static void ProcessPreload(string CommandText)
+        {
+            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+            Command.ExecuteNonQuery();
+            Command.Connection.Close();
+        }
+
+        private static int Delete(string FileName)
+        {
+            int Result = 0;
+            string CommandText = string.Format("DELETE FROM '{0}' WHERE PRED1 = 0 AND PRED2 = 0 AND PRED3 = 0 AND PRED4 = 0 AND PRED5 = 0 AND PRED6 = 0 AND PRED7 = 0 AND PRED8 = 0 AND PRED9 = 0", FileName);
+            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+            Result = Command.ExecuteNonQuery();
+            Command.Connection.Close();
+            return Result;
+        }
+
+        private static void Pack(string FileName)
+        {
+            string CommandText = string.Format("PACK '{0}'", FileName);
+            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+            Command.ExecuteNonQuery();
+            Command.Connection.Close();
         }
 
         public static int CheckFAMIL(string SupplierFileName, string PaymentFileName, EventHandler Handler)
