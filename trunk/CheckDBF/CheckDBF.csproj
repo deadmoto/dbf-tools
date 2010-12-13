@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="Core\Check.cs" />
     <Compile Include="Core\Log.cs" />
+    <Compile Include="Core\PersonData.cs" />
+    <Compile Include="Core\ServiceData.cs" />
     <Compile Include="Data\Conform.cs" />
     <Compile Include="Core\Person.cs" />
     <Compile Include="Core\Service.cs" />
