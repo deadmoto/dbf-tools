@@ -22,8 +22,10 @@ namespace CheckDBF.Core
 
         public static void GetPersonList(string SupplierFileName, EventHandler Handler)
         {
-            string Output = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-valid.dbf";
-            File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", Output, true);
+            string ValidFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-valid.dbf";
+            string ErrorFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-error.dbf";
+            File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ValidFileName, true);
+            File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ErrorFileName, true);
 
             PersonList.Clear();
             FieldList.Clear();
@@ -48,24 +50,24 @@ namespace CheckDBF.Core
                 Person.NPSS = Reader["NPSS"].ToString().Trim();
                 Person.PY = Reader["PY"].ToString().Trim();
                 Person.NNASP = Reader["NNASP"].ToString().Trim();
-                Person.NYLIC = Reader["NYLIC"].ToString().Trim();
+                if (Exist("NYLIC")) { Person.NYLIC = Reader["NYLIC"].ToString().Trim(); }
                 Person.NDOM = int.Parse(Reader["NDOM"].ToString());
                 Person.LDOM = Reader["LDOM"].ToString().Trim();
                 Person.KORP = int.Parse(Reader["KORP"].ToString());
-                Person.NKW = int.Parse(Reader["NKW"].ToString());
-                Person.LKW = Reader["LKW"].ToString().Trim();
+                if (Exist("NKW")) { Person.NKW = int.Parse(Reader["NKW"].ToString()); }
+                if (Exist("LKW")) { Person.LKW = Reader["LKW"].ToString().Trim(); }
                 Person.PVID = int.Parse(Reader["PVID"].ToString());
                 Person.PSR = Reader["PSR"].ToString().Trim();
                 Person.PNM = Reader["PNM"].ToString().Trim();
-                Person.KSS = int.Parse(Reader["KSS"].ToString());
+                if (Exist("KSS")) { Person.KSS = int.Parse(Reader["KSS"].ToString()); }
                 Person.KOD = Reader["KOD"].ToString().Trim();
-                Person.SROKS = Reader.GetDateTime(Reader.GetOrdinal("SROKS"));
-                Person.SROKPO = Reader.GetDateTime(Reader.GetOrdinal("SROKPO"));
+                if (Exist("SROKS")) { Person.SROKS = Reader.GetDateTime(Reader.GetOrdinal("SROKS")); }
+                if (Exist("SROKPO")) { Person.SROKPO = Reader.GetDateTime(Reader.GetOrdinal("SROKPO")); }
                 Person.KDOMVL = int.Parse(Reader["KDOMVL"].ToString());
                 Person.ROPL = float.Parse(Reader["ROPL"].ToString());
                 Person.KCHLS = int.Parse(Reader["KCHLS"].ToString());
                 if (Exist("K_POL")) { Person.K_POL = int.Parse(Reader["K_POL"].ToString()); }
-                Person.KKOM = int.Parse(Reader["KKOM"].ToString());
+                if (Exist("KKOM")) { Person.KKOM = int.Parse(Reader["KKOM"].ToString()); }
                 try { DateTime.TryParse(Reader["DATE_VIGR"].ToString(), out Person.DATE_VIGR); }
                 catch { }
                 Person.PRIM = Reader["PRIM"].ToString().Trim();
@@ -109,40 +111,16 @@ namespace CheckDBF.Core
 
                 if (Person.GetErrorEMPTY() == false)
                 {
-                    ProcessPreload(Person.GetCommandText(Output));
+                    ProcessPreload(Person.GetCommandText(ValidFileName, true));
+                    ProcessPreload(Person.GetCommandText(ErrorFileName, false));
                     PersonList.Add(Person);
                 }
             }
             Reader.Close();
             Command.Connection.Close();
 
-            Delete(Output);
-            Pack(Output);
-        }
-
-        private static void ProcessPreload(string CommandText)
-        {
-            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
-            Command.ExecuteNonQuery();
-            Command.Connection.Close();
-        }
-
-        private static int Delete(string FileName)
-        {
-            int Result = 0;
-            string CommandText = string.Format("DELETE FROM '{0}' WHERE PRED1 = 0 AND PRED2 = 0 AND PRED3 = 0 AND PRED4 = 0 AND PRED5 = 0 AND PRED6 = 0 AND PRED7 = 0 AND PRED8 = 0 AND PRED9 = 0", FileName);
-            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
-            Result = Command.ExecuteNonQuery();
-            Command.Connection.Close();
-            return Result;
-        }
-
-        private static void Pack(string FileName)
-        {
-            string CommandText = string.Format("PACK '{0}'", FileName);
-            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
-            Command.ExecuteNonQuery();
-            Command.Connection.Close();
+            Delete(ValidFileName);
+            Delete(ErrorFileName);
         }
 
         public static int CheckFAMIL(string SupplierFileName, string PaymentFileName, EventHandler Handler)
@@ -377,5 +355,28 @@ namespace CheckDBF.Core
         }
 
         public static int CheckKKOM(EventHandler Handler) { return 0; }
+
+        private static void ProcessPreload(string CommandText)
+        {
+            OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+            Command.ExecuteNonQuery();
+            Command.Connection.Close();
+        }
+
+        private static void Delete(string FileName)
+        {
+            string CommandText;
+            OleDbCommand Command;
+
+            CommandText = string.Format("DELETE FROM '{0}' WHERE PRED1 = 0 AND PRED2 = 0 AND PRED3 = 0 AND PRED4 = 0 AND PRED5 = 0 AND PRED6 = 0 AND PRED7 = 0 AND PRED8 = 0 AND PRED9 = 0", FileName);
+            Command = FoxPro.OleDbCommand(CommandText);
+            Command.ExecuteNonQuery();
+            Command.Connection.Close();
+
+            CommandText = string.Format("PACK '{0}'", FileName);
+            Command = FoxPro.OleDbCommand(CommandText);
+            Command.ExecuteNonQuery();
+            Command.Connection.Close();
+        }
     }
 }

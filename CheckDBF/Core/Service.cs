@@ -2,25 +2,8 @@
 
 namespace CheckDBF.Core
 {
-    class Service
+    class Service : ServiceData
     {
-        public string LSH;
-        public int PRED;
-        public string VID;
-        public int K_POL;
-        public double VOL;
-        public double TARIF;
-        public double SUMLN;
-        public double SUMLND;
-        public double SUMLD;
-        public double SUMLF;
-        public int KOD_T;
-        public int KOD_N;
-        public int S_;
-
-        public double TARIF_E = -2;
-        public double VOL_E = -2;
-
         public bool FILLED()
         {
             return PRED > 0 && VID.Length == 4 && VOL > 0 && SUMLN > 0;
@@ -58,8 +41,8 @@ namespace CheckDBF.Core
 
         public bool GetErrorSUMLN()
         {
-            SUMLND = Math.Round(TARIF * VOL - SUMLN, 2);
-            return (SUMLND < -0.01 || SUMLND > 0.01) && FILLED();
+            SUMLND = Math.Round(SUMLN - TARIF * VOL, 2);
+            return Math.Abs(SUMLND) * 100 / SUMLN > 1 && FILLED();
         }
 
         public bool GetErrorVOL(double ROPL, int KCHLS)
@@ -88,21 +71,25 @@ namespace CheckDBF.Core
 
         public bool GetErrorPreload(double ROPL, int KCHLS)
         {
-            if (Math.Abs(SUMLN - TARIF * VOL) * 100 / SUMLN < 1 && SUMLN != 0)
+            if (Math.Abs(SUMLN - TARIF * VOL) * 100 / SUMLN < 1 && FILLED())
             {
                 if (S_ == 1) { return Math.Abs(SUMLN - VOL * TARIF_E) * 100 / SUMLN > 1; }
                 if (S_ == 2)
                 {
-                    if (VID == "0100" || VID == "0204") { return Math.Abs(SUMLN - ROPL * TARIF_E) * 100 / SUMLN > 1; }
-                    else { return Math.Abs(SUMLN - KCHLS * VOL_E * TARIF_E) * 100 / SUMLN > 1; }
+                    switch (VID)
+                    {
+                        case "0100": return VOL == ROPL;
+                        case "0204": return Math.Abs(SUMLN - ROPL * TARIF_E) * 100 / SUMLN > 1;
+                        default: return Math.Abs(SUMLN - KCHLS * VOL_E * TARIF_E) * 100 / SUMLN > 1;
+                    }
                 }
             }
             return true;
         }
 
-        public string GetCommandText(double ROPL, int KCHLS)
+        public string GetCommandText(double ROPL, int KCHLS, bool Valid)
         {
-            if (GetErrorPreload(ROPL, KCHLS))
+            if (GetErrorPreload(ROPL, KCHLS) == Valid)
             {
                 return "0,'','',0,0,0,0,0,0,0,0";
             }
