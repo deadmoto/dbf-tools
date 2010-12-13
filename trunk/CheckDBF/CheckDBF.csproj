@@ -136,6 +136,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\ConformEx.dbf" />
     <None Include="Help\CheckDBF.doc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
