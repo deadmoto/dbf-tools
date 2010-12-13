@@ -1,17 +1,35 @@
-﻿namespace CheckDBF.Core
+﻿using System;
+namespace CheckDBF.Core
 {
     class Person
     {
         public string FAMIL;
         public string IMJA;
         public string OTCH;
+        public DateTime DROG;
         public string NPSS;
-
+        public string PY;
+        public string NNASP;
+        public string NYLIC;
+        public int NDOM;
+        public string LDOM;
+        public int KORP;
+        public int NKW;
+        public string LKW;
+        public int PVID;
+        public string PSR;
+        public string PNM;
+        public int KSS;
+        public string KOD;
+        public DateTime SROKS;
+        public DateTime SROKPO;
         public int KDOMVL;
-        public float ROPL;
+        public double ROPL;
         public int KCHLS;
         public int K_POL;
-
+        public int KKOM;
+        public DateTime DATE_VIGR;
+        public string PRIM;
         public Service[] Services = new Service[9];
 
         public bool GetErrorEMPTY()
@@ -179,6 +197,49 @@
             return Result;
         }
 
-        public int GetErrorKKOM() { return 0; }
+        public int GetErrorKKOM()
+        {
+            return 0;
+        }
+
+        public string GetCommandText(string FileName)
+        {
+            string CommandText = "INSERT INTO '" + FileName + "' VALUES ";
+            CommandText += "('" + FAMIL;
+            CommandText += "','" + IMJA;
+            CommandText += "','" + OTCH;
+            CommandText += "'," + DROG.ToString("{^yyyy/MM/dd}");
+            CommandText += ",'" + NPSS;
+            CommandText += "','" + PY;
+            CommandText += "','" + NNASP;
+            CommandText += "','" + NYLIC;
+            CommandText += "'," + NDOM;
+            CommandText += ",'" + LDOM;
+            CommandText += "'," + KORP;
+            CommandText += "," + NKW;
+            CommandText += ",'" + LKW;
+            CommandText += "'," + PVID;
+            CommandText += ",'" + PSR;
+            CommandText += "','" + PNM;
+            CommandText += "'," + KSS;
+            CommandText += ",'" + KOD;
+            CommandText += "'," + SROKS.ToString("{^yyyy/MM/dd}");
+            CommandText += "," + SROKPO.ToString("{^yyyy/MM/dd}");
+            CommandText += "," + KDOMVL;
+            CommandText += "," + ROPL.ToString().Replace(',', '.');
+            CommandText += "," + KCHLS;
+            CommandText += "," + K_POL;
+            CommandText += "," + KKOM;
+
+            for (int i = 0; i < 9; i++)
+            {
+                CommandText += "," + Services[i].GetCommandText(ROPL, KCHLS);
+            }
+
+            CommandText += "," + DATE_VIGR.ToString("{^yyyy/MM/dd}");
+            CommandText += ",'" + PRIM + "')";
+            CommandText = CommandText.Replace(",{^1899.12.30},", ",CTOT(''),");
+            return CommandText;
+        }
     }
 }
