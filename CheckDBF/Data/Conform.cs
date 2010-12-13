@@ -10,8 +10,8 @@ namespace CheckDBF
         public string VID;
         public int KOD_T;
         public int KOD_N;
-        public float TARIF;
-        public float VOL;
+        public double TARIF;
+        public double VOL;
     }
 
     static class Conform
@@ -31,8 +31,8 @@ namespace CheckDBF
                 ConformData.VID = Reader["VID"].ToString().Trim();
                 ConformData.KOD_T = int.Parse(Reader["KOD_T"].ToString());
                 ConformData.KOD_N = int.Parse(Reader["KOD_N"].ToString());
-                ConformData.TARIF = float.Parse(Reader["TARIF"].ToString());
-                ConformData.VOL = float.Parse(Reader["VOL"].ToString());
+                ConformData.TARIF = double.Parse(Reader["TARIF"].ToString());
+                ConformData.VOL = double.Parse(Reader["VOL"].ToString());
                 List.Add(ConformData);
             }
 
