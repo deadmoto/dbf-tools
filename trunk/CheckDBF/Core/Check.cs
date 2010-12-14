@@ -22,7 +22,7 @@ namespace CheckDBF.Core
                 int Ordinal = Reader.GetOrdinal(FieldName);
                 if (Reader.IsDBNull(Ordinal) == false)
                 {
-                    return Reader[Ordinal].ToString().Length > 0;
+                    return Reader[Ordinal].ToString().Trim().Length > 0;
                 }
                 return false;
             }
