@@ -22,7 +22,6 @@ namespace CheckDBF
             if (Environment.GetCommandLineArgs().Length > 1)
             {
                 OpenSupplierFile(Environment.GetCommandLineArgs()[1]);
-                OpenPaymentFile(Environment.GetCommandLineArgs()[1]);
             }
         }
 
@@ -62,6 +61,7 @@ namespace CheckDBF
                 int SupplierCode = Core.FileInfo.GetSupplierCode(FileName);
                 CodeTextBox.Text = SupplierCode.ToString();
                 NameTextBox.Text = Supplier.GetSupplierName(SupplierCode.ToString());
+                MonthTextBox.Text = Core.FileInfo.GetPaymentDate(FileName);
             }
         }
 
@@ -74,7 +74,6 @@ namespace CheckDBF
             else
             {
                 PaymentFileTextBox.Text = FileName;
-                MonthTextBox.Text = Core.FileInfo.GetPaymentDate(FileName);
             }
         }
 
@@ -154,7 +153,7 @@ namespace CheckDBF
             Changes.Add("TARIF", Check.CheckTARIF(ProcessBarEventHandler));
             Changes.Add("K_POL", Check.CheckK_POL(SupplierFileName, ProcessBarEventHandler));
             Changes.Add("KKOM", Check.CheckKKOM(ProcessBarEventHandler));
-
+            Changes.Add("INVALID", Check.CheckINVALID(SupplierFileName, ProcessBarEventHandler));
             Changes.Add("ERRORS", Changes["LSH"] + Changes["KDOMVL"] + Changes["ROPL"] + Changes["KCHLS"] + Changes["S_"] + Changes["KOD_T"] + Changes["SUMLN"] + Changes["VOL"] + Changes["TARIF"] + Changes["K_POL"] + Changes["KKOM"]);
 
             ProcessBar.Invoke(new MethodInvoker(delegate { ProcessBar.Visible = false; }));

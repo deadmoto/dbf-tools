@@ -31,7 +31,12 @@ namespace CheckDBF.Core
 
         public bool GetErrorS_()
         {
-            return S_ == 0 && VID != "0100" && FILLED();
+            switch (VID)
+            {
+                case "0100": return Array.IndexOf(new int[] { 0, 2 }, S_) == -1 && FILLED();
+                case "0204": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
+                default: return Array.IndexOf(new int[] { 1, 2 }, S_) == -1 && FILLED();
+            }
         }
 
         public bool GetErrorKOD_T()
@@ -61,7 +66,7 @@ namespace CheckDBF.Core
 
         public bool GetErrorTARIF()
         {
-            return VID != "0100" && TARIF != 0 && TARIF_E != -1 && TARIF != TARIF_E && FILLED();
+            return VID != "0100" && TARIF != 0 && TARIF_E != -1 && TARIF != Math.Round(TARIF_E, 2) && FILLED();
         }
 
         public bool GetErrorK_POL(int KCHLS)
@@ -73,15 +78,12 @@ namespace CheckDBF.Core
         {
             if (Math.Abs(SUMLN - TARIF * VOL) * 100 / SUMLN < 1 && FILLED())
             {
+                if (VID == "0100") { return VOL != ROPL; }
                 if (S_ == 1) { return Math.Abs(SUMLN - VOL * TARIF_E) * 100 / SUMLN > 1; }
                 if (S_ == 2)
                 {
-                    switch (VID)
-                    {
-                        case "0100": return VOL == ROPL;
-                        case "0204": return Math.Abs(SUMLN - ROPL * TARIF_E) * 100 / SUMLN > 1;
-                        default: return Math.Abs(SUMLN - KCHLS * VOL_E * TARIF_E) * 100 / SUMLN > 1;
-                    }
+                    if (VID == "0204") { return Math.Abs(SUMLN - ROPL * TARIF_E) * 100 / SUMLN > 1; }
+                    else { return Math.Abs(SUMLN - KCHLS * VOL_E * TARIF_E) * 100 / SUMLN > 1; }
                 }
             }
             return true;
