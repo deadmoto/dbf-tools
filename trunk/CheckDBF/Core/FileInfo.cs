@@ -8,15 +8,18 @@ namespace CheckDBF.Core
         public static int GetRecordCount(string FileName)
         {
             int Result = 0;
+
             try
             {
                 OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT RECCOUNT() FROM '{0}'", FileName));
-                return int.Parse(Command.ExecuteScalar().ToString());
+                Result = int.Parse(Command.ExecuteScalar().ToString());
+                Command.Connection.Close();
             }
             catch (Exception E)
             {
                 Log.Errors.Add(E.Message);
             }
+
             return Result;
         }
 
