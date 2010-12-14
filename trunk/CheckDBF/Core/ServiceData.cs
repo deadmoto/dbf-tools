@@ -2,9 +2,9 @@
 {
     class ServiceData
     {
-        public string LSH;
+        public string LSH = string.Empty;
         public int PRED;
-        public string VID;
+        public string VID = string.Empty;
         public int K_POL;
         public double VOL;
         public double VOL_E = -2;
