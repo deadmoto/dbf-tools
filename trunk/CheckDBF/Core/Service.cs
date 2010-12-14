@@ -66,7 +66,7 @@ namespace CheckDBF.Core
 
         public bool GetErrorTARIF()
         {
-            return VID != "0100" && TARIF != 0 && TARIF_E != -1 && TARIF != Math.Round(TARIF_E, 2) && FILLED();
+            return VID != "0100" && TARIF != 0 && TARIF_E != -1 && Math.Abs(TARIF - TARIF_E) * 100 > 1 && FILLED();
         }
 
         public bool GetErrorK_POL(int KCHLS)
