@@ -4,24 +4,24 @@ namespace CheckDBF.Core
 {
     class PersonData
     {
-        public string FAMIL;
-        public string IMJA;
-        public string OTCH;
+        public string FAMIL = string.Empty;
+        public string IMJA = string.Empty;
+        public string OTCH = string.Empty;
         public DateTime DROG;
-        public string NPSS;
-        public string PY;
-        public string NNASP;
-        public string NYLIC;
+        public string NPSS = string.Empty;
+        public string PY = string.Empty;
+        public string NNASP = string.Empty;
+        public string NYLIC = string.Empty;
         public int NDOM;
-        public string LDOM;
+        public string LDOM = string.Empty;
         public int KORP;
         public int NKW;
-        public string LKW;
+        public string LKW = string.Empty;
         public int PVID;
-        public string PSR;
-        public string PNM;
+        public string PSR = string.Empty;
+        public string PNM = string.Empty;
         public int KSS;
-        public string KOD;
+        public string KOD = string.Empty;
         public DateTime SROKS;
         public DateTime SROKPO;
         public int KDOMVL;
@@ -30,7 +30,7 @@ namespace CheckDBF.Core
         public int K_POL;
         public int KKOM;
         public DateTime DATE_VIGR;
-        public string PRIM;
+        public string PRIM = string.Empty;
         public Service[] Services = new Service[9];
     }
 }
