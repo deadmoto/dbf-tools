@@ -15,20 +15,113 @@ namespace CheckDBF.Core
         public static bool CheckKDOMVLEnabled = true;
         public static bool CheckROPLEnabled = true;
 
-        private static bool Exist(string FieldName)
+        private static bool IsNotNull(OleDbDataReader Reader, string FieldName)
         {
-            return FieldList.FindAll(delegate(string Item) { return Item.ToUpper() == FieldName.ToUpper(); }).Count > 0;
+            try
+            {
+                int Ordinal = Reader.GetOrdinal(FieldName);
+                if (Reader.IsDBNull(Ordinal) == false)
+                {
+                    return Reader[Ordinal].ToString().Length > 0;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static Person GetPerson(OleDbDataReader Reader)
+        {
+            Person Person = new Person();
+
+            try
+            {
+                if (IsNotNull(Reader, "FAMIL")) { Person.FAMIL = Reader["FAMIL"].ToString().Trim(); }
+                if (IsNotNull(Reader, "IMJA")) { Person.IMJA = Reader["IMJA"].ToString().Trim(); }
+                if (IsNotNull(Reader, "OTCH")) { Person.OTCH = Reader["OTCH"].ToString().Trim(); }
+                if (IsNotNull(Reader, "DROG")) { Person.DROG = DateTime.Parse(Reader["DROG"].ToString()); }
+                if (IsNotNull(Reader, "NPSS")) { Person.NPSS = Reader["NPSS"].ToString().Trim(); }
+                if (IsNotNull(Reader, "PY")) { Person.PY = Reader["PY"].ToString().Trim(); }
+                if (IsNotNull(Reader, "NNASP")) { Person.NNASP = Reader["NNASP"].ToString().Trim(); }
+                if (IsNotNull(Reader, "NYLIC")) { Person.NYLIC = Reader["NYLIC"].ToString().Trim(); }
+                if (IsNotNull(Reader, "NDOM")) { Person.NDOM = int.Parse(Reader["NDOM"].ToString()); }
+                if (IsNotNull(Reader, "LDOM")) { Person.LDOM = Reader["LDOM"].ToString().Trim(); }
+                if (IsNotNull(Reader, "KORP")) { Person.KORP = int.Parse(Reader["KORP"].ToString()); }
+                if (IsNotNull(Reader, "NKW")) { Person.NKW = int.Parse(Reader["NKW"].ToString()); }
+                if (IsNotNull(Reader, "LKW")) { Person.LKW = Reader["LKW"].ToString().Trim(); }
+                if (IsNotNull(Reader, "PVID")) { Person.PVID = int.Parse(Reader["PVID"].ToString()); }
+                if (IsNotNull(Reader, "PSR")) { Person.PSR = Reader["PSR"].ToString().Trim(); }
+                if (IsNotNull(Reader, "PNM")) { Person.PNM = Reader["PNM"].ToString().Trim(); }
+                if (IsNotNull(Reader, "KSS")) { Person.KSS = int.Parse(Reader["KSS"].ToString()); }
+                if (IsNotNull(Reader, "KOD")) { Person.KOD = Reader["KOD"].ToString().Trim(); }
+                if (IsNotNull(Reader, "SROKS")) { Person.SROKS = Reader.GetDateTime(Reader.GetOrdinal("SROKS")); }
+                if (IsNotNull(Reader, "SROKPO")) { Person.SROKPO = Reader.GetDateTime(Reader.GetOrdinal("SROKPO")); }
+                if (IsNotNull(Reader, "KDOMVL")) { Person.KDOMVL = int.Parse(Reader["KDOMVL"].ToString()); }
+                if (IsNotNull(Reader, "ROPL")) { Person.ROPL = double.Parse(Reader["ROPL"].ToString()); }
+                if (IsNotNull(Reader, "KCHLS")) { Person.KCHLS = int.Parse(Reader["KCHLS"].ToString()); }
+                if (IsNotNull(Reader, "K_POL")) { Person.K_POL = int.Parse(Reader["K_POL"].ToString()); }
+                if (IsNotNull(Reader, "KKOM")) { Person.KKOM = int.Parse(Reader["KKOM"].ToString()); }
+                if (IsNotNull(Reader, "DATE_VIGR")) { Person.DATE_VIGR = DateTime.Parse(Reader["DATE_VIGR"].ToString()); }
+                if (IsNotNull(Reader, "PRIM")) { Person.PRIM = Reader["PRIM"].ToString().Trim(); }
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.Message);
+            }
+
+            return Person;
+        }
+
+        private static Service GetService(OleDbDataReader Reader, int i, int K_POL)
+        {
+            Service Service = new Service();
+
+            try
+            {
+                if (IsNotNull(Reader, "PRED" + i)) { Service.PRED = int.Parse(Reader["PRED" + i].ToString()); }
+                if (IsNotNull(Reader, "VID" + i)) { Service.VID = Reader["VID" + i].ToString().Trim(); }
+                if (IsNotNull(Reader, "VOL" + i)) { Service.VOL = double.Parse(Reader["VOL" + i].ToString()); }
+                if (IsNotNull(Reader, "SUMLN" + i)) { Service.SUMLN = double.Parse(Reader["SUMLN" + i].ToString()); }
+
+                if (Service.FILLED())
+                {
+                    if (IsNotNull(Reader, "LSH" + i)) { Service.LSH = Reader["LSH" + i].ToString().Trim(); }
+                    if (IsNotNull(Reader, "K_POL" + i)) { Service.K_POL = int.Parse(Reader["K_POL" + i].ToString()); }
+                    else { Service.K_POL = K_POL; }
+                    if (IsNotNull(Reader, "TARIF" + i)) { Service.TARIF = double.Parse(Reader["TARIF" + i].ToString()); }
+                    if (IsNotNull(Reader, "SUMLD" + i)) { Service.SUMLD = double.Parse(Reader["SUMLD" + i].ToString()); }
+                    if (IsNotNull(Reader, "SUMLF" + i)) { Service.SUMLF = double.Parse(Reader["SUMLF" + i].ToString()); }
+                    if (IsNotNull(Reader, "KOD_T" + i)) { Service.KOD_T = int.Parse(Reader["KOD_T" + i].ToString()); }
+                    if (IsNotNull(Reader, "KOD_N" + i)) { Service.KOD_N = int.Parse(Reader["KOD_N" + i].ToString()); }
+                    if (IsNotNull(Reader, "S_" + i)) { Service.S_ = int.Parse(Reader["S_" + i].ToString()); }
+                    Service.GetConformData();
+                    return Service;
+                }
+                else
+                {
+                    return new Service();
+                }
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.Message);
+                return new Service();
+            }
         }
 
         public static void GetPersonList(string SupplierFileName, EventHandler Handler)
         {
-            string ValidFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-valid.dbf";
-            string ErrorFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-error.dbf";
-            File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ValidFileName, true);
-            File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ErrorFileName, true);
+            Handler("Reading", null);
 
-            PersonList.Clear();
+            string ErrorFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-error.dbf";
+            string ValidFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-valid.dbf";
+            File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ErrorFileName, true);
+            File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ValidFileName, true);
+
             FieldList.Clear();
+            PersonList.Clear();
 
             string CommandText = string.Format("SELECT * FROM '{0}'", SupplierFileName);
             OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
@@ -41,200 +134,167 @@ namespace CheckDBF.Core
 
             while (Reader.Read())
             {
-                Person Person = new Person();
-
-                Person.FAMIL = Reader["FAMIL"].ToString().Trim();
-                Person.IMJA = Reader["IMJA"].ToString().Trim();
-                Person.OTCH = Reader["OTCH"].ToString().Trim();
-                Person.DROG = DateTime.Parse(Reader["DROG"].ToString());
-                Person.NPSS = Reader["NPSS"].ToString().Trim();
-                Person.PY = Reader["PY"].ToString().Trim();
-                Person.NNASP = Reader["NNASP"].ToString().Trim();
-                if (Exist("NYLIC")) { Person.NYLIC = Reader["NYLIC"].ToString().Trim(); }
-                Person.NDOM = int.Parse(Reader["NDOM"].ToString());
-                Person.LDOM = Reader["LDOM"].ToString().Trim();
-                Person.KORP = int.Parse(Reader["KORP"].ToString());
-                if (Exist("NKW")) { Person.NKW = int.Parse(Reader["NKW"].ToString()); }
-                if (Exist("LKW")) { Person.LKW = Reader["LKW"].ToString().Trim(); }
-                Person.PVID = int.Parse(Reader["PVID"].ToString());
-                Person.PSR = Reader["PSR"].ToString().Trim();
-                Person.PNM = Reader["PNM"].ToString().Trim();
-                if (Exist("KSS")) { Person.KSS = int.Parse(Reader["KSS"].ToString()); }
-                Person.KOD = Reader["KOD"].ToString().Trim();
-                if (Exist("SROKS")) { Person.SROKS = Reader.GetDateTime(Reader.GetOrdinal("SROKS")); }
-                if (Exist("SROKPO")) { Person.SROKPO = Reader.GetDateTime(Reader.GetOrdinal("SROKPO")); }
-                Person.KDOMVL = int.Parse(Reader["KDOMVL"].ToString());
-                Person.ROPL = float.Parse(Reader["ROPL"].ToString());
-                Person.KCHLS = int.Parse(Reader["KCHLS"].ToString());
-                if (Exist("K_POL")) { Person.K_POL = int.Parse(Reader["K_POL"].ToString()); }
-                if (Exist("KKOM")) { Person.KKOM = int.Parse(Reader["KKOM"].ToString()); }
-                try { DateTime.TryParse(Reader["DATE_VIGR"].ToString(), out Person.DATE_VIGR); }
-                catch { }
-                Person.PRIM = Reader["PRIM"].ToString().Trim();
-
-                if (Exist("KDOMVL")) { int.TryParse(Reader["KDOMVL"].ToString(), out Person.KDOMVL); }
-                double.TryParse(Reader["ROPL"].ToString(), out Person.ROPL);
-                int.TryParse(Reader["KCHLS"].ToString(), out Person.KCHLS);
-                if (Exist("K_POL")) { int.TryParse(Reader["K_POL"].ToString(), out Person.K_POL); }
+                Person Person = GetPerson(Reader);
 
                 for (int i = 1; i < 10; i++)
                 {
-                    Service Service = new Service();
-                    try
-                    {
-                        int.TryParse(Reader[string.Format("PRED{0}", i)].ToString(), out Service.PRED);
-                        Service.VID = Reader[string.Format("VID{0}", i)].ToString().Trim();
-                        double.TryParse(Reader[string.Format("VOL{0}", i)].ToString(), out Service.VOL);
-                        double.TryParse(Reader[string.Format("SUMLN{0}", i)].ToString(), out Service.SUMLN);
-
-                        if (Service.FILLED())
-                        {
-                            if (Exist(string.Format("LSH{0}", i))) { Service.LSH = Reader[string.Format("LSH{0}", i)].ToString().Trim(); }
-                            try { Service.K_POL = int.Parse(Reader[string.Format("K_POL{0}", i)].ToString()); }
-                            catch { Service.K_POL = Person.K_POL; }
-                            double.TryParse(Reader[string.Format("TARIF{0}", i)].ToString(), out Service.TARIF);
-                            double.TryParse(Reader[string.Format("SUMLD{0}", i)].ToString(), out Service.SUMLD);
-                            double.TryParse(Reader[string.Format("SUMLF{0}", i)].ToString(), out Service.SUMLF);
-                            int.TryParse(Reader[string.Format("KOD_T{0}", i)].ToString(), out Service.KOD_T);
-                            int.TryParse(Reader[string.Format("KOD_N{0}", i)].ToString(), out Service.KOD_N);
-                            int.TryParse(Reader[string.Format("S_{0}", i)].ToString(), out Service.S_);
-                        }
-                        Service.GetConformData();
-                        Person.Services[i - 1] = Service;
-                    }
-                    catch (Exception E)
-                    {
-                        Log.Errors.Add(E.Message);
-                        Person.Services[i - 1] = Service;
-                    }
+                    Person.Services[i - 1] = GetService(Reader, i, Person.K_POL);
                 }
 
                 if (Person.GetErrorEMPTY() == false)
                 {
-                    ProcessPreload(Person.GetCommandText(ValidFileName, true));
                     ProcessPreload(Person.GetCommandText(ErrorFileName, false));
+                    ProcessPreload(Person.GetCommandText(ValidFileName, true));
                     PersonList.Add(Person);
                 }
+
+                Handler("Reading", null);
             }
+
             Reader.Close();
             Command.Connection.Close();
 
-            Delete(ValidFileName);
             Delete(ErrorFileName);
+            Delete(ValidFileName);
         }
 
         public static int CheckFAMIL(string SupplierFileName, string PaymentFileName, EventHandler Handler)
         {
             int Result = 0;
+
             try
             {
-                string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (фамилия {4})";
-                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.FAMIL FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.FAMIL) <> UPPER(b.FAMIL)", SupplierFileName, PaymentFileName);
-                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
-                OleDbDataReader Reader = Command.ExecuteReader();
-                while (Reader.Read())
+                if (PaymentFileName.Length > 0)
                 {
-                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
-                    Result++;
-                    Handler("FAMIL", null);
+                    string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (фамилия {4})";
+                    string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.FAMIL FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.FAMIL) <> UPPER(b.FAMIL)", SupplierFileName, PaymentFileName);
+                    OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                    OleDbDataReader Reader = Command.ExecuteReader();
+                    while (Reader.Read())
+                    {
+                        Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
+                        Result++;
+                        Handler("FAMIL", null);
+                    }
                 }
             }
             catch (Exception E)
             {
                 Log.Errors.Add(E.Message);
             }
+
             return Result;
         }
 
         public static int CheckIMJA(string SupplierFileName, string PaymentFileName, EventHandler Handler)
         {
             int Result = 0;
+
             try
             {
-                string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (имя {4})";
-                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.IMJA FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.IMJA) <> UPPER(b.IMJA)", SupplierFileName, PaymentFileName);
-                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
-                OleDbDataReader Reader = Command.ExecuteReader();
-                while (Reader.Read())
+                if (PaymentFileName.Length > 0)
                 {
-                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
-                    Result++;
-                    Handler("IMJA", null);
+                    string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (имя {4})";
+                    string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.IMJA FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.IMJA) <> UPPER(b.IMJA)", SupplierFileName, PaymentFileName);
+                    OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                    OleDbDataReader Reader = Command.ExecuteReader();
+                    while (Reader.Read())
+                    {
+                        Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
+                        Result++;
+                        Handler("IMJA", null);
+                    }
                 }
             }
             catch (Exception E)
             {
                 Log.Errors.Add(E.Message);
             }
+
             return Result;
         }
 
         public static int CheckOTCH(string SupplierFileName, string PaymentFileName, EventHandler Handler)
         {
             int Result = 0;
+
             try
             {
-                string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (отчество {4})";
-                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.IMJA FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.OTCH) <> UPPER(b.OTCH)", SupplierFileName, PaymentFileName);
-                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
-                OleDbDataReader Reader = Command.ExecuteReader();
-                while (Reader.Read())
+                if (PaymentFileName.Length > 0)
                 {
-                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
-                    Result++;
-                    Handler("OTCH", null);
+                    string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (отчество {4})";
+                    string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.IMJA FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND UPPER(a.OTCH) <> UPPER(b.OTCH)", SupplierFileName, PaymentFileName);
+                    OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                    OleDbDataReader Reader = Command.ExecuteReader();
+                    while (Reader.Read())
+                    {
+                        Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader[4].ToString().Trim()));
+                        Result++;
+                        Handler("OTCH", null);
+                    }
                 }
             }
             catch (Exception E)
             {
                 Log.Errors.Add(E.Message);
             }
+
             return Result;
         }
 
         public static int CheckDROG(string SupplierFileName, string PaymentFileName, EventHandler Handler)
         {
             int Result = 0;
+
             try
             {
-                string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (дата рождения {4})";
-                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.DROG FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND a.DROG <> b.DROG", SupplierFileName, PaymentFileName);
-                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
-                OleDbDataReader Reader = Command.ExecuteReader();
-                while (Reader.Read())
+                if (PaymentFileName.Length > 0)
                 {
-                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader.GetDateTime(Reader.GetOrdinal("DROG")).ToString("yyyy-MM-dd")));
-                    Result++;
-                    Handler("DROG", null);
+                    string ErrorString = "{0}; {1} {2} {3}; Запись отличается от исходного файла (дата рождения {4})";
+                    string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH, b.DROG FROM '{0}' as a INNER JOIN '{1}' as b ON a.NPSS = b.NPSS WHERE NOT EMPTY(a.NPSS) AND NOT EMPTY(b.NPSS) AND a.DROG <> b.DROG", SupplierFileName, PaymentFileName);
+                    OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                    OleDbDataReader Reader = Command.ExecuteReader();
+                    while (Reader.Read())
+                    {
+                        Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim(), Reader.GetDateTime(Reader.GetOrdinal("DROG")).ToString("yyyy-MM-dd")));
+                        Result++;
+                        Handler("DROG", null);
+                    }
                 }
             }
             catch (Exception E)
             {
                 Log.Errors.Add(E.Message);
             }
+
             return Result;
         }
 
         public static int CheckNPSS(string SupplierFileName, string PaymentFileName, EventHandler Handler)
         {
             int Result = 0;
+
             try
             {
-                string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH FROM '{0}' as a WHERE a.NPSS NOT IN (SELECT NPSS FROM '{1}')", SupplierFileName, PaymentFileName);
-                OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
-                OleDbDataReader Reader = Command.ExecuteReader();
-                while (Reader.Read())
+                if (PaymentFileName.Length > 0)
                 {
-                    string ErrorString = "{0}; {1} {2} {3}; Запись не найдена в исходном файле";
-                    Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim()));
-                    Result++;
-                    Handler("NPSS", null);
+                    string CommandText = string.Format("SELECT a.NPSS, a.FAMIL, a.IMJA, a.OTCH FROM '{0}' as a WHERE a.NPSS NOT IN (SELECT NPSS FROM '{1}')", SupplierFileName, PaymentFileName);
+                    OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
+                    OleDbDataReader Reader = Command.ExecuteReader();
+                    while (Reader.Read())
+                    {
+                        string ErrorString = "{0}; {1} {2} {3}; Запись не найдена в исходном файле";
+                        Log.Messages.Add(string.Format(ErrorString, Reader[0].ToString().Trim(), Reader[1].ToString().Trim(), Reader[2].ToString().Trim(), Reader[3].ToString().Trim()));
+                        Result++;
+                        Handler("NPSS", null);
+                    }
                 }
             }
             catch (Exception E)
             {
                 Log.Errors.Add(E.Message);
             }
+
             return Result;
         }
 
@@ -355,6 +415,12 @@ namespace CheckDBF.Core
         }
 
         public static int CheckKKOM(EventHandler Handler) { return 0; }
+
+        public static int CheckINVALID(string SupplierFileName, EventHandler Handler)
+        {
+            string ErrorFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-error.dbf";
+            return FileInfo.GetRecordCount(ErrorFileName);
+        }
 
         private static void ProcessPreload(string CommandText)
         {
