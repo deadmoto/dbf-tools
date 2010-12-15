@@ -35,6 +35,8 @@ namespace CheckDBF.Core
             {
                 case "0100": return Array.IndexOf(new int[] { 0, 2 }, S_) == -1 && FILLED();
                 case "0204": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
+                case "0206": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
+                case "0207": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
                 default: return Array.IndexOf(new int[] { 1, 2 }, S_) == -1 && FILLED();
             }
         }
@@ -52,15 +54,26 @@ namespace CheckDBF.Core
 
         public bool GetErrorVOL(double ROPL, int KCHLS)
         {
-            if (S_ == 2 && FILLED())
+            if (FILLED())
             {
-                if (VID == "0100" || VID == "0204")
+                switch (VID)
                 {
-                    return ROPL != VOL && PRED > 0;
+                    case "0100": return VOL != ROPL;
+                    case "0204": return VOL != ROPL && S_ == 2;
+                    default: return VOL != Math.Round(VOL_E * KCHLS, 4) && VOL_E != -1 && S_ == 2;
                 }
-                double VOL_K = Math.Round(VOL_E * KCHLS, 4);
-                return VOL_K != VOL && VOL_E != -1;
             }
+
+            //if (S_ == 2 && FILLED())
+            //{
+            //    if (VID == "0100" || VID == "0204")
+            //    {
+            //        return ROPL != VOL && PRED > 0;
+            //    }
+            //    double VOL_K = Math.Round(VOL_E * KCHLS, 4);
+            //    return VOL_K != VOL && VOL_E != -1;
+            //}
+
             return false;
         }
 
@@ -79,7 +92,7 @@ namespace CheckDBF.Core
             if (Math.Abs(SUMLN - TARIF * VOL) * 100 / SUMLN < 1 && FILLED())
             {
                 if (VID == "0100") { return VOL != ROPL; }
-                if (S_ == 1) { return Math.Abs(SUMLN - VOL * TARIF_E) * 100 / SUMLN > 1; }
+                if (S_ == 1 || S_ > 2) { return Math.Abs(SUMLN - VOL * TARIF_E) * 100 / SUMLN > 1; }
                 if (S_ == 2)
                 {
                     if (VID == "0204") { return Math.Abs(SUMLN - ROPL * TARIF_E) * 100 / SUMLN > 1; }
