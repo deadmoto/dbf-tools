@@ -42,16 +42,19 @@ namespace CheckDBF
         public static ConformData GetConformData(int PRED, string VID, int KOD_T, int KOD_N)
         {
             ConformData Result = ConformList.Find(delegate(ConformData Item) { return Item.PRED == PRED && Item.VID == VID && Item.KOD_T == KOD_T && Item.KOD_N == KOD_N; });
+
             if (Result == null)
             {
                 PRED = Replace.ReplacePREDK(PRED, VID);
                 Result = ConformList.Find(delegate(ConformData Item) { return Item.PRED == PRED && Item.VID == VID && Item.KOD_T == KOD_T && Item.KOD_N == KOD_N; });
             }
-            //if (Result.PRED == 1621 && Result.VID == "0300")
-            //{
-            //    Result.TARIF = (float)System.Math.Round(Result.TARIF * Result.VOL, 2);
-            //    Result.VOL = 1;
-            //}
+
+            if (Result != null && Result.PRED == 1621 && Result.VID == "0300")
+            {
+                Result.TARIF = System.Math.Round(Result.TARIF * Result.VOL, 2);
+                Result.VOL = 1;
+            }
+
             return Result;
         }
     }
