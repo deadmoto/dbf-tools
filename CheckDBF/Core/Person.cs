@@ -87,8 +87,8 @@ namespace CheckDBF.Core
             {
                 if (Services[i].GetErrorS_())
                 {
-                    string ErrorString = "{0}; {1} {2} {3}; Не проставлено наличие счетчика (услуга {4})";
-                    Log.Messages.Add(string.Format(ErrorString, NPSS, FAMIL, IMJA, OTCH, Services[i].VID));
+                    string ErrorString = "{0}; {1} {2} {3}; Не проставлено наличие счетчика (услуга {4} значение {5})";
+                    Log.Messages.Add(string.Format(ErrorString, NPSS, FAMIL, IMJA, OTCH, Services[i].VID, Services[i].S_));
                     Result++;
                 }
             }
