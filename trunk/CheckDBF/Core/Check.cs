@@ -9,7 +9,7 @@ namespace CheckDBF.Core
     static class Check
     {
         private static List<Person> PersonList = new List<Person>();
-        private static List<string> FieldList = new List<string>();
+        //private static List<string> FieldList = new List<string>();
 
         public static bool CheckLSEnabled = true;
         public static bool CheckKDOMVLEnabled = true;
@@ -20,14 +20,21 @@ namespace CheckDBF.Core
             try
             {
                 int Ordinal = Reader.GetOrdinal(FieldName);
+
                 if (Reader.IsDBNull(Ordinal) == false)
                 {
                     return Reader[Ordinal].ToString().Trim().Length > 0;
                 }
+
                 return false;
             }
-            catch
+            catch (IndexOutOfRangeException E)
             {
+                return false;
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.Message);
                 return false;
             }
         }
@@ -81,28 +88,22 @@ namespace CheckDBF.Core
             try
             {
                 if (IsNotNull(Reader, "PRED" + i)) { Service.PRED = int.Parse(Reader["PRED" + i].ToString()); }
+                if (Service.PRED == 0) { return new Service(); };
                 if (IsNotNull(Reader, "VID" + i)) { Service.VID = Reader["VID" + i].ToString().Trim(); }
+                if (Service.VID.Length != 4) { return new Service(); };
                 if (IsNotNull(Reader, "VOL" + i)) { Service.VOL = double.Parse(Reader["VOL" + i].ToString()); }
                 if (IsNotNull(Reader, "SUMLN" + i)) { Service.SUMLN = double.Parse(Reader["SUMLN" + i].ToString()); }
-
-                if (Service.FILLED())
-                {
-                    if (IsNotNull(Reader, "LSH" + i)) { Service.LSH = Reader["LSH" + i].ToString().Trim(); }
-                    if (IsNotNull(Reader, "K_POL" + i)) { Service.K_POL = int.Parse(Reader["K_POL" + i].ToString()); }
-                    else { Service.K_POL = K_POL; }
-                    if (IsNotNull(Reader, "TARIF" + i)) { Service.TARIF = double.Parse(Reader["TARIF" + i].ToString()); }
-                    if (IsNotNull(Reader, "SUMLD" + i)) { Service.SUMLD = double.Parse(Reader["SUMLD" + i].ToString()); }
-                    if (IsNotNull(Reader, "SUMLF" + i)) { Service.SUMLF = double.Parse(Reader["SUMLF" + i].ToString()); }
-                    if (IsNotNull(Reader, "KOD_T" + i)) { Service.KOD_T = int.Parse(Reader["KOD_T" + i].ToString()); }
-                    if (IsNotNull(Reader, "KOD_N" + i)) { Service.KOD_N = int.Parse(Reader["KOD_N" + i].ToString()); }
-                    if (IsNotNull(Reader, "S_" + i)) { Service.S_ = int.Parse(Reader["S_" + i].ToString()); }
-                    Service.GetConformData();
-                    return Service;
-                }
-                else
-                {
-                    return new Service();
-                }
+                if (IsNotNull(Reader, "LSH" + i)) { Service.LSH = Reader["LSH" + i].ToString().Trim(); }
+                if (IsNotNull(Reader, "K_POL" + i)) { Service.K_POL = int.Parse(Reader["K_POL" + i].ToString()); }
+                else { Service.K_POL = K_POL; }
+                if (IsNotNull(Reader, "TARIF" + i)) { Service.TARIF = double.Parse(Reader["TARIF" + i].ToString()); }
+                if (IsNotNull(Reader, "SUMLD" + i)) { Service.SUMLD = double.Parse(Reader["SUMLD" + i].ToString()); }
+                if (IsNotNull(Reader, "SUMLF" + i)) { Service.SUMLF = double.Parse(Reader["SUMLF" + i].ToString()); }
+                if (IsNotNull(Reader, "KOD_T" + i)) { Service.KOD_T = int.Parse(Reader["KOD_T" + i].ToString()); }
+                if (IsNotNull(Reader, "KOD_N" + i)) { Service.KOD_N = int.Parse(Reader["KOD_N" + i].ToString()); }
+                if (IsNotNull(Reader, "S_" + i)) { Service.S_ = int.Parse(Reader["S_" + i].ToString()); }
+                Service.GetConformData();
+                return Service;
             }
             catch (Exception E)
             {
@@ -120,17 +121,17 @@ namespace CheckDBF.Core
             File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ErrorFileName, true);
             File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ValidFileName, true);
 
-            FieldList.Clear();
+            //FieldList.Clear();
             PersonList.Clear();
 
             string CommandText = string.Format("SELECT * FROM '{0}'", SupplierFileName);
             OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
             OleDbDataReader Reader = Command.ExecuteReader();
 
-            for (int i = 0; i < Reader.FieldCount; i++)
-            {
-                FieldList.Add(Reader.GetName(i));
-            }
+            //for (int i = 0; i < Reader.FieldCount; i++)
+            //{
+            //    FieldList.Add(Reader.GetName(i));
+            //}
 
             while (Reader.Read())
             {
