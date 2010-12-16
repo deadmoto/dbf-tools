@@ -49,11 +49,11 @@ namespace CheckDBF
                 Result = ConformList.Find(delegate(ConformData Item) { return Item.PRED == PRED && Item.VID == VID && Item.KOD_T == KOD_T && Item.KOD_N == KOD_N; });
             }
 
-            if (Result != null && Result.PRED == 1621 && Result.VID == "0300")
-            {
-                Result.TARIF = System.Math.Round(Result.TARIF * Result.VOL, 2);
-                Result.VOL = 1;
-            }
+            //if (Result != null && PRED == 1621 && VID == "0300")
+            //{
+            //    Result.TARIF = System.Math.Round(Result.TARIF * Result.VOL, 2);
+            //    Result.VOL = 1;
+            //}
 
             return Result;
         }

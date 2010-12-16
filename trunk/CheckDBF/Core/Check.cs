@@ -34,7 +34,7 @@ namespace CheckDBF.Core
             }
             catch (Exception E)
             {
-                MessageBox.Show(E.Message);
+                MessageBox.Show(E.Message, FieldName);
                 return false;
             }
         }
