@@ -64,16 +64,6 @@ namespace CheckDBF.Core
                 }
             }
 
-            //if (S_ == 2 && FILLED())
-            //{
-            //    if (VID == "0100" || VID == "0204")
-            //    {
-            //        return ROPL != VOL && PRED > 0;
-            //    }
-            //    double VOL_K = Math.Round(VOL_E * KCHLS, 4);
-            //    return VOL_K != VOL && VOL_E != -1;
-            //}
-
             return false;
         }
 
@@ -99,6 +89,7 @@ namespace CheckDBF.Core
                     else { return Math.Abs(SUMLN - KCHLS * VOL_E * TARIF_E) * 100 / SUMLN > 1; }
                 }
             }
+
             return true;
         }
 
