@@ -35,6 +35,7 @@ namespace CheckDBF.Core
             {
                 case "0100": return Array.IndexOf(new int[] { 0, 2 }, S_) == -1 && FILLED();
                 case "0204": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
+                case "0205": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
                 case "0206": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
                 case "0207": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
                 default: return Array.IndexOf(new int[] { 1, 2 }, S_) == -1 && FILLED();
@@ -60,6 +61,9 @@ namespace CheckDBF.Core
                 {
                     case "0100": return VOL != ROPL;
                     case "0204": return VOL != ROPL && S_ == 2;
+                    case "0205": return VOL != ROPL && S_ == 2;
+                    case "0206": return VOL != ROPL && S_ == 2;
+                    case "0207": return VOL != ROPL && S_ == 2;
                     default: return VOL != Math.Round(VOL_E * KCHLS, 4) && VOL_E != -1 && S_ == 2;
                 }
             }
