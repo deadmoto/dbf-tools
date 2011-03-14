@@ -19,6 +19,7 @@ namespace CheckDBF
         public MainForm()
         {
             InitializeComponent();
+            Text = "CheckDBF " + Version.Value;
             if (Environment.GetCommandLineArgs().Length > 1)
             {
                 OpenSupplierFile(Environment.GetCommandLineArgs()[1]);
@@ -92,7 +93,7 @@ namespace CheckDBF
             Check.CheckLSEnabled = CheckLSMenuItem.Checked;
             Check.CheckKDOMVLEnabled = CheckKDOMVLMenuItem.Checked;
             Check.CheckROPLEnabled = CheckROPLMenuItem.Checked;
-            Check.DisableMessages = DisableMessagesMenuItem.Checked;
+            Check.ShowMessages = ShowMessagesMenuItem.Checked;
 
 
             NotifyIconThread = new Thread(new ThreadStart(delegate { NotifyIconAnimate(); }));
