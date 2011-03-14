@@ -14,7 +14,7 @@ namespace CheckDBF.Core
         public static bool CheckLSEnabled = true;
         public static bool CheckKDOMVLEnabled = true;
         public static bool CheckROPLEnabled = true;
-        public static bool DisableMessages = false;
+        public static bool ShowMessages = false;
 
         private static bool IsNotNull(OleDbDataReader Reader, string FieldName)
         {
@@ -35,7 +35,7 @@ namespace CheckDBF.Core
             }
             catch (Exception E)
             {
-                if (DisableMessages == true)
+                if (ShowMessages == true)
                 {
                     MessageBox.Show(E.Message, FieldName);
                 }
