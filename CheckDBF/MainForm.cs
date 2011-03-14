@@ -92,6 +92,8 @@ namespace CheckDBF
             Check.CheckLSEnabled = CheckLSMenuItem.Checked;
             Check.CheckKDOMVLEnabled = CheckKDOMVLMenuItem.Checked;
             Check.CheckROPLEnabled = CheckROPLMenuItem.Checked;
+            Check.DisableMessages = DisableMessagesMenuItem.Checked;
+
 
             NotifyIconThread = new Thread(new ThreadStart(delegate { NotifyIconAnimate(); }));
             NotifyIconThread.Start();

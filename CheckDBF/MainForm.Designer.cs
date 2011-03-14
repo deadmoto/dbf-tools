@@ -57,6 +57,7 @@
             this.NameLabel = new System.Windows.Forms.Label();
             this.LogTextBox = new System.Windows.Forms.TextBox();
             this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.DisableMessagesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.OpenFileGroupBox.SuspendLayout();
             this.FileInfoGroupBox.SuspendLayout();
@@ -79,13 +80,13 @@
             this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exitToolStripMenuItem});
             this.FileMenu.Name = "FileMenu";
-            this.FileMenu.Size = new System.Drawing.Size(35, 20);
+            this.FileMenu.Size = new System.Drawing.Size(37, 20);
             this.FileMenu.Text = "File";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick);
             // 
@@ -94,9 +95,10 @@
             this.EditMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CheckLSMenuItem,
             this.CheckKDOMVLMenuItem,
-            this.CheckROPLMenuItem});
+            this.CheckROPLMenuItem,
+            this.DisableMessagesMenuItem});
             this.EditMenu.Name = "EditMenu";
-            this.EditMenu.Size = new System.Drawing.Size(37, 20);
+            this.EditMenu.Size = new System.Drawing.Size(39, 20);
             this.EditMenu.Text = "Edit";
             // 
             // CheckLSMenuItem
@@ -105,7 +107,7 @@
             this.CheckLSMenuItem.CheckOnClick = true;
             this.CheckLSMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckLSMenuItem.Name = "CheckLSMenuItem";
-            this.CheckLSMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.CheckLSMenuItem.Size = new System.Drawing.Size(166, 22);
             this.CheckLSMenuItem.Text = "Check LSH";
             // 
             // CheckKDOMVLMenuItem
@@ -114,7 +116,7 @@
             this.CheckKDOMVLMenuItem.CheckOnClick = true;
             this.CheckKDOMVLMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckKDOMVLMenuItem.Name = "CheckKDOMVLMenuItem";
-            this.CheckKDOMVLMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.CheckKDOMVLMenuItem.Size = new System.Drawing.Size(166, 22);
             this.CheckKDOMVLMenuItem.Text = "Check KDOMVL";
             // 
             // CheckROPLMenuItem
@@ -123,7 +125,7 @@
             this.CheckROPLMenuItem.CheckOnClick = true;
             this.CheckROPLMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckROPLMenuItem.Name = "CheckROPLMenuItem";
-            this.CheckROPLMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.CheckROPLMenuItem.Size = new System.Drawing.Size(166, 22);
             this.CheckROPLMenuItem.Text = "Check ROPL";
             // 
             // viewToolStripMenuItem
@@ -131,14 +133,14 @@
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ShowLogMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // ShowLogMenuItem
             // 
             this.ShowLogMenuItem.CheckOnClick = true;
             this.ShowLogMenuItem.Name = "ShowLogMenuItem";
-            this.ShowLogMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.ShowLogMenuItem.Size = new System.Drawing.Size(123, 22);
             this.ShowLogMenuItem.Text = "Show log";
             this.ShowLogMenuItem.Click += new System.EventHandler(this.ShowLogMenuItemClick);
             // 
@@ -334,6 +336,13 @@
             this.NotifyIcon.Text = "Process...";
             this.NotifyIcon.Visible = true;
             // 
+            // DisableMessagesMenuItem
+            // 
+            this.DisableMessagesMenuItem.CheckOnClick = true;
+            this.DisableMessagesMenuItem.Name = "DisableMessagesMenuItem";
+            this.DisableMessagesMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.DisableMessagesMenuItem.Text = "Disable messages";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,10 +356,10 @@
             this.Controls.Add(this.MainMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.MainMenu;
-            this.MinimumSize = new System.Drawing.Size(480, 25);
+            this.MinimumSize = new System.Drawing.Size(480, 28);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CheckDBF" + " v" + Version.Value;
+            this.Text = "CheckDBF v59";
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             this.OpenFileGroupBox.ResumeLayout(false);
@@ -392,6 +401,7 @@
         private System.Windows.Forms.TextBox ProcessTextBox;
         private System.Windows.Forms.ToolStripMenuItem CheckROPLMenuItem;
         private System.Windows.Forms.NotifyIcon NotifyIcon;
+        private System.Windows.Forms.ToolStripMenuItem DisableMessagesMenuItem;
     }
 }
 
