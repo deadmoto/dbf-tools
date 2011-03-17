@@ -137,31 +137,31 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\ConformEx.dbf">
+    <Content Include="Data\ConformEx.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\Payment.dbf">
+    </Content>
+    <Content Include="Data\Payment.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Help\CheckDBF.doc">
+    </Content>
+    <Content Include="Help\CheckDBF.doc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\Conform.dbf">
+    </Content>
+    <Content Include="Data\Conform.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\Replace.dbf">
+    </Content>
+    <Content Include="Data\Replace.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Data\Report.doc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Data\Supplier.dbf">
+    <Content Include="Data\Supplier.dbf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Version.bat" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CheckDBF.ico" />
+    <None Include="CheckDBF.ico" />
     <Content Include="Icons\Rotate1.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
