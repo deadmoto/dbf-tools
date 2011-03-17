@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckLSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckKDOMVLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckROPLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowMessagesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowLogMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFileGroupBox = new System.Windows.Forms.GroupBox();
             this.ProcessTextBox = new System.Windows.Forms.TextBox();
@@ -68,7 +68,7 @@
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.EditMenu,
-            this.viewToolStripMenuItem});
+            this.ViewMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(474, 24);
@@ -78,17 +78,17 @@
             // FileMenu
             // 
             this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
+            this.ExitMenuItem});
             this.FileMenu.Name = "FileMenu";
-            this.FileMenu.Size = new System.Drawing.Size(37, 20);
-            this.FileMenu.Text = "File";
+            this.FileMenu.Size = new System.Drawing.Size(48, 20);
+            this.FileMenu.Text = "Файл";
             // 
-            // exitToolStripMenuItem
+            // ExitMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick);
+            this.ExitMenuItem.Name = "ExitMenuItem";
+            this.ExitMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ExitMenuItem.Text = "Выход";
+            this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick);
             // 
             // EditMenu
             // 
@@ -98,8 +98,8 @@
             this.CheckROPLMenuItem,
             this.ShowMessagesMenuItem});
             this.EditMenu.Name = "EditMenu";
-            this.EditMenu.Size = new System.Drawing.Size(39, 20);
-            this.EditMenu.Text = "Edit";
+            this.EditMenu.Size = new System.Drawing.Size(59, 20);
+            this.EditMenu.Text = "Правка";
             // 
             // CheckLSMenuItem
             // 
@@ -107,8 +107,8 @@
             this.CheckLSMenuItem.CheckOnClick = true;
             this.CheckLSMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckLSMenuItem.Name = "CheckLSMenuItem";
-            this.CheckLSMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.CheckLSMenuItem.Text = "Check LSH";
+            this.CheckLSMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.CheckLSMenuItem.Text = "Проверять лицевые счета";
             // 
             // CheckKDOMVLMenuItem
             // 
@@ -116,8 +116,8 @@
             this.CheckKDOMVLMenuItem.CheckOnClick = true;
             this.CheckKDOMVLMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckKDOMVLMenuItem.Name = "CheckKDOMVLMenuItem";
-            this.CheckKDOMVLMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.CheckKDOMVLMenuItem.Text = "Check KDOMVL";
+            this.CheckKDOMVLMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.CheckKDOMVLMenuItem.Text = "Проверять вид жилого фонда";
             // 
             // CheckROPLMenuItem
             // 
@@ -125,8 +125,8 @@
             this.CheckROPLMenuItem.CheckOnClick = true;
             this.CheckROPLMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckROPLMenuItem.Name = "CheckROPLMenuItem";
-            this.CheckROPLMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.CheckROPLMenuItem.Text = "Check ROPL";
+            this.CheckROPLMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.CheckROPLMenuItem.Text = "Проверять жилую площадь";
             // 
             // ShowMessagesMenuItem
             // 
@@ -134,23 +134,23 @@
             this.ShowMessagesMenuItem.CheckOnClick = true;
             this.ShowMessagesMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ShowMessagesMenuItem.Name = "ShowMessagesMenuItem";
-            this.ShowMessagesMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.ShowMessagesMenuItem.Text = "Show messages";
+            this.ShowMessagesMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.ShowMessagesMenuItem.Text = "Сообщения об ошибках";
             // 
-            // viewToolStripMenuItem
+            // ViewMenu
             // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ShowLogMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.ViewMenu.Name = "ViewMenu";
+            this.ViewMenu.Size = new System.Drawing.Size(39, 20);
+            this.ViewMenu.Text = "Вид";
             // 
             // ShowLogMenuItem
             // 
             this.ShowLogMenuItem.CheckOnClick = true;
             this.ShowLogMenuItem.Name = "ShowLogMenuItem";
             this.ShowLogMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.ShowLogMenuItem.Text = "Show log";
+            this.ShowLogMenuItem.Text = "Журнал";
             this.ShowLogMenuItem.Click += new System.EventHandler(this.ShowLogMenuItemClick);
             // 
             // OpenFileGroupBox
@@ -377,9 +377,9 @@
 
         private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem FileMenu;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExitMenuItem;
         private System.Windows.Forms.ToolStripMenuItem EditMenu;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ViewMenu;
         private System.Windows.Forms.ToolStripMenuItem ShowLogMenuItem;
         private System.Windows.Forms.GroupBox OpenFileGroupBox;
         private System.Windows.Forms.Button ProcessButton;

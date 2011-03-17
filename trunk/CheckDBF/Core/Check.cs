@@ -9,7 +9,6 @@ namespace CheckDBF.Core
     static class Check
     {
         private static List<Person> PersonList = new List<Person>();
-        //private static List<string> FieldList = new List<string>();
 
         public static bool CheckLSEnabled = true;
         public static bool CheckKDOMVLEnabled = true;
@@ -125,17 +124,11 @@ namespace CheckDBF.Core
             File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ErrorFileName, true);
             File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ValidFileName, true);
 
-            //FieldList.Clear();
             PersonList.Clear();
 
             string CommandText = string.Format("SELECT * FROM '{0}'", SupplierFileName);
             OleDbCommand Command = FoxPro.OleDbCommand(CommandText);
             OleDbDataReader Reader = Command.ExecuteReader();
-
-            //for (int i = 0; i < Reader.FieldCount; i++)
-            //{
-            //    FieldList.Add(Reader.GetName(i));
-            //}
 
             while (Reader.Read())
             {
