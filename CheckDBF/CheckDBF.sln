@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckDBF", "CheckDBF.csproj", "{7BEF01B1-79EB-4B4A-945A-44E5FB4C5479}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup.vdproj", "{DDA950AD-7D20-4EB7-BBBE-9016F556227B}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -14,6 +16,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7BEF01B1-79EB-4B4A-945A-44E5FB4C5479}.Default|x86.ActiveCfg = Default|x86
 		{7BEF01B1-79EB-4B4A-945A-44E5FB4C5479}.Default|x86.Build.0 = Default|x86
+		{DDA950AD-7D20-4EB7-BBBE-9016F556227B}.Default|x86.ActiveCfg = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
