@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -8,7 +7,7 @@ using System.Windows.Forms;
 using CheckDBF.Core;
 using Word = Microsoft.Office.Interop.Word;
 
-namespace CheckDBF
+namespace CheckDBF.Forms
 {
     public partial class MainForm : Form
     {
@@ -19,7 +18,7 @@ namespace CheckDBF
         public MainForm()
         {
             InitializeComponent();
-            Text = "CheckDBF " + Version.Value;
+            Text = "CheckDBF выпуск " + Version.Value;
             if (Environment.GetCommandLineArgs().Length > 1)
             {
                 OpenSupplierFile(Environment.GetCommandLineArgs()[1]);
@@ -274,6 +273,11 @@ namespace CheckDBF
         private void ExitMenuItemClick(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void справочникЗаменыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ReplaceForm().ShowDialog();
         }
     }
 }

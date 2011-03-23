@@ -1,4 +1,4 @@
-﻿namespace CheckDBF
+﻿namespace CheckDBF.Forms
 {
     partial class MainForm
     {
@@ -39,6 +39,9 @@
             this.ShowMessagesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowLogMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReplaceMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ConformMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFileGroupBox = new System.Windows.Forms.GroupBox();
             this.ProcessTextBox = new System.Windows.Forms.TextBox();
             this.ProcessBar = new System.Windows.Forms.ProgressBar();
@@ -56,8 +59,9 @@
             this.CodeTextBox = new System.Windows.Forms.TextBox();
             this.NameTextBox = new System.Windows.Forms.TextBox();
             this.NameLabel = new System.Windows.Forms.Label();
-            this.LogTextBox = new System.Windows.Forms.TextBox();
             this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.LogTextBox = new System.Windows.Forms.TextBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MainMenu.SuspendLayout();
             this.OpenFileGroupBox.SuspendLayout();
             this.FileInfoGroupBox.SuspendLayout();
@@ -68,7 +72,8 @@
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.EditMenu,
-            this.ViewMenu});
+            this.ViewMenu,
+            this.ToolsMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(474, 24);
@@ -86,7 +91,7 @@
             // ExitMenuItem
             // 
             this.ExitMenuItem.Name = "ExitMenuItem";
-            this.ExitMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ExitMenuItem.Size = new System.Drawing.Size(108, 22);
             this.ExitMenuItem.Text = "Выход";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItemClick);
             // 
@@ -96,6 +101,7 @@
             this.CheckLSMenuItem,
             this.CheckKDOMVLMenuItem,
             this.CheckROPLMenuItem,
+            this.toolStripSeparator1,
             this.ShowMessagesMenuItem});
             this.EditMenu.Name = "EditMenu";
             this.EditMenu.Size = new System.Drawing.Size(59, 20);
@@ -149,9 +155,32 @@
             // 
             this.ShowLogMenuItem.CheckOnClick = true;
             this.ShowLogMenuItem.Name = "ShowLogMenuItem";
-            this.ShowLogMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.ShowLogMenuItem.Size = new System.Drawing.Size(118, 22);
             this.ShowLogMenuItem.Text = "Журнал";
             this.ShowLogMenuItem.Click += new System.EventHandler(this.ShowLogMenuItemClick);
+            // 
+            // ToolsMenu
+            // 
+            this.ToolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ReplaceMenuItem,
+            this.ConformMenuItem});
+            this.ToolsMenu.Name = "ToolsMenu";
+            this.ToolsMenu.Size = new System.Drawing.Size(59, 20);
+            this.ToolsMenu.Text = "Сервис";
+            // 
+            // ReplaceMenuItem
+            // 
+            this.ReplaceMenuItem.Name = "ReplaceMenuItem";
+            this.ReplaceMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.ReplaceMenuItem.Text = "Справочник замены";
+            this.ReplaceMenuItem.Click += new System.EventHandler(this.справочникЗаменыToolStripMenuItem_Click);
+            // 
+            // ConformMenuItem
+            // 
+            this.ConformMenuItem.Enabled = false;
+            this.ConformMenuItem.Name = "ConformMenuItem";
+            this.ConformMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.ConformMenuItem.Text = "Справочник соответствия";
             // 
             // OpenFileGroupBox
             // 
@@ -329,6 +358,11 @@
             this.NameLabel.TabIndex = 2;
             this.NameLabel.Text = "Наименование:";
             // 
+            // NotifyIcon
+            // 
+            this.NotifyIcon.Text = "Process...";
+            this.NotifyIcon.Visible = true;
+            // 
             // LogTextBox
             // 
             this.LogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -337,13 +371,12 @@
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
             this.LogTextBox.Size = new System.Drawing.Size(474, 278);
-            this.LogTextBox.TabIndex = 16;
-            this.LogTextBox.Visible = false;
+            this.LogTextBox.TabIndex = 22;
             // 
-            // NotifyIcon
+            // toolStripSeparator1
             // 
-            this.NotifyIcon.Text = "Process...";
-            this.NotifyIcon.Visible = true;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
             // 
             // MainForm
             // 
@@ -390,7 +423,6 @@
         private System.Windows.Forms.GroupBox FileInfoGroupBox;
         private System.Windows.Forms.TextBox NameTextBox;
         private System.Windows.Forms.Label NameLabel;
-        private System.Windows.Forms.TextBox LogTextBox;
         private System.Windows.Forms.TextBox RecordsTextBox;
         private System.Windows.Forms.Label RecordsLabel;
         private System.Windows.Forms.TextBox MonthTextBox;
@@ -404,6 +436,11 @@
         private System.Windows.Forms.ToolStripMenuItem CheckROPLMenuItem;
         private System.Windows.Forms.NotifyIcon NotifyIcon;
         private System.Windows.Forms.ToolStripMenuItem ShowMessagesMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolsMenu;
+        private System.Windows.Forms.ToolStripMenuItem ReplaceMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ConformMenuItem;
+        private System.Windows.Forms.TextBox LogTextBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 
