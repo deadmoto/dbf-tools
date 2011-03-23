@@ -67,6 +67,12 @@
     <Compile Include="Core\Service.cs" />
     <Compile Include="Core\FileInfo.cs" />
     <Compile Include="Data\FoxPro.cs" />
+    <Compile Include="Forms\ConformForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConformForm.Designer.cs">
+      <DependentUpon>ConformForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ReplaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,9 @@
     <Compile Include="Data\Replace.cs" />
     <Compile Include="Data\Supplier.cs" />
     <Compile Include="Version.cs" />
+    <EmbeddedResource Include="Forms\ConformForm.resx">
+      <DependentUpon>ConformForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ReplaceForm.resx">
       <DependentUpon>ReplaceForm.cs</DependentUpon>
     </EmbeddedResource>

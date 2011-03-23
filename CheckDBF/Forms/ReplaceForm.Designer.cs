@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.SearchPanel = new System.Windows.Forms.Panel();
+            this.Search = new System.Windows.Forms.Button();
             this.SearchTextBox = new System.Windows.Forms.TextBox();
             this.HelpTextBox = new System.Windows.Forms.TextBox();
-            this.Search = new System.Windows.Forms.Button();
             this.GridView = new System.Windows.Forms.DataGridView();
             this.PREDK = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,6 +51,16 @@
             this.SearchPanel.Size = new System.Drawing.Size(474, 47);
             this.SearchPanel.TabIndex = 31;
             // 
+            // Search
+            // 
+            this.Search.Location = new System.Drawing.Point(387, 12);
+            this.Search.Name = "Search";
+            this.Search.Size = new System.Drawing.Size(75, 23);
+            this.Search.TabIndex = 29;
+            this.Search.Text = "Поиск";
+            this.Search.UseVisualStyleBackColor = true;
+            this.Search.Click += new System.EventHandler(this.SearchClick);
+            // 
             // SearchTextBox
             // 
             this.SearchTextBox.Location = new System.Drawing.Point(8, 14);
@@ -69,17 +79,7 @@
             this.HelpTextBox.TabIndex = 38;
             this.HelpTextBox.Text = "PREDK - код предприятия, выдающего квитанцию\r\nVID - код вида услуги\r\nPREDU - код " +
                 "предприятия, предоставляющего услугу\r\nNAME - наименование предприятия, предостав" +
-                "ляющего услугу\r\n";
-            // 
-            // Search
-            // 
-            this.Search.Location = new System.Drawing.Point(387, 12);
-            this.Search.Name = "Search";
-            this.Search.Size = new System.Drawing.Size(75, 23);
-            this.Search.TabIndex = 29;
-            this.Search.Text = "Поиск";
-            this.Search.UseVisualStyleBackColor = true;
-            this.Search.Click += new System.EventHandler(this.SearchClick);
+                "ляющего услугу";
             // 
             // GridView
             // 

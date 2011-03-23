@@ -36,6 +36,7 @@
             this.CheckLSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckKDOMVLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckROPLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ShowMessagesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowLogMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,7 +62,6 @@
             this.NameLabel = new System.Windows.Forms.Label();
             this.NotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.LogTextBox = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MainMenu.SuspendLayout();
             this.OpenFileGroupBox.SuspendLayout();
             this.FileInfoGroupBox.SuspendLayout();
@@ -134,6 +134,11 @@
             this.CheckROPLMenuItem.Size = new System.Drawing.Size(238, 22);
             this.CheckROPLMenuItem.Text = "Проверять жилую площадь";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            // 
             // ShowMessagesMenuItem
             // 
             this.ShowMessagesMenuItem.Checked = true;
@@ -173,14 +178,14 @@
             this.ReplaceMenuItem.Name = "ReplaceMenuItem";
             this.ReplaceMenuItem.Size = new System.Drawing.Size(217, 22);
             this.ReplaceMenuItem.Text = "Справочник замены";
-            this.ReplaceMenuItem.Click += new System.EventHandler(this.справочникЗаменыToolStripMenuItem_Click);
+            this.ReplaceMenuItem.Click += new System.EventHandler(this.ReplaceMenuItemClick);
             // 
             // ConformMenuItem
             // 
-            this.ConformMenuItem.Enabled = false;
             this.ConformMenuItem.Name = "ConformMenuItem";
             this.ConformMenuItem.Size = new System.Drawing.Size(217, 22);
             this.ConformMenuItem.Text = "Справочник соответствия";
+            this.ConformMenuItem.Click += new System.EventHandler(this.ConformMenuItemClick);
             // 
             // OpenFileGroupBox
             // 
@@ -372,11 +377,6 @@
             this.LogTextBox.ReadOnly = true;
             this.LogTextBox.Size = new System.Drawing.Size(474, 278);
             this.LogTextBox.TabIndex = 22;
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
             // 
             // MainForm
             // 

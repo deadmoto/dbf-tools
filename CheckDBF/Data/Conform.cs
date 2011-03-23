@@ -22,7 +22,7 @@ namespace CheckDBF
         {
             List<ConformData> List = new List<ConformData>();
 
-            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Conform.dbf"));
+            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}' ORDER BY PRED, VID, KOD_T, KOD_N", Application.StartupPath + "\\Data\\Conform.dbf"));
             OleDbDataReader Reader = Command.ExecuteReader();
             while (Reader.Read())
             {
@@ -37,6 +37,11 @@ namespace CheckDBF
             }
 
             return List;
+        }
+
+        public static List<ConformData> GetConformList(string PRED, string VID, string KOD_T, string KOD_N)
+        {
+            return ConformList.FindAll(delegate(ConformData Item) { return Item.PRED.ToString().Contains(PRED) && Item.VID.Contains(VID) && Item.KOD_T.ToString().Contains(KOD_T) && Item.KOD_N.ToString().Contains(KOD_N); });
         }
 
         public static ConformData GetConformData(int PRED, string VID, int KOD_T, int KOD_N)
