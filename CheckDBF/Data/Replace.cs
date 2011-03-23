@@ -18,21 +18,34 @@ namespace CheckDBF
         private static List<ReplaceData> GetReplaceList()
         {
             List<ReplaceData> Items = new List<ReplaceData>();
+            string FileName = Application.StartupPath + "\\Data\\Replace.dbf";
 
-            OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}'", Application.StartupPath + "\\Data\\Replace.dbf"));
-            OleDbDataReader Reader = Command.ExecuteReader();
-            while (Reader.Read())
+            try
             {
-                ReplaceData Item = new ReplaceData();
-                Item.PREDK = int.Parse(Reader["PREDK"].ToString());
-                Item.PREDU = int.Parse(Reader["PREDU"].ToString());
-                Item.VID = Reader["VID"].ToString();
-                Items.Add(Item);
+                OleDbCommand Command = FoxPro.OleDbCommand(string.Format("SELECT * FROM '{0}' ORDER BY PREDK, VID", FileName));
+                OleDbDataReader Reader = Command.ExecuteReader();
+                while (Reader.Read())
+                {
+                    ReplaceData Item = new ReplaceData();
+                    Item.PREDK = int.Parse(Reader["PREDK"].ToString());
+                    Item.PREDU = int.Parse(Reader["PREDU"].ToString());
+                    Item.VID = Reader["VID"].ToString();
+                    Items.Add(Item);
+                }
+                Reader.Close();
+                Command.Connection.Close();
             }
-            Reader.Close();
-            Command.Connection.Close();
+            catch
+            {
+                MessageBox.Show("Не удалось открыть файл " + FileName);
+            }
 
             return Items;
+        }
+
+        public static List<ReplaceData> GetReplaceList(string Pattern)
+        {
+            return ReplaceList.FindAll(delegate(ReplaceData Item) { return Item.PREDK.ToString().Contains(Pattern); });
         }
 
         public static int ReplacePREDK(int PREDK, string VID)
