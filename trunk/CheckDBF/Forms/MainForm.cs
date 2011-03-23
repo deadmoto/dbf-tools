@@ -270,14 +270,19 @@ namespace CheckDBF.Forms
             AutoSize = !LogTextBox.Visible;
         }
 
+        private void ReplaceMenuItemClick(object sender, EventArgs e)
+        {
+            new ReplaceForm().ShowDialog();
+        }
+
+        private void ConformMenuItemClick(object sender, EventArgs e)
+        {
+            new ConformForm().ShowDialog();
+        }
+
         private void ExitMenuItemClick(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void справочникЗаменыToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new ReplaceForm().ShowDialog();
         }
     }
 }
