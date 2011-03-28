@@ -16,7 +16,7 @@ namespace CheckDBF.Forms
 
             foreach (ConformData ConformData in Conform.GetConformList(PREDTextBox.Text, VIDTextBox.Text, KOD_TTextBox.Text, KOD_NTextBox.Text))
             {
-                GridView.Rows.Add(ConformData.PRED, ConformData.VID, ConformData.KOD_T, ConformData.KOD_N, ConformData.TARIF, ConformData.VOL, Supplier.GetSupplierName(ConformData.PRED.ToString()));
+                GridView.Rows.Add(ConformData.PRED, ConformData.VID, ConformData.KOD_T, ConformData.TARIF, ConformData.KOD_N, ConformData.VOL, Supplier.GetSupplierName(ConformData.PRED.ToString()));
             }
         }
     }
