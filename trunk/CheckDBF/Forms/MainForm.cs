@@ -93,6 +93,7 @@ namespace CheckDBF.Forms
             Check.CheckKDOMVLEnabled = CheckKDOMVLMenuItem.Checked;
             Check.CheckROPLEnabled = CheckROPLMenuItem.Checked;
             Check.ShowMessages = ShowMessagesMenuItem.Checked;
+            Check.SupplierCode = CodeTextBox.Text;
 
 
             NotifyIconThread = new Thread(new ThreadStart(delegate { NotifyIconAnimate(); }));

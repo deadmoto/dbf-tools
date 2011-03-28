@@ -14,6 +14,7 @@ namespace CheckDBF.Core
         public static bool CheckKDOMVLEnabled = true;
         public static bool CheckROPLEnabled = true;
         public static bool ShowMessages = false;
+        public static string SupplierCode;
 
         private static bool IsNotNull(OleDbDataReader Reader, string FieldName)
         {
@@ -119,8 +120,8 @@ namespace CheckDBF.Core
         {
             Handler("Reading", null);
 
-            string ErrorFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-error.dbf";
-            string ValidFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-valid.dbf";
+            string ErrorFileName = string.Format("{0}\\f_{1}_error.dbf", Path.GetDirectoryName(SupplierFileName), SupplierCode);
+            string ValidFileName = string.Format("{0}\\f_{1}.dbf", Path.GetDirectoryName(SupplierFileName), SupplierCode);
             File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ErrorFileName, true);
             File.Copy(Application.StartupPath + "\\Data\\Payment.dbf", ValidFileName, true);
 
