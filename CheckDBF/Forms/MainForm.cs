@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using CheckDBF.Core;
 using Word = Microsoft.Office.Interop.Word;
+using System.Net;
 
 namespace CheckDBF.Forms
 {
@@ -22,6 +23,17 @@ namespace CheckDBF.Forms
             if (Environment.GetCommandLineArgs().Length > 1)
             {
                 OpenSupplierFile(Environment.GetCommandLineArgs()[1]);
+            }
+            CheckVPNAddress();
+        }
+
+        private void CheckVPNAddress()
+        {
+            Check.IsVPNAddress = false;
+            IPAddress[] IPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress IP in IPAddresses)
+            {
+                Check.IsVPNAddress = Check.IsVPNAddress || IP.ToString().StartsWith("10.");
             }
         }
 
@@ -162,15 +174,23 @@ namespace CheckDBF.Forms
             ProcessBar.Invoke(new MethodInvoker(delegate { ProcessBar.Visible = false; }));
             ProcessTextBox.Invoke(new MethodInvoker(delegate { ProcessTextBox.Visible = false; }));
 
-            SaveReport(SupplierFileName, Changes);
+            SaveErrors(SupplierFileName);
+
+            if (Check.IsVPNAddress)
+            {
+                if (MessageBox.Show("Сформировать протокол?", Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    SaveReport(SupplierFileName, Changes);
+                }
+            }
 
             ProcessButton.Invoke(new MethodInvoker(delegate { ProcessButton.Enabled = true; }));
+
+            MessageBox.Show("Обработка завершена!", Text);
         }
 
-        private void SaveReport(string FileName, Dictionary<string, int> Changes)
+        private void SaveErrors(string FileName)
         {
-            string Template = Path.GetDirectoryName(Application.ExecutablePath) + "\\Data\\Report.doc";
-            string Report = string.Format("{0}\\{1}-{2}.doc", Path.GetDirectoryName(FileName), CodeTextBox.Text, MonthTextBox.Text);
             string LogFile = string.Format("{0}\\{1}-{2}.csv", Path.GetDirectoryName(FileName), CodeTextBox.Text, MonthTextBox.Text);
 
             try
@@ -187,6 +207,13 @@ namespace CheckDBF.Forms
             {
                 Log.Errors.Add(E.Message);
             }
+        }
+
+        private void SaveReport(string FileName, Dictionary<string, int> Changes)
+        {
+            string Template = Path.GetDirectoryName(Application.ExecutablePath) + "\\Data\\Report.doc";
+            string Report = string.Format("{0}\\{1}-{2}.doc", Path.GetDirectoryName(FileName), CodeTextBox.Text, MonthTextBox.Text);
+
 
             try
             {
@@ -222,26 +249,13 @@ namespace CheckDBF.Forms
                 }
 
                 Document.Save();
+                Document.Close();
             }
             catch (Exception E)
             {
                 Log.Errors.Add(E.Message);
                 WordApplication.Visible = true;
                 return;
-            }
-
-            switch (MessageBox.Show("Просмотреть протокол перед печатью?", "", MessageBoxButtons.YesNoCancel))
-            {
-                case System.Windows.Forms.DialogResult.Yes:
-                    WordApplication.Visible = true;
-                    break;
-                case System.Windows.Forms.DialogResult.No:
-                    try { WordApplication.PrintOut(); }
-                    finally { Document.Close(); }
-                    break;
-                case System.Windows.Forms.DialogResult.Cancel:
-                    Document.Close();
-                    break;
             }
         }
 

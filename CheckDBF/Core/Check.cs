@@ -13,6 +13,7 @@ namespace CheckDBF.Core
         public static bool CheckLSEnabled = true;
         public static bool CheckKDOMVLEnabled = true;
         public static bool CheckROPLEnabled = true;
+        public static bool IsVPNAddress;
         public static bool ShowMessages = false;
         public static string SupplierCode;
 
