@@ -133,7 +133,7 @@
                 "Message" = "8:[VSDNETMSG]"
                 "FrameworkVersion" = "8:.NETFramework,Version=v2.0"
                 "AllowLaterVersions" = "11:FALSE"
-                "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
+                "InstallUrl" = "8:http://www.microsoft.com/downloads/ru-ru/details.aspx?FamilyID=0856eacb-4362-4b0d-8edd-aab15c5e04f5&displaylang=ru"
                 }
             }
         }
@@ -311,15 +311,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CheckDBF"
-        "ProductCode" = "8:{5D74AEF4-BF18-4883-B0F5-D0AF58C13C1E}"
-        "PackageCode" = "8:{F351E91E-F550-4D28-8E00-0D4E75403A9E}"
+        "ProductCode" = "8:{A25E98AE-526F-4039-9A80-2AB8CA87B693}"
+        "PackageCode" = "8:{6873E899-2504-4B5F-9A2D-88B5C40187FC}"
         "UpgradeCode" = "8:{036165FF-8E0D-4A21-960C-ED90B7FC0205}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:65.0.0"
+        "ProductVersion" = "8:72.0.0"
         "Manufacturer" = "8:БУ ОЦЖССВиЛ"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
