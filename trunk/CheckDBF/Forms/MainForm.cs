@@ -214,7 +214,6 @@ namespace CheckDBF.Forms
             string Template = Path.GetDirectoryName(Application.ExecutablePath) + "\\Data\\Report.doc";
             string Report = string.Format("{0}\\{1}-{2}.doc", Path.GetDirectoryName(FileName), CodeTextBox.Text, MonthTextBox.Text);
 
-
             try
             {
                 File.Copy(Template, Report, true);
@@ -250,6 +249,7 @@ namespace CheckDBF.Forms
 
                 Document.Save();
                 Document.Close();
+                WordApplication.Quit();
             }
             catch (Exception E)
             {
