@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_CC5B3C76DFFF18BC30506F7AA81F817B"
+        "OwnerKey" = "8:_4BE28D62F41CEAD9226A4FAF321D4031"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D971D647785C47A5A3886C0D718033CC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -47,6 +53,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_D971D647785C47A5A3886C0D718033CC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CC5B3C76DFFF18BC30506F7AA81F817B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -232,6 +244,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CC5B3C76DFFF18BC30506F7AA81F817B"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:TRUE"
+            "AssemblyAsmDisplayName" = "8:stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+                "ScatterAssemblies"
+                {
+                    "_CC5B3C76DFFF18BC30506F7AA81F817B"
+                    {
+                    "Name" = "8:stdole.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:stdole.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_6CA169DCB68D440CB4549C8ED356ABF2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -311,15 +354,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:CheckDBF"
-        "ProductCode" = "8:{A25E98AE-526F-4039-9A80-2AB8CA87B693}"
-        "PackageCode" = "8:{6873E899-2504-4B5F-9A2D-88B5C40187FC}"
+        "ProductCode" = "8:{CE06CB4A-D650-4B68-9FE7-B14DBB2C3585}"
+        "PackageCode" = "8:{E879A47B-59E1-41B7-BC7D-E9D20FDD40DC}"
         "UpgradeCode" = "8:{036165FF-8E0D-4A21-960C-ED90B7FC0205}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:72.0.0"
+        "ProductVersion" = "8:73.0.0"
         "Manufacturer" = "8:БУ ОЦЖССВиЛ"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

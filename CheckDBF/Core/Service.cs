@@ -64,7 +64,7 @@ namespace CheckDBF.Core
                     case "0205": return VOL != ROPL && S_ == 2;
                     case "0206": return VOL != ROPL && S_ == 2;
                     case "0207": return VOL != ROPL && S_ == 2;
-                    default: return VOL != Math.Round(VOL_E * KCHLS, 4) && VOL_E != -1 && S_ == 2;
+                    default: return Math.Abs(VOL - VOL_E * KCHLS) * 100 > 1 && VOL_E != -1 && S_ == 2;
                 }
             }
 
