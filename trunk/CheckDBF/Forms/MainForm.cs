@@ -34,6 +34,7 @@ namespace CheckDBF.Forms
             foreach (IPAddress IP in IPAddresses)
             {
                 Check.IsVPNAddress = Check.IsVPNAddress || IP.ToString().StartsWith("10.");
+                Check.IsVPNAddress = Check.IsVPNAddress || IP.ToString().StartsWith("176.18.1.");
             }
         }
 
