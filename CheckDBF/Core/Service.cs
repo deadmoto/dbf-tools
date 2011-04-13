@@ -83,14 +83,14 @@ namespace CheckDBF.Core
 
         public bool GetErrorPreload(double ROPL, int KCHLS)
         {
-            if (Math.Abs(SUMLN - TARIF * VOL) * 100 / SUMLN < 1 && FILLED())
+            if (Math.Abs(Math.Round(VOL * TARIF, 2) / SUMLN - 1) * 100 < 1 && FILLED())
             {
                 if (VID == "0100") { return VOL != ROPL; }
-                if (S_ == 1 || S_ > 2) { return Math.Abs(SUMLN - VOL * TARIF_E) * 100 / SUMLN > 1; }
+                if (S_ == 1 || S_ > 2) { return Math.Abs(Math.Round(VOL * TARIF_E, 2) / SUMLN - 1) * 100 > 1; }
                 if (S_ == 2)
                 {
-                    if (VID == "0204") { return Math.Abs(SUMLN - ROPL * TARIF_E) * 100 / SUMLN > 1; }
-                    else { return Math.Abs(SUMLN - KCHLS * VOL_E * TARIF_E) * 100 / SUMLN > 1; }
+                    if (VID == "0204") { return Math.Abs(Math.Round(ROPL * TARIF_E, 2) / SUMLN - 1) * 100 > 1; }
+                    else { return Math.Abs(Math.Round(KCHLS * VOL_E * TARIF_E, 2) / SUMLN - 1) * 100 > 1; }
                 }
             }
 
