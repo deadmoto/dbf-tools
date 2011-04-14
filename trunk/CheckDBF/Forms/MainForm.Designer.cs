@@ -36,13 +36,15 @@
             this.CheckLSMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckKDOMVLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckROPLMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.EditMenuSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.ShowMessagesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ShowLogMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ReplaceMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ConformMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.DateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenFileGroupBox = new System.Windows.Forms.GroupBox();
             this.ProcessTextBox = new System.Windows.Forms.TextBox();
             this.ProcessBar = new System.Windows.Forms.ProgressBar();
@@ -101,7 +103,7 @@
             this.CheckLSMenuItem,
             this.CheckKDOMVLMenuItem,
             this.CheckROPLMenuItem,
-            this.toolStripSeparator1,
+            this.EditMenuSeparator,
             this.ShowMessagesMenuItem});
             this.EditMenu.Name = "EditMenu";
             this.EditMenu.Size = new System.Drawing.Size(59, 20);
@@ -134,10 +136,10 @@
             this.CheckROPLMenuItem.Size = new System.Drawing.Size(238, 22);
             this.CheckROPLMenuItem.Text = "Проверять жилую площадь";
             // 
-            // toolStripSeparator1
+            // EditMenuSeparator
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
+            this.EditMenuSeparator.Name = "EditMenuSeparator";
+            this.EditMenuSeparator.Size = new System.Drawing.Size(235, 6);
             // 
             // ShowMessagesMenuItem
             // 
@@ -168,7 +170,9 @@
             // 
             this.ToolsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ReplaceMenuItem,
-            this.ConformMenuItem});
+            this.ConformMenuItem,
+            this.toolStripSeparator2,
+            this.DateMenuItem});
             this.ToolsMenu.Name = "ToolsMenu";
             this.ToolsMenu.Size = new System.Drawing.Size(59, 20);
             this.ToolsMenu.Text = "Сервис";
@@ -186,6 +190,18 @@
             this.ConformMenuItem.Size = new System.Drawing.Size(217, 22);
             this.ConformMenuItem.Text = "Справочник соответствия";
             this.ConformMenuItem.Click += new System.EventHandler(this.ConformMenuItemClick);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(214, 6);
+            // 
+            // DateMenuItem
+            // 
+            this.DateMenuItem.Name = "DateMenuItem";
+            this.DateMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.DateMenuItem.Text = "Дата выгрузки";
+            this.DateMenuItem.Click += new System.EventHandler(this.DateMenuItemClick);
             // 
             // OpenFileGroupBox
             // 
@@ -318,6 +334,7 @@
             this.MonthTextBox.ReadOnly = true;
             this.MonthTextBox.Size = new System.Drawing.Size(263, 20);
             this.MonthTextBox.TabIndex = 9;
+            this.MonthTextBox.Click += new System.EventHandler(this.DateMenuItemClick);
             // 
             // MonthLabel
             // 
@@ -440,7 +457,9 @@
         private System.Windows.Forms.ToolStripMenuItem ReplaceMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ConformMenuItem;
         private System.Windows.Forms.TextBox LogTextBox;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator EditMenuSeparator;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem DateMenuItem;
     }
 }
 
