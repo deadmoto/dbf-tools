@@ -70,7 +70,7 @@ namespace CheckDBF.Forms
             {
                 SupplierFileTextBox.Text = FileName;
                 ProcessBar.Maximum = Core.FileInfo.GetRecordCount(FileName);
-                RecordsTextBox.Text = Core.FileInfo.GetRecordCount(FileName).ToString();
+                RecordsTextBox.Text = ProcessBar.Maximum.ToString();
                 int SupplierCode = Core.FileInfo.GetSupplierCode(FileName);
                 CodeTextBox.Text = SupplierCode.ToString();
                 NameTextBox.Text = Supplier.GetSupplierName(SupplierCode.ToString());
@@ -294,6 +294,24 @@ namespace CheckDBF.Forms
         private void ConformMenuItemClick(object sender, EventArgs e)
         {
             new ConformForm().ShowDialog();
+        }
+
+        private void DateMenuItemClick(object sender, EventArgs e)
+        {
+            if (File.Exists(SupplierFileTextBox.Text))
+            {
+                DateTime Date = new DateForm().GetDate();
+
+                if (Date != DateTime.MinValue)
+                {
+                    CheckDBF.Core.FileInfo.SetPaymentDate(SupplierFileTextBox.Text, Date);
+                    OpenSupplierFile(SupplierFileTextBox.Text);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Не выбран файл поставщика!", Text);
+            }
         }
 
         private void ExitMenuItemClick(object sender, EventArgs e)
