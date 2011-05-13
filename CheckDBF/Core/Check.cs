@@ -418,7 +418,7 @@ namespace CheckDBF.Core
 
         public static int CheckINVALID(string SupplierFileName, EventHandler Handler)
         {
-            string ErrorFileName = Path.GetDirectoryName(SupplierFileName) + "\\" + Path.GetFileNameWithoutExtension(SupplierFileName) + "-error.dbf";
+            string ErrorFileName = string.Format("{0}\\f_{1}_error.dbf", Path.GetDirectoryName(SupplierFileName), SupplierCode);
             return FileInfo.GetRecordCount(ErrorFileName);
         }
 
