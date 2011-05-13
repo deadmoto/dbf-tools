@@ -334,7 +334,6 @@
             this.MonthTextBox.ReadOnly = true;
             this.MonthTextBox.Size = new System.Drawing.Size(263, 20);
             this.MonthTextBox.TabIndex = 9;
-            this.MonthTextBox.Click += new System.EventHandler(this.DateMenuItemClick);
             // 
             // MonthLabel
             // 
