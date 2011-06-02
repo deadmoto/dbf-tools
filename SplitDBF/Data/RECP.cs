@@ -100,7 +100,7 @@ namespace SplitDBF
             CommandText += "'," + SROKS.ToString("{^yyyy/MM/dd}");
             CommandText += "," + SROKPO.ToString("{^yyyy/MM/dd}");
             CommandText += "," + KDOMVL;
-            CommandText += "," + ROPL;
+            CommandText += "," + ROPL.ToString().Replace(',', '.');
             CommandText += "," + KCHLS;
             CommandText += "," + K_POL;
             CommandText += "," + KKOM;
@@ -112,7 +112,7 @@ namespace SplitDBF
 
             CommandText += "," + DATE_VIGR.ToString("{^yyyy/MM/dd}");
             CommandText += ",'" + PRIM + "')";
-            CommandText = CommandText.Replace(",{^1899.12.30},", ",CTOT(''),");
+            CommandText = CommandText.Replace(",{^1899.12.30},", ",{^..},");
             return CommandText;
         }
 

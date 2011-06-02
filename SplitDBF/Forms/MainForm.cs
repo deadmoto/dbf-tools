@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using SplitDBF.Data;
-using System.Data;
 
 namespace SplitDBF
 {
@@ -16,6 +16,7 @@ namespace SplitDBF
         public MainForm()
         {
             InitializeComponent();
+            Text += " выпуск "+ Version.Value;
         }
 
         private int GetFieldCount(string FileName)
