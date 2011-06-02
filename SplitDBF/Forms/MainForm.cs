@@ -16,7 +16,7 @@ namespace SplitDBF
         public MainForm()
         {
             InitializeComponent();
-            Text += " выпуск "+ Version.Value;
+            Text += " выпуск " + Version.Value;
         }
 
         private int GetFieldCount(string FileName)

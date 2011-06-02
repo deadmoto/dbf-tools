@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitDBF", "SplitDBF.csproj", "{D5F491E8-175F-4E19-9481-818F8320950F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup.vdproj", "{D6800C07-2636-4380-8CE4-509A1640AFC7}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -14,6 +16,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D5F491E8-175F-4E19-9481-818F8320950F}.Default|x86.ActiveCfg = Default|x86
 		{D5F491E8-175F-4E19-9481-818F8320950F}.Default|x86.Build.0 = Default|x86
+		{D6800C07-2636-4380-8CE4-509A1640AFC7}.Default|x86.ActiveCfg = Default
+		{D6800C07-2636-4380-8CE4-509A1640AFC7}.Default|x86.Build.0 = Default
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
