@@ -15,26 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_B7A8D678E26E455A9941464B6EDA3E8E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_FF4A7011AFF84F64BEE6B8BFE3FD1FDA"
+        "MsmKey" = "8:_4D5981F344E648FEAA650C18A1A5CB7B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B7A8D678E26E455A9941464B6EDA3E8E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FF4A7011AFF84F64BEE6B8BFE3FD1FDA"
+        "OwnerKey" = "8:_4D5981F344E648FEAA650C18A1A5CB7B"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -72,17 +60,17 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_AD2CFC1FDB644945AA8FFE9FA1B1B9E4"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_CA21673265CD487F91145A2EE715DE40"
             {
             "Name" = "8:Primary output from SplitDBF (Active)"
             "Condition" = "8:VPFOLEDB"
-            "Object" = "8:_B7A8D678E26E455A9941464B6EDA3E8E"
+            "Object" = "8:_4D5981F344E648FEAA650C18A1A5CB7B"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_6730ADE6_B5AA_490F_8303_40F7B48A2CBE"
+            "Identifier" = "8:_F241C557_93BF_4DBC_A558_A9DB753F1EC3"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -188,15 +176,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SplitDBF"
-        "ProductCode" = "8:{EA156C9E-5A59-4FE2-A5ED-C50223685B0B}"
-        "PackageCode" = "8:{9CF3F7AC-1CD3-4CDF-AFEB-9D03BC3AF5F0}"
+        "ProductCode" = "8:{88FE565B-11F4-48A5-BB09-3963F66E8B5F}"
+        "PackageCode" = "8:{81A3F996-278A-43BA-96C4-EA0BAE1EFF4F}"
         "UpgradeCode" = "8:{036165FF-8E0D-4A21-960C-ED90B7FC0205}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:79.0.0"
+        "ProductVersion" = "8:80.0.0"
         "Manufacturer" = "8:КУ ЦСВиМТО"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -309,7 +297,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4EF55230B064466780B1D01C40EC0FA0"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_34AC50BEAF2C4704B64C253DA3A7A16C"
             {
             "Name" = "8:SplitDBF"
             "Arguments" = "8:"
@@ -317,8 +305,22 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_B7A8D678E26E455A9941464B6EDA3E8E"
+            "Target" = "8:_4D5981F344E648FEAA650C18A1A5CB7B"
             "Folder" = "8:_FBF86392AEAB46439967079B0679A126"
+            "WorkingFolder" = "8:_6CA169DCB68D440CB4549C8ED356ABF2"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F2F28AC5008344A0B35BEEE59EA1720F"
+            {
+            "Name" = "8:SplitDBF"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_4D5981F344E648FEAA650C18A1A5CB7B"
+            "Folder" = "8:_31CF579FF9B34C52A1085874BCE0F466"
             "WorkingFolder" = "8:_6CA169DCB68D440CB4549C8ED356ABF2"
             "Icon" = "8:"
             "Feature" = "8:"
@@ -722,7 +724,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B7A8D678E26E455A9941464B6EDA3E8E"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_4D5981F344E648FEAA650C18A1A5CB7B"
             {
             "SourcePath" = "8:obj\\x86\\Default\\SplitDBF.exe"
             "TargetName" = "8:"
@@ -750,12 +752,12 @@
                 {
                 }
             }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FF4A7011AFF84F64BEE6B8BFE3FD1FDA"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9E63024F38ED4F2A83528185E689877C"
             {
-            "SourcePath" = "8:obj\\x86\\Default\\SplitDBF.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_31CF579FF9B34C52A1085874BCE0F466"
+            "Folder" = "8:_6CA169DCB68D440CB4549C8ED356ABF2"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -771,7 +773,7 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
+            "OutputGroupCanonicalName" = "8:ContentFiles"
             "OutputProjectGuid" = "8:{D5F491E8-175F-4E19-9481-818F8320950F}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
