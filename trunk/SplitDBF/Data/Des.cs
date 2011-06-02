@@ -81,7 +81,9 @@ namespace SplitDBF
             }
 
             CommandText += ")";
-            CommandText = CommandText.Replace(",{^1899.12.30},", ",CTOT(''),");
+            
+            CommandText = CommandText.Replace(",{^1899.12.30},", ",{^..},");
+            
             return CommandText;
         }
 
