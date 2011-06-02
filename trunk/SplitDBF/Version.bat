@@ -1,4 +1,4 @@
-echo namespace CheckDBF > Version.cs && ^
+echo namespace SplitDBF > Version.cs && ^
 echo { >> Version.cs && ^
 echo     static class Version >> Version.cs && ^
 echo     { >> Version.cs && ^
