@@ -6,7 +6,7 @@ namespace CheckDBF.Core
     {
         public bool FILLED()
         {
-            return PRED > 0 && VID.Length == 4 && VOL > 0 && SUMLN > 0;
+            return PRED > 0 && VID.Length == 4 && ((VOL > 0 && SUMLN > 0) || (SUMLD > 0));
         }
 
         public void GetConformData()
@@ -34,6 +34,7 @@ namespace CheckDBF.Core
             switch (VID)
             {
                 case "0100": return Array.IndexOf(new int[] { 0, 2 }, S_) == -1 && FILLED();
+                case "0102": return Array.IndexOf(new int[] { 0, 2 }, S_) == -1 && FILLED();
                 case "0204": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
                 case "0205": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
                 case "0206": return Array.IndexOf(new int[] { 1, 2, 3, 4, 5 }, S_) == -1 && FILLED();
@@ -60,6 +61,7 @@ namespace CheckDBF.Core
                 switch (VID)
                 {
                     case "0100": return VOL != ROPL;
+                    case "0102": return VOL != ROPL;
                     case "0204": return VOL != ROPL && S_ == 2;
                     case "0205": return VOL != ROPL && S_ == 2;
                     case "0206": return VOL != ROPL && S_ == 2;
@@ -73,7 +75,7 @@ namespace CheckDBF.Core
 
         public bool GetErrorTARIF()
         {
-            return VID != "0100" && TARIF != 0 && TARIF_E != -1 && Math.Abs(TARIF - TARIF_E) * 100 > 1 && FILLED();
+            return (VID != "0100") && TARIF != 0 && TARIF_E != -1 && Math.Abs(TARIF - TARIF_E) * 100 > 1 && FILLED();
         }
 
         public bool GetErrorK_POL(int KCHLS)
@@ -85,7 +87,7 @@ namespace CheckDBF.Core
         {
             if (Math.Abs(Math.Round(VOL * TARIF, 2) / SUMLN - 1) * 100 < 1 && FILLED())
             {
-                if (VID == "0100") { return VOL != ROPL; }
+                if (VID == "0100" || VID == "0102") { return VOL != ROPL; }
                 if (S_ == 1 || S_ > 2) { return Math.Abs(Math.Round(VOL * TARIF_E, 2) / SUMLN - 1) * 100 > 1; }
                 if (S_ == 2)
                 {
