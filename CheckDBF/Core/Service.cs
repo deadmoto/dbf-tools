@@ -85,6 +85,11 @@ namespace CheckDBF.Core
 
         public bool GetErrorPreload(double ROPL, int KCHLS)
         {
+            if (VOL == 0 && SUMLN == 0 && SUMLF > 0)
+            {
+                return false;
+            }
+
             if (Math.Abs(Math.Round(VOL * TARIF, 2) / SUMLN - 1) * 100 < 1 && FILLED())
             {
                 if (VID == "0100" || VID == "0102") { return VOL != ROPL; }
