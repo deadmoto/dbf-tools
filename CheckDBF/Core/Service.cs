@@ -26,7 +26,7 @@ namespace CheckDBF.Core
 
         public bool GetErrorLSH()
         {
-            return LSH == string.Empty && FILLED();
+            return LSH == string.Empty && VID == "0100" && FILLED();
         }
 
         public bool GetErrorS_()
